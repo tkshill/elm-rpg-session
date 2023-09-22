@@ -1,4 +1,6 @@
-module Playbook exposing (..)
+module Core exposing (..)
+
+import List.Nonempty as Listn
 
 
 type BaseKarma
@@ -38,7 +40,7 @@ type alias BaseRatings =
 
 type alias Gear =
     { name : String
-    , tags : List String
+    , tags : Listn.Nonempty String
     }
 
 
@@ -48,7 +50,7 @@ type Alteration
     | Neutral
 
 
-type alias PlaybookMove =
+type alias Move =
     { name : String
     , description : String
     , moveType : MoveType
@@ -65,7 +67,7 @@ type alias BasePlayBook =
     { name : String
     , description : String
     , ratings : BaseRatings
-    , moves : List PlaybookMove
+    , moves : List Move
     , gear : List Gear
     , karma : BaseKarma
     }
@@ -78,6 +80,7 @@ type BasicMoveName
     | Assess
     | Act
     | Avoid
+    | GetWeird
 
 
 type alias GearStatModifier =
