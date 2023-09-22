@@ -1,7 +1,7 @@
 module Backend exposing (..)
 
 import Html
-import Lamdera exposing (ClientId, SessionId)
+import Lamdera exposing (ClientId, SessionId, clientConnected_)
 import Types exposing (..)
 
 
@@ -31,9 +31,23 @@ update msg model =
         NoOpBackendMsg ->
             ( model, Cmd.none )
 
+        ClientConnected sessionId clientId ->
+            ( model, Cmd.none )
+
+        ClientDisconnected sessionId clientId ->
+            ( model, Cmd.none )
+
 
 updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Cmd BackendMsg )
 updateFromFrontend sessionId clientId msg model =
     case msg of
         NoOpToBackend ->
             ( model, Cmd.none )
+
+
+subscriptions : Model -> Sub BackendMsg
+subscriptions model =
+    Sub.batch
+        [ Lamdera.onConnect ClientConnected
+        , Lamdera.onDisconnect ClientDisconnected
+        ]
