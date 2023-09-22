@@ -9,11 +9,16 @@ import Url exposing (Url)
 type alias FrontendModel =
     { key : Key
     , message : String
+    , activeSessions : List SessionId
+    , activeClients : List ClientId
+    , url : String
     }
 
 
 type alias BackendModel =
     { message : String
+    , activeSessions : List SessionId
+    , activeClients : List ClientId
     }
 
 
@@ -35,3 +40,5 @@ type BackendMsg
 
 type ToFrontend
     = NoOpToFrontend
+    | ClientJoined (List ClientId)
+    | ClientLeft (List ClientId)

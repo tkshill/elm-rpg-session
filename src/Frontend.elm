@@ -20,7 +20,7 @@ app =
         , onUrlChange = UrlChanged
         , update = update
         , updateFromBackend = updateFromBackend
-        , subscriptions = \m -> Sub.none
+        , subscriptions = \_ -> Sub.none
         , view = view
         }
 
@@ -29,6 +29,9 @@ init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
 init url key =
     ( { key = key
       , message = "Welcome to Lamdera! You're looking at the auto-generated base implementation. Check out src/Frontend.elm to start coding!"
+      , activeSessions = []
+      , activeClients = []
+      , url = url.path
       }
     , Cmd.none
     )
@@ -62,6 +65,12 @@ updateFromBackend msg model =
         NoOpToFrontend ->
             ( model, Cmd.none )
 
+        ClientJoined cids ->
+            ( { model | activeClients = cids }, Cmd.none )
+
+        ClientLeft cids ->
+            ( { model | activeClients = cids }, Cmd.none )
+
 
 view : Model -> Browser.Document FrontendMsg
 view model =
@@ -73,7 +82,7 @@ view model =
                 [ Attr.style "font-family" "sans-serif"
                 , Attr.style "padding-top" "40px"
                 ]
-                [ Html.text model.message ]
+                ([ Html.text model.message ] ++ List.map (\ac -> Html.div [] [ Html.text ac ]) model.activeClients)
             ]
         ]
     }

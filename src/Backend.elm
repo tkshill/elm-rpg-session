@@ -1,7 +1,8 @@
 module Backend exposing (..)
 
 import Html
-import Lamdera exposing (ClientId, SessionId, clientConnected_)
+import Lamdera exposing (ClientId, SessionId, broadcast, clientConnected_)
+import List.Extra as Liste
 import Types exposing (..)
 
 
@@ -14,13 +15,16 @@ app =
         { init = init
         , update = update
         , updateFromFrontend = updateFromFrontend
-        , subscriptions = \m -> Sub.none
+        , subscriptions = subscriptions
         }
 
 
 init : ( Model, Cmd BackendMsg )
 init =
-    ( { message = "Hello!" }
+    ( { message = "Hello!"
+      , activeSessions = []
+      , activeClients = []
+      }
     , Cmd.none
     )
 
@@ -31,11 +35,40 @@ update msg model =
         NoOpBackendMsg ->
             ( model, Cmd.none )
 
-        ClientConnected sessionId clientId ->
-            ( model, Cmd.none )
+        ClientConnected sid cid ->
+            let
+                sidExists =
+                    List.member sid model.activeSessions
 
-        ClientDisconnected sessionId clientId ->
-            ( model, Cmd.none )
+                cidExists =
+                    List.member cid model.activeClients
+
+                newSessions =
+                    (if sidExists then
+                        []
+
+                     else
+                        [ sid ]
+                    )
+                        ++ model.activeSessions
+
+                newClients =
+                    (if cidExists then
+                        []
+
+                     else
+                        [ cid ]
+                    )
+                        ++ model.activeClients
+            in
+            ( { model | activeSessions = newSessions, activeClients = newClients }, broadcast (ClientJoined newClients) )
+
+        ClientDisconnected sid cid ->
+            let
+                newClients =
+                    Liste.remove cid model.activeClients
+            in
+            ( { model | activeClients = newClients }, broadcast (ClientLeft newClients) )
 
 
 updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Cmd BackendMsg )
