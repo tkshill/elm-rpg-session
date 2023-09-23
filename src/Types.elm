@@ -3,27 +3,20 @@ module Types exposing (..)
 import Browser exposing (UrlRequest)
 import Browser.Navigation exposing (Key)
 import Core exposing (Rating(..))
+import Frontend_ exposing (Model)
 import Lamdera exposing (ClientId, SessionId)
+import Monstrous exposing (MonstrousName)
 import Url exposing (Url)
 
 
 type alias FrontendModel =
-    { key : Key
-    , message : String
-    , session : FEState
-    , url : String
-    }
+    Model
 
 
 type alias BackendModel =
     { message : String
-    , session : Maybe BackEndSession
+    , state : Maybe BackEndSession
     }
-
-
-type FEState
-    = Presession (Maybe String)
-    | ActiveSession FrontEndSession
 
 
 type FrontendMsg
@@ -50,23 +43,9 @@ type ToFrontend
     | SessionCreated FrontEndSession
 
 
-type Keeper
-    = Keeper Player
-
-
-type Hunter
-    = Hunter Player
-
-
 type alias Player =
     { id : ClientId
     , name : String
-    }
-
-
-type alias SessionDetails =
-    { keeper : Keeper
-    , hunters : List Hunter
     }
 
 
@@ -74,6 +53,5 @@ type alias BackEndSession =
     SessionDetails
 
 
-type FrontEndSession
-    = KeeperSession SessionDetails
-    | HunterSession SessionDetails
+type PlaybookName
+    = M MonstrousName

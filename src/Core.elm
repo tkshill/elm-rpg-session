@@ -97,3 +97,20 @@ type Modifier
     | RatingMods Rating Int
     | GearsMods (List Gear)
     | GearStatMods GearStatModifier
+
+
+type alias PlayerDetails =
+    { name : String, id : String }
+
+
+type Keeper
+    = Keeper PlayerDetails
+
+
+type Hunter
+    = Hunter PlayerDetails
+
+
+type Player
+    = K Keeper
+    | H Hunter

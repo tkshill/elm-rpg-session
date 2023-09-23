@@ -8,6 +8,11 @@ type MonstrousName
     = Monstrous
 
 
+toString : MonstrousName -> String
+toString _ =
+    "The Monstrous"
+
+
 type alias Curse =
     { name : String
     , description : String
