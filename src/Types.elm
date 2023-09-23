@@ -10,25 +10,33 @@ import Url exposing (Url)
 type alias FrontendModel =
     { key : Key
     , message : String
-    , session : Maybe Sesh
+    , session : FEState
     , url : String
     }
 
 
 type alias BackendModel =
     { message : String
-    , session : Maybe Sesh
+    , session : Maybe BackEndSession
     }
+
+
+type FEState
+    = Presession (Maybe String)
+    | ActiveSession FrontEndSession
 
 
 type FrontendMsg
     = UrlClicked UrlRequest
     | UrlChanged Url
     | NoOpFrontendMsg
+    | UpdateName String
+    | SubmitButtonClicked
 
 
 type ToBackend
     = NoOpToBackend
+    | CreateSession String
 
 
 type BackendMsg
@@ -39,8 +47,7 @@ type BackendMsg
 
 type ToFrontend
     = NoOpToFrontend
-    | ClientJoined (List ClientId)
-    | ClientLeft (List ClientId)
+    | SessionCreated FrontEndSession
 
 
 type Keeper
@@ -57,7 +64,16 @@ type alias Player =
     }
 
 
-type alias Sesh =
+type alias SessionDetails =
     { keeper : Keeper
     , hunters : List Hunter
     }
+
+
+type alias BackEndSession =
+    SessionDetails
+
+
+type FrontEndSession
+    = KeeperSession SessionDetails
+    | HunterSession SessionDetails

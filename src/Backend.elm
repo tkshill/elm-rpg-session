@@ -1,8 +1,6 @@
 module Backend exposing (..)
 
-import Html
-import Lamdera exposing (ClientId, SessionId, broadcast, clientConnected_)
-import List.Extra as Liste
+import Lamdera exposing (ClientId, SessionId, broadcast)
 import Types exposing (..)
 
 
@@ -22,8 +20,7 @@ app =
 init : ( Model, Cmd BackendMsg )
 init =
     ( { message = "Hello!"
-      , activeSessions = []
-      , activeClients = []
+      , session = Nothing
       }
     , Cmd.none
     )
@@ -35,51 +32,32 @@ update msg model =
         NoOpBackendMsg ->
             ( model, Cmd.none )
 
-        ClientConnected sid cid ->
-            let
-                sidExists =
-                    List.member sid model.activeSessions
+        ClientConnected _ _ ->
+            ( model, Cmd.none )
 
-                cidExists =
-                    List.member cid model.activeClients
-
-                newSessions =
-                    (if sidExists then
-                        []
-
-                     else
-                        [ sid ]
-                    )
-                        ++ model.activeSessions
-
-                newClients =
-                    (if cidExists then
-                        []
-
-                     else
-                        [ cid ]
-                    )
-                        ++ model.activeClients
-            in
-            ( { model | activeSessions = newSessions, activeClients = newClients }, broadcast (ClientJoined newClients) )
-
-        ClientDisconnected sid cid ->
-            let
-                newClients =
-                    Liste.remove cid model.activeClients
-            in
-            ( { model | activeClients = newClients }, broadcast (ClientLeft newClients) )
+        ClientDisconnected _ _ ->
+            ( model, Cmd.none )
 
 
 updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Cmd BackendMsg )
-updateFromFrontend sessionId clientId msg model =
+updateFromFrontend _ cid msg model =
     case msg of
         NoOpToBackend ->
             ( model, Cmd.none )
 
+        CreateSession name ->
+            let
+                keeper =
+                    Keeper { id = cid, name = name }
+
+                session =
+                    { keeper = keeper, hunters = [] }
+            in
+            ( { model | session = Just session }, broadcast (SessionCreated (KeeperSession session)) )
+
 
 subscriptions : Model -> Sub BackendMsg
-subscriptions model =
+subscriptions _ =
     Sub.batch
         [ Lamdera.onConnect ClientConnected
         , Lamdera.onDisconnect ClientDisconnected
