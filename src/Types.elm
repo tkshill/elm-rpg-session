@@ -1,16 +1,15 @@
 module Types exposing (..)
 
 import Browser exposing (UrlRequest)
-import Core
+import Frontend_ exposing (Model)
+import Lamdera exposing (ClientId, SessionId)
+import Players
     exposing
         ( Hunter
         , Keeper
         , PlaybookName
         , PlayerName
-        , Rating(..)
         )
-import Frontend_ exposing (Model)
-import Lamdera exposing (ClientId, SessionId)
 import UUID exposing (UUID)
 import Url exposing (Url)
 

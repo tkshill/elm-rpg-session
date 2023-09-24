@@ -1,7 +1,7 @@
 module Backend exposing (..)
 
-import Core exposing (Keeper(..), PlayerName)
 import Lamdera exposing (ClientId, SessionId, sendToFrontend)
+import Players exposing (Keeper(..), PlayerName)
 import Random
 import Task
 import Time

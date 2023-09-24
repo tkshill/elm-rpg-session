@@ -1,7 +1,7 @@
 module Frontend_ exposing (ActiveSession(..), Model, State(..))
 
 import Browser.Navigation exposing (Key)
-import Core exposing (Hunter(..), Keeper(..), PlaybookName, Player(..), PlayerName)
+import Players exposing (Hunter(..), Keeper(..), PlaybookName, Player(..), PlayerName)
 
 
 type alias Deets =

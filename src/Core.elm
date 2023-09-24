@@ -1,15 +1,6 @@
-module Core exposing
-    ( Hunter(..)
-    , Keeper(..)
-    , PlaybookName(..)
-    , Player(..)
-    , PlayerName
-    , Rating(..)
-    , playbookNameToString
-    )
+module Core exposing (..)
 
-import Monstrous exposing (MonstrousName)
-import UUID exposing (UUID)
+import List.Nonempty as Listn
 
 
 type BaseKarma
@@ -39,87 +30,70 @@ type Rating
     | G Guts
 
 
-
--- type alias BaseRatings =
---     { charm : Int
---     , weird : Int
---     , sharp : Int
---     , guts : Int
---     }
--- type alias Gear =
---     { name : String
---     , tags : Listn.Nonempty String
---     }
--- type Alteration
---     = PlusOne
---     | MinusOne
---     | Neutral
--- type alias Move =
---     { name : String
---     , description : String
---     , moveType : MoveType
---     }
--- type MoveType
---     = FlavourMove
---     | RollMove Rating
---     | ModMove Modifier
--- type alias BasePlayBook =
---     { name : String
---     , description : String
---     , ratings : BaseRatings
---     , moves : List Move
---     , gear : List Gear
---     , karma : BaseKarma
---     }
--- type BasicMoveName
---     = Help
---     | Engage
---     | Sway
---     | Assess
---     | Act
---     | Avoid
---     | GetWeird
--- type alias GearStatModifier =
---     { name : String
---     , harm : Int
---     , harmMods : Int
---     , tags : String
---     }
--- type Modifier
---     = HarmMods Int
---     | KarmaMods Int
---     | RatingMods Rating Int
---     | GearsMods (List Gear)
---     | GearStatMods GearStatModifier
+type alias BaseRatings =
+    { charm : Int
+    , weird : Int
+    , sharp : Int
+    , guts : Int
+    }
 
 
-type alias PlayerName =
-    String
+type alias Gear =
+    { name : String
+    , tags : Listn.Nonempty String
+    }
 
 
-type alias PlayerID =
-    UUID
+type Alteration
+    = PlusOne
+    | MinusOne
+    | Neutral
 
 
-type Keeper
-    = Keeper PlayerID PlayerName
+type alias Move =
+    { name : String
+    , description : String
+    , moveType : MoveType
+    }
 
 
-type Hunter
-    = Hunter PlayerID PlayerName
+type MoveType
+    = FlavourMove
+    | RollMove Rating
+    | ModMove Modifier
 
 
-type Player
-    = K Keeper
-    | H Hunter
+type alias BasePlayBook =
+    { name : String
+    , description : String
+    , ratings : BaseRatings
+    , moves : List Move
+    , gear : List Gear
+    , karma : BaseKarma
+    }
 
 
-type PlaybookName
-    = M MonstrousName
+type BasicMoveName
+    = Help
+    | Engage
+    | Sway
+    | Assess
+    | Act
+    | Avoid
+    | GetWeird
 
 
-playbookNameToString : PlaybookName -> String
-playbookNameToString playbook =
-    case playbook of
-        M name ->
-            Monstrous.toString name
+type alias GearStatModifier =
+    { name : String
+    , harm : Int
+    , harmMods : Int
+    , tags : String
+    }
+
+
+type Modifier
+    = HarmMods Int
+    | KarmaMods Int
+    | RatingMods Rating Int
+    | GearsMods (List Gear)
+    | GearStatMods GearStatModifier
