@@ -28,3 +28,42 @@ Stories
 People want emotion from story
 
 Stories have multiple threads
+
+moves
+
+Weird
+- get real weird
+- resist the strange 
+
+Wits
+- save your skin
+- assess reality
+
+Guts 
+- engage the enemy
+- act under pressure
+
+Charm
+- sway 
+- hood wink 
+
+karma 
+reduce harm
+boost fails
+help another
+
+12+ +1 forward
+
+assets?
+things do 1 or 2 harm
+martial arts, barhanded doesn1 harm
+initiate have access to advanced martial arts
+
+body armour for 1 to harm
+
+Weird Item for 1 to resist the weird
+
+
+
+
+
