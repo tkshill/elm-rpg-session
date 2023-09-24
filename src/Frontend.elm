@@ -2,16 +2,23 @@ module Frontend exposing (..)
 
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation as Nav
-import Html exposing (Html, button, div, input, text)
+import Core exposing (PlaybookName(..), Player(..), playbookNameToString)
+import Frontend_ exposing (ActiveSession(..), State(..))
+import Html exposing (Html, button, div, input, p, text, ul)
 import Html.Attributes as Attr exposing (placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import Lamdera exposing (sendToBackend)
+import Monstrous exposing (MonstrousName(..))
 import Types exposing (..)
 import Url
 
 
 type alias Model =
     FrontendModel
+
+
+type alias Msg =
+    FrontendMsg
 
 
 app =
@@ -28,10 +35,8 @@ app =
 
 init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
 init url key =
-    ( { key = key
-      , message = "Welcome to Lamdera! You're looking at the auto-generated base implementation. Check out src/Frontend.elm to start coding!"
-      , session = Presession Nothing
-      , url = url.path
+    ( { deets = { key = key, url = url.path }
+      , state = BeforeSession Nothing
       }
     , Cmd.none
     )
@@ -39,12 +44,12 @@ init url key =
 
 update : FrontendMsg -> Model -> ( Model, Cmd FrontendMsg )
 update msg model =
-    case ( msg, model.session ) of
+    case ( msg, model.state ) of
         ( UrlClicked urlRequest, _ ) ->
             case urlRequest of
                 Internal url ->
                     ( model
-                    , Nav.pushUrl model.key (Url.toString url)
+                    , Nav.pushUrl model.deets.key (Url.toString url)
                     )
 
                 External url ->
@@ -52,11 +57,14 @@ update msg model =
                     , Nav.load url
                     )
 
-        ( UpdateName s, Presession _ ) ->
-            ( { model | session = Presession (Just s) }, Cmd.none )
+        ( UpdateName s, BeforeSession _ ) ->
+            ( { model | state = BeforeSession (Just s) }, Cmd.none )
 
-        ( SubmitButtonClicked, Presession (Just s) ) ->
+        ( SubmitButtonClicked, BeforeSession (Just s) ) ->
             ( model, sendToBackend (CreateSession s) )
+
+        ( PlayBookNameClicked playbookName, ActiveSession (AddingPlayer _) ) ->
+            ( { model | state = ActiveSession (AddingPlayer (Just playbookName)) }, Cmd.none )
 
         _ ->
             ( model, Cmd.none )
@@ -68,8 +76,14 @@ updateFromBackend msg model =
         NoOpToFrontend ->
             ( model, Cmd.none )
 
-        SessionCreated session ->
-            ( { model | session = ActiveSession session }, Cmd.none )
+        PotentialKeeper ->
+            ( { model | state = BeforeSession Nothing }, Cmd.none )
+
+        SessionCreated keeper ->
+            ( { model | state = ActiveSession (Playing (K keeper)) }, Cmd.none )
+
+        PotentialHunter ->
+            ( { model | state = ActiveSession (AddingPlayer Nothing) }, Cmd.none )
 
 
 viewStartSessionForm : Maybe String -> Html FrontendMsg
@@ -84,28 +98,40 @@ viewStartSessionForm maybeName =
         ]
 
 
-viewSession : FrontEndSession -> Html msg
-viewSession session =
+viewPlaybooks : List PlaybookName -> Html Msg
+viewPlaybooks playbooks =
+    div []
+        [ p [] [ text "Select a Playbook" ]
+        , ul [] (List.map viewPlaybook playbooks)
+        ]
+
+
+viewPlaybook : PlaybookName -> Html Msg
+viewPlaybook playbookName =
+    button [ onClick (PlayBookNameClicked playbookName) ] [ text (playbookNameToString playbookName) ]
+
+
+viewActiveSession : ActiveSession -> Html Msg
+viewActiveSession session =
     case session of
-        KeeperSession details ->
-            let
-                (Keeper player) =
-                    details.keeper
-            in
-            div [] [ text ("You are the keeper!" ++ player.name) ]
+        AddingPlayer _ ->
+            viewPlaybooks [ M MonstrousName ]
 
-        HunterSession _ ->
-            div [] [ text "You are a hunter!" ]
+        Playing player ->
+            div [] [ text "You're playing" ]
 
 
-viewState : FEState -> Html FrontendMsg
+viewState : State -> Html FrontendMsg
 viewState state =
     case state of
-        Presession ms ->
+        EntryWay ->
+            div [] []
+
+        BeforeSession ms ->
             viewStartSessionForm ms
 
         ActiveSession sesh ->
-            viewSession sesh
+            viewActiveSession sesh
 
 
 view : Model -> Browser.Document FrontendMsg
@@ -118,7 +144,7 @@ view model =
                 [ Attr.style "font-family" "sans-serif"
                 , Attr.style "padding-top" "40px"
                 ]
-                [ viewState model.session ]
+                [ viewState model.state ]
             ]
         ]
     }

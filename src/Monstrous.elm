@@ -1,11 +1,8 @@
-module Monstrous exposing (..)
-
-import Core exposing (Gear, Move)
-import List.Nonempty as Listn
+module Monstrous exposing (MonstrousName(..), toString)
 
 
 type MonstrousName
-    = Monstrous
+    = MonstrousName
 
 
 toString : MonstrousName -> String
@@ -36,11 +33,12 @@ type NaturalAttack
     = Base (Maybe Extra) (Maybe Extra) (Maybe Extra)
 
 
-type alias MonstrousMaker =
-    { name : MonstrousName
-    , description : String
-    , curses : List.Nonempty Curse
-    , naturalAttacks : Listn.Nonempty NaturalAttack
-    , moves : Listn.Nonempty Move
-    , gear : List.Nonempty Gear
-    }
+
+-- type alias MonstrousMaker =
+--     { name : MonstrousName
+--     , description : String
+--     , curses : List.Nonempty Curse
+--     , naturalAttacks : Listn.Nonempty NaturalAttack
+--     , moves : Listn.Nonempty Move
+--     , gear : List.Nonempty Gear
+--     }

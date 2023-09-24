@@ -1,11 +1,17 @@
 module Types exposing (..)
 
 import Browser exposing (UrlRequest)
-import Browser.Navigation exposing (Key)
-import Core exposing (Rating(..))
+import Core
+    exposing
+        ( Hunter
+        , Keeper
+        , PlaybookName
+        , PlayerName
+        , Rating(..)
+        )
 import Frontend_ exposing (Model)
 import Lamdera exposing (ClientId, SessionId)
-import Monstrous exposing (MonstrousName)
+import UUID exposing (UUID)
 import Url exposing (Url)
 
 
@@ -25,6 +31,7 @@ type FrontendMsg
     | NoOpFrontendMsg
     | UpdateName String
     | SubmitButtonClicked
+    | PlayBookNameClicked PlaybookName
 
 
 type ToBackend
@@ -36,11 +43,14 @@ type BackendMsg
     = NoOpBackendMsg
     | ClientConnected SessionId ClientId
     | ClientDisconnected SessionId ClientId
+    | IdCreated ClientId PlayerName UUID
 
 
 type ToFrontend
     = NoOpToFrontend
-    | SessionCreated FrontEndSession
+    | PotentialKeeper
+    | PotentialHunter
+    | SessionCreated Keeper
 
 
 type alias Player =
@@ -50,8 +60,6 @@ type alias Player =
 
 
 type alias BackEndSession =
-    SessionDetails
-
-
-type PlaybookName
-    = M MonstrousName
+    { keeper : Keeper
+    , hunters : List Hunter
+    }

@@ -1,6 +1,15 @@
-module Core exposing (..)
+module Core exposing
+    ( Hunter(..)
+    , Keeper(..)
+    , PlaybookName(..)
+    , Player(..)
+    , PlayerName
+    , Rating(..)
+    , playbookNameToString
+    )
 
-import List.Nonempty as Listn
+import Monstrous exposing (MonstrousName)
+import UUID exposing (UUID)
 
 
 type BaseKarma
@@ -30,87 +39,87 @@ type Rating
     | G Guts
 
 
-type alias BaseRatings =
-    { charm : Int
-    , weird : Int
-    , sharp : Int
-    , guts : Int
-    }
+
+-- type alias BaseRatings =
+--     { charm : Int
+--     , weird : Int
+--     , sharp : Int
+--     , guts : Int
+--     }
+-- type alias Gear =
+--     { name : String
+--     , tags : Listn.Nonempty String
+--     }
+-- type Alteration
+--     = PlusOne
+--     | MinusOne
+--     | Neutral
+-- type alias Move =
+--     { name : String
+--     , description : String
+--     , moveType : MoveType
+--     }
+-- type MoveType
+--     = FlavourMove
+--     | RollMove Rating
+--     | ModMove Modifier
+-- type alias BasePlayBook =
+--     { name : String
+--     , description : String
+--     , ratings : BaseRatings
+--     , moves : List Move
+--     , gear : List Gear
+--     , karma : BaseKarma
+--     }
+-- type BasicMoveName
+--     = Help
+--     | Engage
+--     | Sway
+--     | Assess
+--     | Act
+--     | Avoid
+--     | GetWeird
+-- type alias GearStatModifier =
+--     { name : String
+--     , harm : Int
+--     , harmMods : Int
+--     , tags : String
+--     }
+-- type Modifier
+--     = HarmMods Int
+--     | KarmaMods Int
+--     | RatingMods Rating Int
+--     | GearsMods (List Gear)
+--     | GearStatMods GearStatModifier
 
 
-type alias Gear =
-    { name : String
-    , tags : Listn.Nonempty String
-    }
+type alias PlayerName =
+    String
 
 
-type Alteration
-    = PlusOne
-    | MinusOne
-    | Neutral
-
-
-type alias Move =
-    { name : String
-    , description : String
-    , moveType : MoveType
-    }
-
-
-type MoveType
-    = FlavourMove
-    | RollMove Rating
-    | ModMove Modifier
-
-
-type alias BasePlayBook =
-    { name : String
-    , description : String
-    , ratings : BaseRatings
-    , moves : List Move
-    , gear : List Gear
-    , karma : BaseKarma
-    }
-
-
-type BasicMoveName
-    = Help
-    | Engage
-    | Sway
-    | Assess
-    | Act
-    | Avoid
-    | GetWeird
-
-
-type alias GearStatModifier =
-    { name : String
-    , harm : Int
-    , harmMods : Int
-    , tags : String
-    }
-
-
-type Modifier
-    = HarmMods Int
-    | KarmaMods Int
-    | RatingMods Rating Int
-    | GearsMods (List Gear)
-    | GearStatMods GearStatModifier
-
-
-type alias PlayerDetails =
-    { name : String, id : String }
+type alias PlayerID =
+    UUID
 
 
 type Keeper
-    = Keeper PlayerDetails
+    = Keeper PlayerID PlayerName
 
 
 type Hunter
-    = Hunter PlayerDetails
+    = Hunter PlayerID PlayerName
 
 
 type Player
     = K Keeper
     | H Hunter
+
+
+type PlaybookName
+    = M MonstrousName
+
+
+playbookNameToString : PlaybookName -> String
+playbookNameToString playbook =
+    case playbook of
+        M name ->
+            Monstrous.toString name

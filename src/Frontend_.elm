@@ -1,24 +1,25 @@
-module Frontend_ exposing (..)
-import Browser.Navigation exposing (Key)
-import Core exposing (Keeper(..))
-import Core exposing (Hunter)
+module Frontend_ exposing (ActiveSession(..), Model, State(..))
 
-type alias Deets = {
-    key: Key
-    , url: String
-}
+import Browser.Navigation exposing (Key)
+import Core exposing (Hunter(..), Keeper(..), PlaybookName, Player(..), PlayerName)
+
+
+type alias Deets =
+    { key : Key, url : String }
+
 
 type alias Model =
-    { deets: Deets
+    { deets : Deets
     , state : State
     }
 
-type alias Name = String
 
 type State
-    = BeforeSession (Maybe Name)
+    = EntryWay
+    | BeforeSession (Maybe PlayerName)
     | ActiveSession ActiveSession
 
-type ActiveSession = 
-    | AddingPlayers Keeper (List Hunter) 
-    | PlayingGame Keeper (List Hunter)
+
+type ActiveSession
+    = AddingPlayer (Maybe PlaybookName)
+    | Playing Player
