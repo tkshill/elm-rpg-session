@@ -1,4 +1,4 @@
-module Frontend_ exposing (ActiveSession(..), Model, State(..))
+module Frontend.Types exposing (ActiveSession(..), Model, State(..))
 
 import Browser.Navigation exposing (Key)
 import Players exposing (Hunter(..), Keeper(..), PlaybookName, Player(..), PlayerName)
