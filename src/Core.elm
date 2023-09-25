@@ -19,22 +19,22 @@ type Sharp
     = Sharp
 
 
-type Guts
-    = Guts
+type Tough
+    = Tough
 
 
 type Rating
     = C Charm
     | W Weird
     | S Sharp
-    | G Guts
+    | T Tough
 
 
 type alias BaseRatings =
     { charm : Int
     , weird : Int
     , sharp : Int
-    , guts : Int
+    , tough : Int
     }
 
 

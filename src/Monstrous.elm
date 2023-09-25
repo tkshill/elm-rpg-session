@@ -5,6 +5,14 @@ import Element.Region exposing (description)
 import List.Nonempty as Listn
 
 
+type alias BaseRatings =
+    { charm : Int
+    , weird : Int
+    , sharp : Int
+    , tough : Int
+    }
+
+
 type MonstrousName
     = MonstrousName
 
@@ -47,7 +55,11 @@ type alias MonstrousMaker =
     { name : MonstrousName
     , flavour : String
     , lineage : String
+    , looks : List (List String)
     , lineageSuggestions : List LineageSuggestion
+    , instructions : String
+    , baseRatings : BaseRatings
+    , curses : List Curse
 
     -- , lookExamples : String
     -- , curses : List.Nonempty Curse
@@ -60,6 +72,10 @@ type alias MonstrousMaker =
 monstrousMaker : MonstrousMaker
 monstrousMaker =
     { name = MonstrousName
+    , instructions = """
+        To make your Monstrous, first pick a name. Then follow the instructions  below  to  decide  your  look,  ratings,  breed,  moves,  and  gear.  
+        Finally, introduce yourself and pick history.
+        """
     , flavour = """
         I feel the hunger, the lust to destroy.
         But I fight it: I never give in.
@@ -76,7 +92,7 @@ monstrousMaker =
         Some classic monsters with suggestions for picks are listed below. These are only suggestions: feel free to make a different version!
         """
     , lineageSuggestions =
-        [ { name = "vampire"
+        [ { name = "Vampire"
           , description = """
             Curse: feed (blood or life-force). 
             Natural attacks:
@@ -86,6 +102,112 @@ monstrousMaker =
                 immortal or unquenchable vitality; 
                 mental domination.
             """
+          }
+        , { name = "Werewolf"
+          , description = """
+            Curse:  vulnerability  (silver).
+            Natural  attacks:
+                Base: claws;
+                Base:  teeth.
+            Moves:
+                shapeshifter  (wolf  and/or  wolfman);  
+                claws of the beast or unholy strength.
+            """
+          }
+        , { name = "Ghost"
+          , description = """
+            Curse:  vulnerability  (rock  salt).
+            Natural  attacks:
+                Base: magical  force;
+                add  hand  range  to  magical  force.  
+            Moves:
+                incorporeal;
+                immortal.
+            """
+          }
+        , { name = "Faerie"
+          , description = """
+            Curse:  pure  drive  (joy).
+            Natural  attacks:
+                Base:  magical force;
+                add  ignore-armour  to  magical  force.
+            Moves:
+                flight;
+                preternatural speed.
+            """
+          }
+        , { name = "Demon"
+          , description = """
+            Curse: pure drive (cruelty).
+            Natural attacks:
+                Base: claws; 
+                +1 harm to claws.
+            Moves:
+                dark negotiator;
+                unquenchable vitality.
+            """
+          }
+        , { name = "Orc"
+          , description = """
+            Curse: dark master (the orc overlord).
+            Natural attacks:
+                Base: teeth; 
+                add ignore-armour to teeth.
+            Moves:
+                Unholy strength;
+                dark negotiator.
+            """
+          }
+        , { name = "Zombie"
+          , description = """
+            Curse: pure drive (hunger), feed (flesh or brains). 
+            Natural attacks:
+                Base: teeth;
+                +1 harm to teeth.
+            Moves:
+                immortal; 
+                unquenchable vitality.
+            """
+          }
+        ]
+    , looks =
+        [ [ "Man", "Woman", "Mysterious", "Transgressive" ]
+        , [ "Sinister aura", "powerful aura", "dark aura", "unnerving aura", "energetic aura", "evil aura", "bestial aura" ]
+        , [ "Archaic  clothes", "casual  clothes", "ragged  clothes", "tailored  clothes", "stylish clothes", "street clothes", "outdoor clothes" ]
+        ]
+    , baseRatings =
+        { charm = 0
+        , sharp = -1
+        , tough = 1
+        , weird = 2
+        }
+    , curses =
+        [ { name = "Feed"
+          , description = """
+            You must subsist on living humans.
+            It might take the form of blood, brains, or spiritual essence but it must be from people. 
+            You need to act under pressure to resist feeding whenever a perfect opportunity presents itself.
+            """
+          }
+        , { name = "Vulnerability"
+          , description = """
+            Pick a substance.
+            You suffer +1 harm when you suffer harm from it.
+            If you are bound or surrounded by it, you must act under pressure to use your powers.
+            """
+          }
+        , { name = "Pure  Drive"
+          , description = """
+                One emotion rules you.
+                Pick from: hunger, hate, anger, fear, jealousy, greed, joy, pride, envy, lust, or cruelty.
+                Whenever you have a chance to indulge that emotion, you must do so immediately, or act under pressure to resist.
+                """
+          }
+        , { name = "Dark  Master"
+          , description = """
+                You have an evil lord who doesn’t know you changed sides.
+                They still give you orders, and they do not tolerate refusal. Or failure.
+                """
           }
         ]
     }
