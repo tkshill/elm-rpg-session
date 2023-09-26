@@ -273,5 +273,10 @@ monstrousMaker =
     , history =
         [ "You lost control one time, and almost killed them. Ask them how they stopped you."
         , "They tried to slay you, but you proved you’re on the side of good. Ask them what convinced them."
+        , "Close relations, or a distant descendant. Tell them which."
+        , "You saved them from another of your kind, and prevented reprisals against that individual creature (maybe it’s another good one, or maybe it has a hold over you)."
+        , "They are tied to your curse or origin. Tell them how."
+        , "You fought together against the odds, and prevailed."
+        , "They saved you from another hunter who was prepared to kill you. Ask them what happened."
         ]
     }
