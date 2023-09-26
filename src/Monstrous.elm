@@ -1,16 +1,16 @@
 module Monstrous exposing (MonstrousName(..), toString)
 
-import Core exposing (Gear, Move)
-import Element.Region exposing (description)
-import List.Nonempty as Listn
-
-
-type alias BaseRatings =
-    { charm : Int
-    , weird : Int
-    , sharp : Int
-    , tough : Int
-    }
+import Core
+    exposing
+        ( BaseRatings
+        , BasicMoveName(..)
+        , Charm(..)
+        , Gear_
+        , History
+        , Moves
+        , Rating(..)
+        , Tough(..)
+        )
 
 
 type MonstrousName
@@ -28,27 +28,18 @@ type alias Curse =
     }
 
 
-type NaturalAttackBase
-    = Teeth
-    | Claws
-    | Force
-    | LifeDrain
-
-
-type Extra
-    = Harm
-    | Armour
-    | RangeTag
-
-
-type NaturalAttack
-    = Base (Maybe Extra) (Maybe Extra) (Maybe Extra)
+type alias Attack =
+    String
 
 
 type alias LineageSuggestion =
     { name : String
     , description : String
     }
+
+
+type alias AttackExtra =
+    String
 
 
 type alias MonstrousMaker =
@@ -60,12 +51,11 @@ type alias MonstrousMaker =
     , instructions : String
     , baseRatings : BaseRatings
     , curses : List Curse
-
-    -- , lookExamples : String
-    -- , curses : List.Nonempty Curse
-    -- , naturalAttacks : Listn.Nonempty NaturalAttack
-    -- , moves : Listn.Nonempty Move
-    -- , gear : List.Nonempty Gear
+    , attacks : List Attack
+    , extras : List AttackExtra
+    , moves : Moves
+    , gear : Gear_
+    , history : History
     }
 
 
@@ -209,5 +199,79 @@ monstrousMaker =
                 They still give you orders, and they do not tolerate refusal. Or failure.
                 """
           }
+        ]
+    , attacks =
+        [ "Base: Teeth (3 harm, intimate)"
+        , "Base: Claws (2 harm, hand)"
+        , "Base: Life-Drain (1 harm, intimate, life-drain)"
+        , "Base: Magical Force (1 harm, close, magical)"
+        ]
+    , extras =
+        [ "Extra: Add one harm to a base"
+        , "Extra: Add ignore armour to a base"
+        , "Extra: Add extra range to a base"
+        ]
+    , moves =
+        { description = "You get all the basic moves, plus pick three Monstrous moves:"
+        , limit = 3
+        , moveList =
+            [ { name = "Immortal"
+              , description = "You do not age or sicken, and whenever you suffer harm you suffer 1-harm less."
+              , rollable = Nothing
+              }
+            , { name = "Unnatural Appeal"
+              , description = "Roll +Weird instead of +Charm when you Sway Someone."
+              , rollable = Nothing
+              }
+            , { name = "Unholy Strengh"
+              , description = "Roll +Weird instead of +Guts when you are trying to inflict harm."
+              , rollable = Nothing
+              }
+            , { name = "Incorporeal"
+              , description = "You can pass through solid objects (but not people)."
+              , rollable = Nothing
+              }
+            , { name = "Preternatural Speed"
+              , description = "You can move much faster than normal people. When you are trying to chase, flee, or run, take +1 to your roll."
+              , rollable = Nothing
+              }
+            , { name = "Claws of the beast"
+              , description = "All Natural attacks do +1 harm."
+              , rollable = Nothing
+              }
+            , { name = "Mental Dominion"
+              , description = "Get +1 when you try to Sway a normal human. If you try to sway another hunter and you succeed, add Karma."
+              , rollable = Just (C Charm)
+              }
+            , { name = "Unquenchable Vitality"
+              , description = "When you take harm, you can heal yourself. Roll +Tough. On a 10+, heal 2. On a 7-9, heal 1. On a 6 or lower your injuries worsen."
+              , rollable = Just (T Tough)
+              }
+            , { name = "Shapeshifter"
+              , description = "You can change your form, usually into an animal. Decide what your form(s) are. Take +1 to assess reality when you use your form's sense to investigate."
+              , rollable = Nothing
+              }
+            , { name = "Something Borrowed"
+              , description = "Take a move from another playbook."
+              , rollable = Nothing
+              }
+            ]
+        }
+    , gear =
+        { limit = 1
+        , options =
+            [ ".38 revolver (2-harm close reload loud)"
+            , "9mm (2-harm close loud)"
+            , "Magnum (3-harm close reload loud)"
+            , "Shotgun (3-harm close messy)"
+            , "Big knife (1-harm hand)"
+            , "Brass knuckles (1-harm hand quiet small)"
+            , "Sword (2-harm hand messy)"
+            , "Huge sword (3-harm hand heavy)"
+            ]
+        }
+    , history =
+        [ "You lost control one time, and almost killed them. Ask them how they stopped you."
+        , "They tried to slay you, but you proved you’re on the side of good. Ask them what convinced them."
         ]
     }

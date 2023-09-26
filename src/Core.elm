@@ -1,7 +1,5 @@
 module Core exposing (..)
 
-import List.Nonempty as Listn
-
 
 type BaseKarma
     = Int
@@ -39,9 +37,7 @@ type alias BaseRatings =
 
 
 type alias Gear =
-    { name : String
-    , tags : Listn.Nonempty String
-    }
+    String
 
 
 type Alteration
@@ -50,50 +46,58 @@ type Alteration
     | Neutral
 
 
-type alias Move =
+type alias PlaybookMove =
     { name : String
     , description : String
-    , moveType : MoveType
+    , rollable : Maybe Rating
     }
 
 
-type MoveType
-    = FlavourMove
-    | RollMove Rating
-    | ModMove Modifier
+type alias BasicMove =
+    { name : BasicMoveName
+    , description : String
+    , stat : Rating
+    }
 
 
 type alias BasePlayBook =
     { name : String
     , description : String
     , ratings : BaseRatings
-    , moves : List Move
+    , moves : List PlaybookMove
     , gear : List Gear
     , karma : BaseKarma
     }
 
 
 type BasicMoveName
-    = Help
-    | Engage
-    | Sway
-    | Assess
-    | Act
-    | Avoid
-    | GetWeird
+    = SupportAnother -- Karma
+    | DoTheDamnThing -- Guts
+    | SwaySomeone -- Charm
+    | AssessReality -- Wits
+    | GetYourFreakOn -- Weird
 
 
-type alias GearStatModifier =
-    { name : String
-    , harm : Int
-    , harmMods : Int
-    , tags : String
+type alias BaseRatings =
+    { charm : Int
+    , weird : Int
+    , sharp : Int
+    , tough : Int
     }
 
 
-type Modifier
-    = HarmMods Int
-    | KarmaMods Int
-    | RatingMods Rating Int
-    | GearsMods (List Gear)
-    | GearStatMods GearStatModifier
+type alias Moves =
+    { description : String
+    , initialLimit : Int
+    , moveList : List PlaybookMove
+    }
+
+
+type alias Gear_ =
+    { limit : Int
+    , options : List Gear
+    }
+
+
+type History
+    = List String

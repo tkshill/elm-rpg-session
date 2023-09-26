@@ -1,8 +1,8 @@
 - [ ] Elm-ui
-- [ ] Elm-Ui dropdown
 
 - [ ]Just implement the Monstrous
-
+    - [ ] Reduce builder. No fanciness.
+    - [ ] Finish builder
 
 ---
 
