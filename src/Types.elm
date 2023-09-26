@@ -1,7 +1,7 @@
 module Types exposing (..)
 
 import Browser exposing (UrlRequest)
-import Frontend_ exposing (Model)
+import Frontend.Types exposing (Model)
 import Lamdera exposing (ClientId, SessionId)
 import Players
     exposing

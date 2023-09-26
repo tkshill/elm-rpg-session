@@ -2,7 +2,7 @@ module Frontend exposing (..)
 
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation as Nav
-import Frontend_ exposing (ActiveSession(..), State(..))
+import Frontend.Types exposing (ActiveSession(..), State(..))
 import Html exposing (Html, button, div, input, p, text, ul)
 import Html.Attributes as Attr exposing (placeholder, value)
 import Html.Events exposing (onClick, onInput)
