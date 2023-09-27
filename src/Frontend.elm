@@ -7,7 +7,7 @@ import Html exposing (Html, button, div, input, p, text, ul)
 import Html.Attributes as Attr exposing (placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import Lamdera exposing (sendToBackend)
-import Monstrous exposing (MonstrousName(..))
+import Monstrous exposing (MonstrousName(..), makerModel)
 import Players exposing (PlaybookName(..), Player(..), playbookNameToString)
 import Types exposing (..)
 import Url
@@ -114,8 +114,13 @@ viewPlaybook playbookName =
 viewActiveSession : ActiveSession -> Html Msg
 viewActiveSession session =
     case session of
-        AddingPlayer _ ->
+        AddingPlayer Nothing ->
             viewPlaybooks [ M MonstrousName ]
+
+        AddingPlayer (Just name) ->
+            case name of
+                M MonstrousName ->
+                    Monstrous.viewMaker makerModel
 
         Playing player ->
             div [] [ text "You're playing" ]
