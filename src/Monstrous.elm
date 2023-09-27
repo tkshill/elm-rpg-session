@@ -1,4 +1,4 @@
-module Monstrous exposing (MonstrousName(..), toString)
+module Monstrous exposing (MonstrousName(..), monstrousMaker, toString)
 
 import Core
     exposing
