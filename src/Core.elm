@@ -1,39 +1,53 @@
 module Core exposing (..)
 
+import Element.Region exposing (description)
+
 
 type BaseKarma
     = Int
 
 
-type Charm
-    = Charm
+type Empathy
+    = Empathy
 
 
-type Weird
-    = Weird
+empathyString : String
+empathyString =
+    "Empathy"
 
 
-type Sharp
-    = Sharp
+type Oddity
+    = Oddity
 
 
-type Tough
-    = Tough
+oddityString : String
+oddityString =
+    "Oddity"
+
+
+type Acuity
+    = Acuity
+
+
+acuityString : String
+acuityString =
+    "Acuity"
+
+
+type Audacity
+    = Audacity
+
+
+audacityString : String
+audacityString =
+    "Audacity"
 
 
 type Rating
-    = C Charm
-    | W Weird
-    | S Sharp
-    | T Tough
-
-
-type alias BaseRatings =
-    { charm : Int
-    , weird : Int
-    , sharp : Int
-    , tough : Int
-    }
+    = E Empathy
+    | O Oddity
+    | Ac Acuity
+    | Au Audacity
 
 
 type alias Gear =
@@ -63,7 +77,7 @@ type alias BasicMove =
 type alias BasePlayBook =
     { name : String
     , description : String
-    , ratings : BaseRatings
+    , ratings : Ratings
     , moves : List PlaybookMove
     , gear : List Gear
     , karma : BaseKarma
@@ -78,26 +92,41 @@ type BasicMoveName
     | GetYourFreakOn -- Weird
 
 
-type alias BaseRatings =
-    { charm : Int
-    , weird : Int
-    , sharp : Int
-    , tough : Int
+type alias Ratings =
+    { empathy : Int
+    , oddity : Int
+    , acuity : Int
+    , audacity : Int
     }
+
+
+ratingToString : Rating -> String
+ratingToString r =
+    case r of
+        O Oddity ->
+            oddityString
+
+        E Empathy ->
+            empathyString
+
+        Ac Acuity ->
+            acuityString
+
+        Au Audacity ->
+            audacityString
 
 
 type alias Moves =
     { description : String
-    , initialLimit : Int
-    , moveList : List PlaybookMove
+    , moveList : List { id : Int, move : PlaybookMove, selected : Bool }
     }
 
 
-type alias Gear_ =
-    { limit : Int
-    , options : List Gear
+type alias Gears =
+    { description : String
+    , gearList : List { id : Int, gear : Gear, selected : Bool }
     }
 
 
-type History
-    = List String
+type alias History =
+    List String
