@@ -15,8 +15,9 @@ import Core
         , ratingToString
         )
 import Html exposing (Html, br, div, h2, p, span, text)
+import List exposing (sortBy)
 import List.Extra as Liste
-import Utility exposing (fst, snd)
+import Utility exposing (fst, snd, sortByDescending)
 
 
 type MonstrousName
@@ -473,8 +474,7 @@ viewRatings ratings =
             , ( Au Audacity, ratings.audacity )
             , ( O Oddity, ratings.oddity )
             ]
-                |> List.sortBy snd
-                |> List.reverse
+                |> sortByDescending snd
     in
     div []
         (List.map
@@ -510,8 +510,6 @@ viewMaker model =
         , p [] [ text model.characterName ]
         , br [] []
         , p [] [ text model.why ]
-        , br [] []
-        , p [] [ viewRatings model.ratings ]
         , br [] []
         , p [] [ viewRatings model.ratings ]
         ]
