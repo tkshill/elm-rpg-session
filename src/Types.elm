@@ -1,21 +1,18 @@
 module Types exposing (..)
 
-import Browser exposing (UrlRequest)
-import Frontend.Types exposing (Model)
+import Frontend.Types as FT
 import Lamdera exposing (ClientId, SessionId)
 import Players
     exposing
         ( Hunter
         , Keeper
-        , PlaybookName
         , PlayerName
         )
 import UUID exposing (UUID)
-import Url exposing (Url)
 
 
 type alias FrontendModel =
-    Model
+    FT.Model
 
 
 type alias BackendModel =
@@ -24,13 +21,8 @@ type alias BackendModel =
     }
 
 
-type FrontendMsg
-    = UrlClicked UrlRequest
-    | UrlChanged Url
-    | NoOpFrontendMsg
-    | UpdateName String
-    | SubmitButtonClicked
-    | PlayBookNameClicked PlaybookName
+type alias FrontendMsg =
+    FT.Msg
 
 
 type ToBackend

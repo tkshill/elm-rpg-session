@@ -1,14 +1,21 @@
 module Frontend exposing (..)
 
+import Array exposing (get)
 import Browser exposing (UrlRequest(..))
+import Browser.Dom exposing (getViewport)
+import Browser.Events as E
 import Browser.Navigation as Nav
-import Frontend.Types exposing (ActiveSession(..), State(..))
-import Html exposing (Html, button, div, input, p, text, ul)
+import Element exposing (..)
+import Element.Border as Border
+import Element.Font as Font
+import Frontend.Types exposing (ActiveSession(..), Msg(..), State(..))
+import Html exposing (Html)
 import Html.Attributes as Attr exposing (placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import Lamdera exposing (sendToBackend)
 import Monstrous exposing (MonstrousName(..), makerModel)
 import Players exposing (PlaybookName(..), Player(..), playbookNameToString)
+import Task
 import Types exposing (..)
 import Url
 
@@ -19,6 +26,20 @@ type alias Model =
 
 type alias Msg =
     FrontendMsg
+
+
+initViewport : Cmd FrontendMsg
+initViewport =
+    let
+        handleResult v =
+            case v of
+                Err err ->
+                    NoOpFrontendMsg
+
+                Ok vp ->
+                    ReceivedViewport vp
+    in
+    Task.attempt handleResult getViewport
 
 
 app =
@@ -37,8 +58,9 @@ init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
 init url key =
     ( { deets = { key = key, url = url.path }
       , state = BeforeSession Nothing
+      , viewport = Nothing
       }
-    , Cmd.none
+    , initViewport
     )
 
 
@@ -65,6 +87,9 @@ update msg model =
 
         ( PlayBookNameClicked playbookName, ActiveSession (AddingPlayer _) ) ->
             ( { model | state = ActiveSession (AddingPlayer (Just playbookName)) }, Cmd.none )
+
+        ( Resize w h, _ ) ->
+            ( { model | viewport = { width = w, height = h } }, Cmd.none )
 
         _ ->
             ( model, Cmd.none )
@@ -139,9 +164,9 @@ viewState state =
             viewActiveSession sesh
 
 
-view : Model -> Browser.Document FrontendMsg
-view model =
-    { title = ""
+view_ : Model -> Browser.Document FrontendMsg
+view_ model =
+    { title = "Monster of The Week"
     , body =
         [ Html.div [ Attr.style "text-align" "center", Attr.style "padding-top" "40px" ]
             [ Html.img [ Attr.src "https://lamdera.app/lamdera-logo-black.png", Attr.width 150 ] []
@@ -153,3 +178,14 @@ view model =
             ]
         ]
     }
+
+
+view : Model -> Browser.Document FrontendMsg
+view model =
+    layout [ width fill, height fill ] <|
+        column [] []
+
+
+subscriptions : model -> Sub Msg
+subscriptions _ =
+    E.onResize (\w h -> Resize ( toFloat w, toFloat h ))

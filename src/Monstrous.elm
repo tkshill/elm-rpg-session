@@ -14,7 +14,8 @@ import Core
         , Ratings
         , ratingToString
         )
-import Html exposing (Html, br, div, h2, p, span, text)
+import Element exposing (..)
+import Html exposing (Html)
 import List.Extra as Liste
 import Utility exposing (fst, snd)
 
@@ -490,7 +491,9 @@ viewRatings ratings =
 
 viewMaker : MakerModel -> Html msg
 viewMaker model =
-    div []
+    layout [ width fill, height fill ]
+        column
+        [ width fill ]
         [ h2 [] [ text "The Monstrous" ]
         , br [] []
         , p [] [ text model.flavour ]
