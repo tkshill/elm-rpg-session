@@ -465,7 +465,7 @@ update msg model =
             }
 
 
-viewRatings : Ratings -> Html msg
+viewRatings : Ratings -> Element msg
 viewRatings ratings =
     let
         ratingsMap =
@@ -477,10 +477,10 @@ viewRatings ratings =
                 |> List.sortBy snd
                 |> List.reverse
     in
-    div []
+    column []
         (List.map
             (\r ->
-                div []
+                row []
                     [ text (ratingToString (fst r))
                     , text (String.fromInt (snd r))
                     ]
@@ -489,32 +489,20 @@ viewRatings ratings =
         )
 
 
-viewMaker : MakerModel -> Html msg
+viewMaker : MakerModel -> Element msg
 viewMaker model =
-    layout [ width fill, height fill ]
-        column
+    column
         [ width fill ]
-        [ h2 [] [ text "The Monstrous" ]
-        , br [] []
-        , p [] [ text model.flavour ]
-        , br [] []
-        , p [] [ text model.characterName ]
-        , br [] []
-        , p [] [ text model.pronouns ]
-        , br [] []
-        , p [] [ text model.lineage.description ]
-        , br [] []
-        , p [] (List.map (\s -> div [] [ text s.name, text s.description ]) model.lineage.suggestions)
-        , br [] []
-        , p [] [ text model.physicalDescription ]
-        , br [] []
-        , p [] [ text model.quirk ]
-        , br [] []
-        , p [] [ text model.characterName ]
-        , br [] []
-        , p [] [ text model.why ]
-        , br [] []
-        , p [] [ viewRatings model.ratings ]
-        , br [] []
-        , p [] [ viewRatings model.ratings ]
+        [ text "The Monstrous"
+        , text model.flavour
+        , text model.characterName
+        , text model.pronouns
+        , text model.lineage.description
+        , column [] (List.map (\s -> row [] [ text s.name, text s.description ]) model.lineage.suggestions)
+        , text model.physicalDescription
+        , text model.quirk
+        , text model.characterName
+        , text model.why
+        , viewRatings model.ratings
+        , viewRatings model.ratings
         ]

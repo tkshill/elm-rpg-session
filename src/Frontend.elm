@@ -1,17 +1,12 @@
 module Frontend exposing (..)
 
-import Array exposing (get)
 import Browser exposing (UrlRequest(..))
-import Browser.Dom exposing (getViewport)
+import Browser.Dom exposing (Viewport, getViewport)
 import Browser.Events as E
 import Browser.Navigation as Nav
 import Element exposing (..)
-import Element.Border as Border
-import Element.Font as Font
+import Element.Input as Input exposing (button, labelLeft, placeholder)
 import Frontend.Types exposing (ActiveSession(..), Msg(..), State(..))
-import Html exposing (Html)
-import Html.Attributes as Attr exposing (placeholder, value)
-import Html.Events exposing (onClick, onInput)
 import Lamdera exposing (sendToBackend)
 import Monstrous exposing (MonstrousName(..), makerModel)
 import Players exposing (PlaybookName(..), Player(..), playbookNameToString)
@@ -37,7 +32,7 @@ initViewport =
                     NoOpFrontendMsg
 
                 Ok vp ->
-                    ReceivedViewport vp
+                    ReceivedViewport { width = vp.viewport.width, height = vp.viewport.height }
     in
     Task.attempt handleResult getViewport
 
@@ -89,7 +84,7 @@ update msg model =
             ( { model | state = ActiveSession (AddingPlayer (Just playbookName)) }, Cmd.none )
 
         ( Resize w h, _ ) ->
-            ( { model | viewport = { width = w, height = h } }, Cmd.none )
+            ( { model | viewport = Just { width = w, height = h } }, Cmd.none )
 
         _ ->
             ( model, Cmd.none )
@@ -111,32 +106,36 @@ updateFromBackend msg model =
             ( { model | state = ActiveSession (AddingPlayer Nothing) }, Cmd.none )
 
 
-viewStartSessionForm : Maybe String -> Html FrontendMsg
+viewStartSessionForm : Maybe String -> Element Msg
 viewStartSessionForm maybeName =
     let
         name =
             Maybe.withDefault "" maybeName
     in
-    div []
-        [ input [ placeholder "Enter your name", value name, onInput UpdateName ] []
-        , button [ onClick SubmitButtonClicked ] [ text "Submit" ]
+    column []
+        [ Input.text [] { onChange = UpdateName, text = "", label = labelLeft [] (text "Character Name"), placeholder = Just (placeholder [] (text "Buttercup")) } --[ placeholder "Enter your name", value name, onInput UpdateName ] []
+        , button [] { onPress = Just SubmitButtonClicked, label = text "Submit" } --[ onClick SubmitButtonClicked ] [ text "Submit" ]
         ]
 
 
-viewPlaybooks : List PlaybookName -> Html Msg
+viewPlaybooks : List PlaybookName -> Element Msg
 viewPlaybooks playbooks =
-    div []
-        [ p [] [ text "Select a Playbook" ]
-        , ul [] (List.map viewPlaybook playbooks)
+    column []
+        [ text "Select a Playbook"
+        , column [] <| List.map viewPlaybook playbooks
         ]
 
 
-viewPlaybook : PlaybookName -> Html Msg
+viewPlaybook : PlaybookName -> Element Msg
 viewPlaybook playbookName =
-    button [ onClick (PlayBookNameClicked playbookName) ] [ text (playbookNameToString playbookName) ]
+    button [] { onPress = Just (PlayBookNameClicked playbookName), label = text (playbookNameToString playbookName) }
 
 
-viewActiveSession : ActiveSession -> Html Msg
+
+-- [ onClick (PlayBookNameClicked playbookName) ] [ text (playbookNameToString playbookName) ]
+
+
+viewActiveSession : ActiveSession -> Element Msg
 viewActiveSession session =
     case session of
         AddingPlayer Nothing ->
@@ -148,14 +147,14 @@ viewActiveSession session =
                     Monstrous.viewMaker makerModel
 
         Playing player ->
-            div [] [ text "You're playing" ]
+            el [] <| text "You're playing"
 
 
-viewState : State -> Html FrontendMsg
+viewState : State -> Element Msg
 viewState state =
     case state of
         EntryWay ->
-            div [] []
+            el [] none
 
         BeforeSession ms ->
             viewStartSessionForm ms
@@ -164,28 +163,36 @@ viewState state =
             viewActiveSession sesh
 
 
-view_ : Model -> Browser.Document FrontendMsg
-view_ model =
-    { title = "Monster of The Week"
+
+-- view_ : Model -> Browser.Document FrontendMsg
+-- view_ model =
+--     { title = "Monster of The Week"
+--     , body =
+--         [ column [ ]
+--             [
+--             , Html.div
+--                 [ Attr.style "font-family" "sans-serif"
+--                 , Attr.style "padding-top" "40px"
+--                 ]
+--                 [ viewState model.state ]
+--             ]
+--         ]
+--     }
+
+
+view : Model -> Browser.Document Msg
+view model =
+    { title = "Monster Of The Week"
     , body =
-        [ Html.div [ Attr.style "text-align" "center", Attr.style "padding-top" "40px" ]
-            [ Html.img [ Attr.src "https://lamdera.app/lamdera-logo-black.png", Attr.width 150 ] []
-            , Html.div
-                [ Attr.style "font-family" "sans-serif"
-                , Attr.style "padding-top" "40px"
+        [ layout [ width fill, height fill ] <|
+            column []
+                [ image [ width (px 150) ] { src = "https://lamdera.app/lamdera-logo-black.png", description = "Lamdera logo" }
+                , viewState model.state
                 ]
-                [ viewState model.state ]
-            ]
         ]
     }
 
 
-view : Model -> Browser.Document FrontendMsg
-view model =
-    layout [ width fill, height fill ] <|
-        column [] []
-
-
 subscriptions : model -> Sub Msg
 subscriptions _ =
-    E.onResize (\w h -> Resize ( toFloat w, toFloat h ))
+    E.onResize (\w h -> Resize (toFloat w) (toFloat h))
