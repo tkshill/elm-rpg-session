@@ -2,6 +2,7 @@ module Frontend.Types exposing (ActiveSession(..), Model, Msg(..), State(..))
 
 import Browser exposing (UrlRequest)
 import Browser.Navigation exposing (Key)
+import Monstrous
 import Players exposing (Hunter(..), Keeper(..), PlaybookName, Player(..), PlayerName)
 import Url exposing (Url)
 
@@ -41,3 +42,4 @@ type Msg
     | PlayBookNameClicked PlaybookName
     | Resize Float Float
     | ReceivedViewport Viewport
+    | MonstrousMakerMessage Monstrous.Msg

@@ -1,5 +1,6 @@
-module Monstrous exposing (MonstrousName(..), makerModel, toString, viewMaker)
+module Monstrous exposing (MonstrousName(..), Msg(..), makerModel, toString, viewMaker)
 
+import Components exposing (LabelValue(..), viewBlockInput, viewCheckBox, viewSimpleInput)
 import Core
     exposing
         ( Acuity(..)
@@ -15,7 +16,7 @@ import Core
         , ratingToString
         )
 import Element exposing (..)
-import Html exposing (Html)
+import Element.Region exposing (description)
 import List.Extra as Liste
 import Utility exposing (fst, snd)
 
@@ -74,6 +75,7 @@ type alias MakerModel =
     , moves : Moves
     , gear : Gears
     , history : History
+    , relations : List { name : String, relation : String }
     }
 
 
@@ -83,16 +85,18 @@ type RatingShift
 
 
 type Msg
-    = UpdateName String
-    | UpdateDescription String
-    | UpdatePronouns String
-    | UpdateQuirk String
-    | YourWhy String
+    = NameUpdated String
+    | PhysicalDescriptionUpdated String
+    | PronounsUpdated String
+    | QuirkUpdated String
+    | ReasonWhyUpdated String
     | ShiftRating Rating RatingShift
     | SelectMove Int
     | SelectCurse Int
     | SelectAttack Int
     | SelectGear Int
+    | CurseSelected Int Bool
+    | AttackSelected Int Bool
 
 
 makerModel : MakerModel
@@ -381,25 +385,26 @@ makerModel =
         , "You fought together against the odds, and prevailed."
         , "They saved you from another hunter who was prepared to kill you. Ask them what happened."
         ]
+    , relations = []
     }
 
 
 update : Msg -> MakerModel -> MakerModel
 update msg model =
     case msg of
-        UpdateName str ->
+        NameUpdated str ->
             { model | characterName = str }
 
-        UpdateDescription str ->
+        PhysicalDescriptionUpdated str ->
             { model | physicalDescription = str }
 
-        UpdatePronouns str ->
+        PronounsUpdated str ->
             { model | pronouns = str }
 
-        UpdateQuirk str ->
+        QuirkUpdated str ->
             { model | quirk = str }
 
-        YourWhy str ->
+        ReasonWhyUpdated str ->
             { model | why = str }
 
         ShiftRating rating shift ->
@@ -464,6 +469,30 @@ update msg model =
                     }
             }
 
+        CurseSelected i bool ->
+            let
+                curses =
+                    model.curses
+
+                newCurseList =
+                    curses.curseList
+                        |> Liste.updateIf (.id >> (==) i) (\v -> { v | selected = not bool })
+                        |> Liste.updateIf (.id >> (/=) i) (\v -> { v | selected = False })
+            in
+            { model | curses = { curses | curseList = newCurseList } }
+
+        AttackSelected i bool ->
+            let
+                attacks =
+                    model.attacks
+
+                newAttackList =
+                    attacks.attackList
+                        |> Liste.updateIf (.id >> (==) i) (\v -> { v | selected = not bool })
+                        |> Liste.updateIf (.id >> (/=) i) (\v -> { v | selected = False })
+            in
+            { model | attacks = { attacks | attackList = newAttackList } }
+
 
 viewRatings : Ratings -> Element msg
 viewRatings ratings =
@@ -489,20 +518,52 @@ viewRatings ratings =
         )
 
 
-viewMaker : MakerModel -> Element msg
+viewSuggestions : { description : String, suggestions : List LineageSuggestion } -> Element msg
+viewSuggestions { description, suggestions } =
+    let
+        suggestionView ls =
+            column [] [ text ls.name, text ls.description ]
+    in
+    column []
+        [ text description
+        , column [] <| List.map suggestionView suggestions
+        ]
+
+
+viewCurses : Curses -> Element Msg
+viewCurses { description, curseList } =
+    let
+        viewCurseDetails : Curse -> Element Msg
+        viewCurseDetails curse =
+            column [] [ text curse.name, text curse.description ]
+    in
+    column []
+        [ text description
+        , column [] <| List.map (\{ id, curse, selected } -> viewCheckBox (CurseSelected id) (ElementLabelValue <| viewCurseDetails curse) selected) curseList
+        ]
+
+
+viewAttacks : Attacks -> Element Msg
+viewAttacks { description, attackList } =
+    column []
+        [ text description
+        , column [] <| List.map (\attack -> viewCheckBox (AttackSelected attack.id) (StringLabelValue attack.attack) attack.selected) attackList
+        ]
+
+
+viewMaker : MakerModel -> Element Msg
 viewMaker model =
     column
         [ width fill ]
         [ text "The Monstrous"
         , text model.flavour
-        , text model.characterName
-        , text model.pronouns
-        , text model.lineage.description
-        , column [] (List.map (\s -> row [] [ text s.name, text s.description ]) model.lineage.suggestions)
-        , text model.physicalDescription
-        , text model.quirk
-        , text model.characterName
-        , text model.why
-        , viewRatings model.ratings
-        , viewRatings model.ratings
+        , viewSimpleInput NameUpdated "Pick a name for your character." "Enter Name here" model.characterName
+        , viewSimpleInput PronounsUpdated "What's your character's pronouns?" "Enter your pronoun's here" model.pronouns
+        , viewSuggestions model.lineage
+        , viewBlockInput PhysicalDescriptionUpdated "What do people see when they look at your character?" "Enter your character description" model.physicalDescription
+        , column [] <| List.map (\v -> column [] <| List.map text v) model.looks
+        , viewSimpleInput ReasonWhyUpdated "Why does your character risk they life as a Monster Hunter?" "Enter your why here" model.why
+        , viewSimpleInput QuirkUpdated "What's one character flaw you possess?" "Enter your flaw." model.quirk
+        , viewCurses model.curses
+        , viewAttacks model.attacks
         ]
