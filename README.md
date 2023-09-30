@@ -1,67 +1,21 @@
-- [ ] Elm-ui
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 
-- [ ]Just implement the Monstrous
-    - [ ] Reduce builder. No fanciness.
-    - [ ] Finish builder
+# elm-rpg-session
 
----
+A sample session generator, ttrpg character builder, and dice roller built with Elm and Lamdera
 
-the monstrous
+# Credits and Inspiration
 
-Stories
-- millieu (entering a place -> leaving a place) (as a **writer: systematically keep them from reaching goal**)
-    - confusing
-    - trouble surviving
-    - any place is millieu
-- inquiry
-    - question driven. begin with a question. end with the answer.
-- character
-    - ANGST
-    - Begin with identity shift. End with solidified self definition.
-    **writer: keep them from changing. have change backfries**
-    - internal
-- event
-    - begin when status quo is disrupted. end with new status
-    - external threats
-    **writer: dont let characters restore status quo**
+All credit to the inspiration of this project goes to Michael Sands, creator of Monster of the Week, and Absurdia by Quinn Majeski
 
-People want emotion from story
+# Project Order of Operations
 
-Stories have multiple threads
+- Create Fresh Home Page with Nothing
+- Archive (but not remove real-world-app bits)
+- Add Chat App Functionality
+  - Show people in session
+- Add Dice roll mechanics
 
-moves
-
-Weird
-- get real weird
-- resist the strange 
-
-Wits
-- save your skin
-- assess reality
-
-Guts 
-- engage the enemy
-- act under pressure
-
-Charm
-- sway 
-- hood wink 
-
-karma 
-reduce harm
-boost fails
-help another
-
-12+ +1 forward
-
-assets?
-things do 1 or 2 harm
-martial arts, barhanded doesn1 harm
-initiate have access to advanced martial arts
-
-body armour for 1 to harm
-
-Weird Item for 1 to resist the weird
 
 
 
