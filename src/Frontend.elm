@@ -1,34 +1,32 @@
 module Frontend exposing (..)
 
 import Browser exposing (UrlRequest(..))
-import Browser.Dom exposing (Viewport, getViewport)
+import Browser.Dom exposing (getViewport)
 import Browser.Events as E
 import Browser.Navigation as Nav
 import Element exposing (..)
 import Element.Input as Input exposing (button, labelLeft, placeholder)
-import Frontend.Types exposing (ActiveSession(..), Msg(..), State(..))
 import Lamdera exposing (sendToBackend)
-import Monstrous exposing (MonstrousName(..), makerModel)
-import Players exposing (PlaybookName(..), Player(..), playbookNameToString)
 import Task
 import Types exposing (..)
+import Unnatural exposing (UnnaturalName(..), makerModel)
 import Url
 
 
 type alias Model =
-    FrontendModel
+    FrontEndModel
 
 
 type alias Msg =
-    FrontendMsg
+    FrontEndMsg
 
 
-initViewport : Cmd FrontendMsg
+initViewport : Cmd Msg
 initViewport =
     let
         handleResult v =
             case v of
-                Err err ->
+                Err _ ->
                     NoOpFrontendMsg
 
                 Ok vp ->
@@ -49,7 +47,7 @@ app =
         }
 
 
-init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
+init : Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init url key =
     ( { deets = { key = key, url = url.path }
       , state = BeforeSession Nothing
@@ -59,7 +57,7 @@ init url key =
     )
 
 
-update : FrontendMsg -> Model -> ( Model, Cmd FrontendMsg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.state ) of
         ( UrlClicked urlRequest, _ ) ->
@@ -80,7 +78,7 @@ update msg model =
         ( SubmitButtonClicked, BeforeSession (Just s) ) ->
             ( model, sendToBackend (CreateSession s) )
 
-        ( PlayBookNameClicked playbookName, ActiveSession (AddingPlayer _) ) ->
+        ( PortfolioClicked playbookName, ActiveSession (AddingPlayer _) ) ->
             ( { model | state = ActiveSession (AddingPlayer (Just playbookName)) }, Cmd.none )
 
         ( Resize w h, _ ) ->
@@ -90,19 +88,19 @@ update msg model =
             ( model, Cmd.none )
 
 
-updateFromBackend : ToFrontend -> Model -> ( Model, Cmd FrontendMsg )
+updateFromBackend : ToFrontend -> Model -> ( Model, Cmd Msg )
 updateFromBackend msg model =
     case msg of
         NoOpToFrontend ->
             ( model, Cmd.none )
 
-        PotentialKeeper ->
+        PotentialSteward ->
             ( { model | state = BeforeSession Nothing }, Cmd.none )
 
-        SessionCreated keeper ->
-            ( { model | state = ActiveSession (Playing (K keeper)) }, Cmd.none )
+        SessionCreated steward ->
+            ( { model | state = ActiveSession (Playing (StewardPlayer steward)) }, Cmd.none )
 
-        PotentialHunter ->
+        PotentialProtagonist ->
             ( { model | state = ActiveSession (AddingPlayer Nothing) }, Cmd.none )
 
 
@@ -114,11 +112,11 @@ viewStartSessionForm maybeName =
     in
     column []
         [ Input.text [] { onChange = UpdateName, text = "", label = labelLeft [] (text "Character Name"), placeholder = Just (placeholder [] (text "Buttercup")) } --[ placeholder "Enter your name", value name, onInput UpdateName ] []
-        , button [] { onPress = Just SubmitButtonClicked, label = text "Submit" } --[ onClick SubmitButtonClicked ] [ text "Submit" ]
+        , button [] { onPress = Just SubmitButtonClicked, label = text "Submit" }
         ]
 
 
-viewPlaybooks : List PlaybookName -> Element Msg
+viewPlaybooks : List PortfolioName -> Element Msg
 viewPlaybooks playbooks =
     column []
         [ text "Select a Playbook"
@@ -126,31 +124,27 @@ viewPlaybooks playbooks =
         ]
 
 
-viewPlaybook : PlaybookName -> Element Msg
+viewPlaybook : PortfolioName -> Element Msg
 viewPlaybook playbookName =
-    button [] { onPress = Just (PlayBookNameClicked playbookName), label = text (playbookNameToString playbookName) }
-
-
-
--- [ onClick (PlayBookNameClicked playbookName) ] [ text (playbookNameToString playbookName) ]
+    button [] { onPress = Just (PortfolioClicked playbookName), label = text (playbookNameToString playbookName) }
 
 
 viewActiveSession : ActiveSession -> Element Msg
 viewActiveSession session =
     case session of
         AddingPlayer Nothing ->
-            viewPlaybooks [ M MonstrousName ]
+            viewPlaybooks [ U UnnaturalName ]
 
         AddingPlayer (Just name) ->
             case name of
-                M MonstrousName ->
-                    Monstrous.viewMaker makerModel
+                U UnnaturalName ->
+                    Unnatural.viewMaker MonstrousMakerMessage makerModel
 
         Playing player ->
             el [] <| text "You're playing"
 
 
-viewState : State -> Element Msg
+viewState : FrontEndState -> Element Msg
 viewState state =
     case state of
         EntryWay ->
@@ -163,21 +157,11 @@ viewState state =
             viewActiveSession sesh
 
 
-
--- view_ : Model -> Browser.Document FrontendMsg
--- view_ model =
---     { title = "Monster of The Week"
---     , body =
---         [ column [ ]
---             [
---             , Html.div
---                 [ Attr.style "font-family" "sans-serif"
---                 , Attr.style "padding-top" "40px"
---                 ]
---                 [ viewState model.state ]
---             ]
---         ]
---     }
+playbookNameToString : PortfolioName -> String
+playbookNameToString playbook =
+    case playbook of
+        U name ->
+            Unnatural.toString name
 
 
 view : Model -> Browser.Document Msg

@@ -1,7 +1,6 @@
 module Backend exposing (..)
 
 import Lamdera exposing (ClientId, SessionId, sendToFrontend)
-import Players exposing (Keeper(..), PlayerName)
 import Random
 import Task
 import Time
@@ -41,10 +40,10 @@ update msg model =
         ClientConnected _ cid ->
             case model.state of
                 Nothing ->
-                    ( model, sendToFrontend cid PotentialKeeper )
+                    ( model, sendToFrontend cid PotentialSteward )
 
                 _ ->
-                    ( model, sendToFrontend cid PotentialHunter )
+                    ( model, sendToFrontend cid PotentialProtagonist )
 
         ClientDisconnected _ _ ->
             ( model, Cmd.none )
@@ -52,13 +51,13 @@ update msg model =
         IdCreated cid name uuid ->
             if model.state == Nothing then
                 let
-                    keeper =
-                        Keeper uuid name
+                    steward =
+                        Steward uuid name
 
                     newState =
-                        Just { keeper = keeper, hunters = [] }
+                        Just { steward = steward, protagonists = [] }
                 in
-                ( { model | state = newState }, sendToFrontend cid (SessionCreated keeper) )
+                ( { model | state = newState }, sendToFrontend cid (SessionCreated steward) )
 
             else
                 ( model, Cmd.none )

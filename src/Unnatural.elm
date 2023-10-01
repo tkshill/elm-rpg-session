@@ -1,4 +1,4 @@
-module Monstrous exposing (MonstrousName(..), Msg(..), makerModel, toString, viewMaker)
+module Unnatural exposing (Msg(..), UnnaturalName(..), makerModel, toString, viewMaker)
 
 import Components exposing (LabelValue(..), viewBlockInput, viewCheckBox, viewSimpleInput)
 import Core
@@ -21,11 +21,11 @@ import List.Extra as Liste
 import Utility exposing (fst, snd)
 
 
-type MonstrousName
-    = MonstrousName
+type UnnaturalName
+    = UnnaturalName
 
 
-toString : MonstrousName -> String
+toString : UnnaturalName -> String
 toString _ =
     "The Monstrous"
 
@@ -59,7 +59,7 @@ type alias Attacks =
 
 
 type alias MakerModel =
-    { name : MonstrousName
+    { name : UnnaturalName
     , characterName : String
     , pronouns : String
     , physicalDescription : String
@@ -101,7 +101,7 @@ type Msg
 
 makerModel : MakerModel
 makerModel =
-    { name = MonstrousName
+    { name = UnnaturalName
     , characterName = ""
     , physicalDescription = ""
     , quirk = ""
@@ -551,8 +551,8 @@ viewAttacks { description, attackList } =
         ]
 
 
-viewMaker : MakerModel -> Element Msg
-viewMaker model =
+viewMaker : (Msg -> msg) -> MakerModel -> Element msg
+viewMaker transformer model =
     column
         [ width fill ]
         [ text "The Monstrous"
@@ -567,3 +567,4 @@ viewMaker model =
         , viewCurses model.curses
         , viewAttacks model.attacks
         ]
+        |> Element.map transformer

@@ -1,18 +1,34 @@
 module Types exposing (..)
 
-import Frontend.Types as FT
-import Lamdera exposing (ClientId, SessionId)
-import Players
-    exposing
-        ( Hunter
-        , Keeper
-        , PlayerName
-        )
+import Browser.Navigation exposing (Key)
+import Lamdera exposing (ClientId, SessionId, Url, UrlRequest)
 import UUID exposing (UUID)
+import Unnatural exposing (UnnaturalName)
 
 
-type alias FrontendModel =
-    FT.Model
+type alias PlayerName =
+    String
+
+
+type alias PlayerID =
+    UUID
+
+
+type Steward
+    = Steward PlayerID PlayerName
+
+
+type Protagonist
+    = Protagonist PlayerID PlayerName
+
+
+type Player
+    = StewardPlayer Steward
+    | ProtagonistPlayer Protagonist
+
+
+type PortfolioName
+    = U UnnaturalName
 
 
 type alias BackendModel =
@@ -21,8 +37,42 @@ type alias BackendModel =
     }
 
 
-type alias FrontendMsg =
-    FT.Msg
+type alias Viewport =
+    { width : Float, height : Float }
+
+
+type alias Deets =
+    { key : Key, url : String }
+
+
+type alias FrontEndModel =
+    { deets : Deets
+    , state : FrontEndState
+    , viewport : Maybe Viewport
+    }
+
+
+type FrontEndState
+    = EntryWay
+    | BeforeSession (Maybe PlayerName)
+    | ActiveSession ActiveSession
+
+
+type ActiveSession
+    = AddingPlayer (Maybe PortfolioName)
+    | Playing Player
+
+
+type FrontEndMsg
+    = UrlClicked UrlRequest
+    | UrlChanged Url
+    | NoOpFrontendMsg
+    | UpdateName String
+    | SubmitButtonClicked
+    | PortfolioClicked PortfolioName
+    | Resize Float Float
+    | ReceivedViewport Viewport
+    | MonstrousMakerMessage Unnatural.Msg
 
 
 type ToBackend
@@ -39,18 +89,12 @@ type BackendMsg
 
 type ToFrontend
     = NoOpToFrontend
-    | PotentialKeeper
-    | PotentialHunter
-    | SessionCreated Keeper
-
-
-type alias Player =
-    { id : ClientId
-    , name : String
-    }
+    | PotentialSteward
+    | PotentialProtagonist
+    | SessionCreated Steward
 
 
 type alias BackEndSession =
-    { keeper : Keeper
-    , hunters : List Hunter
+    { steward : Steward
+    , protagonists : List Protagonist
     }

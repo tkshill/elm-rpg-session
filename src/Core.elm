@@ -1,7 +1,5 @@
 module Core exposing (..)
 
-import Element.Region exposing (description)
-
 
 type BaseKarma
     = Int
