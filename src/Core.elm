@@ -83,10 +83,10 @@ type alias BasePlayBook =
 
 
 type BasicMoveName
-    = SupportAnother -- Karma
+    = WhatGoesAround -- Karma
     | DoTheDamnThing -- Guts
-    | SwaySomeone -- Charm
-    | AssessReality -- Wits
+    | SwayQueenSway -- Charm
+    | WhatsTheSitch -- Wits
     | GetYourFreakOn -- Weird
 
 
