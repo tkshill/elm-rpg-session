@@ -18,7 +18,7 @@ import Core
 import Element exposing (..)
 import Element.Region exposing (description)
 import List.Extra as Liste
-import Utility exposing (fst, snd)
+import Utility exposing (fst, snd, sortByDescending)
 
 
 type UnnaturalName
@@ -503,8 +503,7 @@ viewRatings ratings =
             , ( Au Audacity, ratings.audacity )
             , ( O Oddity, ratings.oddity )
             ]
-                |> List.sortBy snd
-                |> List.reverse
+                |> sortByDescending snd
     in
     column []
         (List.map
