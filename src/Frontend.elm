@@ -1,24 +1,38 @@
 module Frontend exposing (..)
 
 import Browser exposing (UrlRequest(..))
+import Browser.Dom exposing (getViewport)
+import Browser.Events as E
 import Browser.Navigation as Nav
-import Frontend.Types exposing (ActiveSession(..), State(..))
-import Html exposing (Html, button, div, input, p, text, ul)
-import Html.Attributes as Attr exposing (placeholder, value)
-import Html.Events exposing (onClick, onInput)
+import Element exposing (..)
+import Element.Input as Input exposing (button, labelLeft, placeholder)
 import Lamdera exposing (sendToBackend)
-import Monstrous exposing (MonstrousName(..), makerModel)
-import Players exposing (PlaybookName(..), Player(..), playbookNameToString)
+import Task
 import Types exposing (..)
+import Unnatural exposing (UnnaturalName(..), makerModel)
 import Url
 
 
 type alias Model =
-    FrontendModel
+    FrontEndModel
 
 
 type alias Msg =
-    FrontendMsg
+    FrontEndMsg
+
+
+initViewport : Cmd Msg
+initViewport =
+    let
+        handleResult v =
+            case v of
+                Err _ ->
+                    NoOpFrontendMsg
+
+                Ok vp ->
+                    ReceivedViewport { width = vp.viewport.width, height = vp.viewport.height }
+    in
+    Task.attempt handleResult getViewport
 
 
 app =
@@ -33,16 +47,17 @@ app =
         }
 
 
-init : Url.Url -> Nav.Key -> ( Model, Cmd FrontendMsg )
+init : Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init url key =
     ( { deets = { key = key, url = url.path }
       , state = BeforeSession Nothing
+      , viewport = Nothing
       }
-    , Cmd.none
+    , initViewport
     )
 
 
-update : FrontendMsg -> Model -> ( Model, Cmd FrontendMsg )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model.state ) of
         ( UrlClicked urlRequest, _ ) ->
@@ -63,74 +78,77 @@ update msg model =
         ( SubmitButtonClicked, BeforeSession (Just s) ) ->
             ( model, sendToBackend (CreateSession s) )
 
-        ( PlayBookNameClicked playbookName, ActiveSession (AddingPlayer _) ) ->
+        ( PortfolioClicked playbookName, ActiveSession (AddingPlayer _) ) ->
             ( { model | state = ActiveSession (AddingPlayer (Just playbookName)) }, Cmd.none )
+
+        ( Resize w h, _ ) ->
+            ( { model | viewport = Just { width = w, height = h } }, Cmd.none )
 
         _ ->
             ( model, Cmd.none )
 
 
-updateFromBackend : ToFrontend -> Model -> ( Model, Cmd FrontendMsg )
+updateFromBackend : ToFrontend -> Model -> ( Model, Cmd Msg )
 updateFromBackend msg model =
     case msg of
         NoOpToFrontend ->
             ( model, Cmd.none )
 
-        PotentialKeeper ->
+        PotentialSteward ->
             ( { model | state = BeforeSession Nothing }, Cmd.none )
 
-        SessionCreated keeper ->
-            ( { model | state = ActiveSession (Playing (K keeper)) }, Cmd.none )
+        SessionCreated steward ->
+            ( { model | state = ActiveSession (Playing (StewardPlayer steward)) }, Cmd.none )
 
-        PotentialHunter ->
+        PotentialProtagonist ->
             ( { model | state = ActiveSession (AddingPlayer Nothing) }, Cmd.none )
 
 
-viewStartSessionForm : Maybe String -> Html FrontendMsg
+viewStartSessionForm : Maybe String -> Element Msg
 viewStartSessionForm maybeName =
     let
         name =
             Maybe.withDefault "" maybeName
     in
-    div []
-        [ input [ placeholder "Enter your name", value name, onInput UpdateName ] []
-        , button [ onClick SubmitButtonClicked ] [ text "Submit" ]
+    column []
+        [ Input.text [] { onChange = UpdateName, text = "", label = labelLeft [] (text "Character Name"), placeholder = Just (placeholder [] (text "Buttercup")) } --[ placeholder "Enter your name", value name, onInput UpdateName ] []
+        , button [] { onPress = Just SubmitButtonClicked, label = text "Submit" }
         ]
 
 
-viewPlaybooks : List PlaybookName -> Html Msg
+viewPlaybooks : List PortfolioName -> Element Msg
 viewPlaybooks playbooks =
-    div []
-        [ p [] [ text "Select a Playbook" ]
-        , ul [] (List.map viewPlaybook playbooks)
+    column []
+        [ text "Select a Playbook"
+        , column [] <| List.map viewPlaybook playbooks
         ]
 
 
-viewPlaybook : PlaybookName -> Html Msg
+viewPlaybook : PortfolioName -> Element Msg
 viewPlaybook playbookName =
-    button [ onClick (PlayBookNameClicked playbookName) ] [ text (playbookNameToString playbookName) ]
+    button [] { onPress = Just (PortfolioClicked playbookName), label = text (playbookNameToString playbookName) }
 
 
-viewActiveSession : ActiveSession -> Html Msg
+viewActiveSession : ActiveSession -> Element Msg
 viewActiveSession session =
     case session of
         AddingPlayer Nothing ->
-            viewPlaybooks [ M MonstrousName ]
+            viewPlaybooks [ U UnnaturalName ]
 
         AddingPlayer (Just name) ->
             case name of
-                M MonstrousName ->
-                    Monstrous.viewMaker makerModel
+                U UnnaturalName ->
+                    Unnatural.viewMaker MonstrousMakerMessage makerModel
 
         Playing player ->
-            div [] [ text "You're playing" ]
+            el [] <| text "You're playing"
 
 
-viewState : State -> Html FrontendMsg
+viewState : FrontEndState -> Element Msg
 viewState state =
     case state of
         EntryWay ->
-            div [] []
+            el [] none
 
         BeforeSession ms ->
             viewStartSessionForm ms
@@ -139,17 +157,26 @@ viewState state =
             viewActiveSession sesh
 
 
-view : Model -> Browser.Document FrontendMsg
+playbookNameToString : PortfolioName -> String
+playbookNameToString playbook =
+    case playbook of
+        U name ->
+            Unnatural.toString name
+
+
+view : Model -> Browser.Document Msg
 view model =
-    { title = ""
+    { title = "Monster Of The Week"
     , body =
-        [ Html.div [ Attr.style "text-align" "center", Attr.style "padding-top" "40px" ]
-            [ Html.img [ Attr.src "https://lamdera.app/lamdera-logo-black.png", Attr.width 150 ] []
-            , Html.div
-                [ Attr.style "font-family" "sans-serif"
-                , Attr.style "padding-top" "40px"
+        [ layout [ width fill, height fill ] <|
+            column []
+                [ image [ width (px 150) ] { src = "https://lamdera.app/lamdera-logo-black.png", description = "Lamdera logo" }
+                , viewState model.state
                 ]
-                [ viewState model.state ]
-            ]
         ]
     }
+
+
+subscriptions : model -> Sub Msg
+subscriptions _ =
+    E.onResize (\w h -> Resize (toFloat w) (toFloat h))

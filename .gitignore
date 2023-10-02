@@ -1,2 +1,12 @@
 
 elm-stuff
+
+.DS_Store
+
+elm-stuff
+
+node_modules
+
+dist
+
+repl-temp-*
