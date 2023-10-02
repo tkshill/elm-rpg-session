@@ -1,6 +1,6 @@
 This game doesn't have a name yet but it is based on [Monster of the Week by Ryan Sands](https://en.wikipedia.org/wiki/Monster_of_the_Week), [Absurdia by Quinn Majeski](https://quinnm.itch.io/absurdia) , and [Fate Core](https://fate-srd.com/fate-core/basics), three absolutely amazing role-playing games that everyone should enjoy.
 
-# Core Concepts
+## Core Concepts
 
 Every game session is called an **Episode**.
 
@@ -23,11 +23,11 @@ Every player starts with a -1, 0, +1, and +2 placed in each stat.
 ## Portfolios
 
 There are five **Portfolios** players can choose from.
-- The Unnatural
-- The Magical
-- The Regular
-- The Outsider
-- The Hunter
+- The **Unnatural**
+- The **Magical**
+- The **Regular**
+- The **Outsider**
+- The **Hunter**
 
 Each Player starts with 1 Karma and can get a total of 3.
 
@@ -38,14 +38,14 @@ Each Player starts with 1 Karma and can get a total of 3.
 
 Rolls can be **Boosted** or **Nerfed** giving +1 or -1 based on certain circumstances.
 
-Basic Moves
+## Basic Moves
 - Sway someone
 - Assess, Evade, Improvise
 - Do The Damn Thing
 - Weird Out
 - Help Out
 
-General Magic Can
+## General Weird Magic
 - Evoke Elements
 - Inspire Illusion
 - Modify Matter
@@ -54,8 +54,8 @@ General Magic Can
 - Seek Secrets
 - Provide Protection
 - Conjure Creation
-
 - Curse Contact
+- Manipulate Mind
 
 
 ## The Magical
@@ -70,3 +70,8 @@ General Magic Can
 - Incantations
 - Hurt
 - Bargaining
+
+## Attacks
+
+The Four Basic Attacks Are
+
