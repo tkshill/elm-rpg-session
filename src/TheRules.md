@@ -94,20 +94,20 @@ There are two categories of Weird Moves: _Most Magical_ and _Super Human_. Diffe
 
 ## Attacks
 
-Every protagonist has a certain number of attacks that they can use to hurt and harm their enemies.
+Every protagonist has a certain number of attacks that they can use to combat their enemies.
 
 All attacks have the following properties:
 
-- **Harm** - How much damage it does. Light, Heavy, or Horrendous
-- **Range** - How far it can hit. Touch, Close, or Long. General, Close is for attacks with melee weapons like swords, bats, golf clubs
-- **Speed** - How quick it takes to happen, affects whether an enemy can respond or interrupt. Slow attacks always trade harm with an enemy.
+- **Harm** - How much damage it does. _Light_, _Heavy_, or _Horrendous_
+- **Range** - How far it can hit. _Touch_, _Close_, or _Long_. Generally, _Close_ is for attacks with melee weapons like swords, bats, golf clubs
+- **Speed** - How quick it takes to happen, affects whether an enemy can respond or interrupt. _Slow_ attacks always trade harm with an enemy.
 - **Special Properties** - Magical, Ignores Armour, Holy, Loud, etc.
 
 ### Basic Attacks
 
 When a Portfolio is chosen, players will be given the option to choose two of the following default attacks.
 
-**Long Range** - Light, Long, Slow
-**Close Contact** - Heavy, Touch, Fast
-**Slow and Strong** - Heavy, Close, Slow
-**Light and Fast** - Light, Close, Fast
+- **Long Range** - Light, Long, Slow
+- **Close Contact** - Heavy, Touch, Fast
+- **Slow and Strong** - Heavy, Close, Slow
+- **Light and Fast** - Light, Close, Fast
