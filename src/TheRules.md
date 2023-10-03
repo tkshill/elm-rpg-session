@@ -107,7 +107,15 @@ All attacks have the following properties:
 
 When a Portfolio is chosen, players will be given the option to choose two of the following default attacks.
 
-- **Long Range** - Light, Long, Slow
-- **Close Contact** - Heavy, Touch, Fast
-- **Slow and Strong** - Heavy, Close, Slow
-- **Light and Fast** - Light, Close, Fast
+**Long Range** - Light, Long, Slow
+**Close Contact** - Heavy, Touch, Fast
+**Slow and Strong** - Heavy, Close, Slow
+**Light and Fast** - Light, Close, Fast
+
+### Casting Costs
+
+- Consumable
+- Foci
+- Gestures
+- Incantations
+- Hurt
