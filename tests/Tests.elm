@@ -49,6 +49,31 @@ simpleMarkupParse =
         Expect.equal { text = "Sample\nParagraph\nParagraph" } expected
 
 
+samplePortfolioMarkup2 : String
+samplePortfolioMarkup2 =
+    """
+|> Name
+    The Unnatural
+
+|> Archetypes
+    1.  Unnatural Sustenance
+        
+        Choose a substance that you need to consume to stay alive, or sane. Talk with your steward to determine the parameters of your need.
+        
+        examples
+
+            - blood
+
+            - life force
+
+            - corpses
+
+            - brains
+
+            - electricity
+"""
+
+
 samplePortfolioMarkup : String
 samplePortfolioMarkup =
     """
@@ -56,15 +81,8 @@ samplePortfolioMarkup =
     The Unnatural
 
 |> Archetypes
-    1. |> Archetype
-        name = Unnatural Sustenance
-        description = Choose a substance that you need to consume to stay alive, or sane. Talk with your steward to determine the parameters of your need.
-        examples = |> List
-                        - blood
-                        - life force
-                        - corpses
-                        - brains
-                        - electricity
+    1.  |> Archetype
+            Unnatural Sustenance
 """
 
 
@@ -72,10 +90,8 @@ samplePortfolio : Result (List String) { name : String, archetypes : List Markup
 samplePortfolio =
     { name = "The Unnatural"
     , archetypes =
-        [ { id = 1
+        [ { id = 0
           , name = "Unnatural Sustenance"
-          , description = "Choose a substance that you need to consume to stay alive, or sane. Talk with your steward to determine the parameters of your need."
-          , examples = [ "blood", "life force", "corpses", "brains", "electricity" ]
           }
         ]
     }
@@ -102,20 +118,23 @@ portfolioMarkupParse =
             name =
                 Mark.block "Name" PortfolioNameMarkup Mark.string
 
-            exampleList =
-                Mark.tree "List" (\(Mark.Enumerated list) -> List.map (\(Mark.Item item) -> Maybe.withDefault "" (List.head item.content)) list.items) Mark.string
-
+            -- exampleList =
+            --     Mark.tree "List" (\(Mark.Enumerated list) -> List.map (\(Mark.Item item) -> Maybe.withDefault "" (List.head item.content)) list.items) Mark.string
+            -- archetype =
+            --     Mark.record "Archetype"
+            --         (\n d e -> { name = n, description = d, examples = e })
+            --         |> Mark.field "name" Mark.string
+            --         |> Mark.field "description" Mark.string
+            --         |> Mark.field "examples" exampleList
+            --         |> Mark.toBlock
+            archetype : Mark.Block String
             archetype =
-                Mark.record "Archetype"
-                    (\n d e -> { name = n, description = d, examples = e })
-                    |> Mark.field "name" Mark.string
-                    |> Mark.field "description" Mark.string
-                    |> Mark.field "examples" exampleList
-                    |> Mark.toBlock
+                Mark.block "Archetype" identity Mark.string
 
             archetypes =
-                Mark.tree "Archetypes" (\(Mark.Enumerated list) -> List.concatMap (\(Mark.Item item) -> List.indexedMap (\i c -> { id = i, name = c.name, description = c.description, examples = c.examples }) item.content) list.items) archetype |> Mark.map PortfolioArchetypesMarkup
+                Mark.tree "Archetypes" (\(Mark.Enumerated list) -> List.concatMap (\(Mark.Item item) -> List.indexedMap (\i c -> { id = i, name = c }) item.content) list.items) archetype |> Mark.map PortfolioArchetypesMarkup
 
+            -- |> Mark.map PortfolioArchetypesMarkup
             document =
                 Mark.document identity (Mark.manyOf [ name, archetypes ] |> Mark.map parsePortfolioMarkupElements)
 

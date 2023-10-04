@@ -572,8 +572,6 @@ viewMaker transformer model =
 type alias MarkupArchetype =
     { id : Int
     , name : String
-    , description : String
-    , examples : List String
     }
 
 
