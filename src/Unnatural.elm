@@ -1,4 +1,4 @@
-module Unnatural exposing (Msg(..), UnnaturalName(..), makerModel, toString, viewMaker)
+module Unnatural exposing (MarkupArchetype, Msg(..), PortfolioMarkupElement(..), UnnaturalName(..), makerModel, toString, viewMaker)
 
 import Components exposing (LabelValue(..), viewBlockInput, viewCheckBox, viewSimpleInput)
 import Core
@@ -567,3 +567,16 @@ viewMaker transformer model =
         , viewAttacks model.attacks
         ]
         |> Element.map transformer
+
+
+type alias MarkupArchetype =
+    { id : Int
+    , name : String
+    , description : String
+    , examples : List String
+    }
+
+
+type PortfolioMarkupElement
+    = PortfolioNameMarkup String
+    | PortfolioArchetypesMarkup (List MarkupArchetype)
