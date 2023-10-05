@@ -1,5 +1,23 @@
-|> Title
-    The Unnatural
+|> Core
+
+    name = The Unnatural
+
+    description = The description
+
+    flavour = The Unnatural Flavour
+
+|> Archetypes
+
+    name = Curse
+
+    description = Curse description
+
+    options =
+        
+        |> Archetype
+
+            name = 
+
 
 |> Flavour
     A big bad guy.
