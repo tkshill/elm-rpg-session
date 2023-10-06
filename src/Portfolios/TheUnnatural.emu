@@ -14,14 +14,75 @@
 
     options =
         
-        |> Archetype
+        -   |> Archetype
 
-            name = 
+                name = Cursed Sustenance
 
+                description = Sustenance Description
 
-|> Flavour
-    A big bad guy.
+                examples = 
 
-|> Archetype
-    SPooky wooky bears.
+                    |> Examples
+
+                        - first example
+
+                        - second example
+
+        -   |> Archetype
+
+                name = Cursed Weakness
+
+                description = Sustenance Description
+
+                examples = 
+
+                    |> Examples
+
+                        - first example
+
+                        - second example
+        
+        -   |> Archetype
+
+                name = Cursed Emotion
+
+                description = Sustenance Description
+
+                examples = 
+
+                    |> Examples
+
+                        - first example
+
+                        - second example
+
+|> Stats
+
+    oddity = 1
+
+    acuity = -1
+
+    audacity = 2
+
+    empathy = 0
+
+|> Moves
+
+    - |> Move
+
+        name = move 1
+
+        description = description 1
+
+    - |> Move
+
+        name = move 1
+
+        description = description 1
+
+    - |> Move
+
+        name = move 1
+
+        description = description 1
     
