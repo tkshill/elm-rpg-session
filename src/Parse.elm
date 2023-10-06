@@ -17,7 +17,7 @@ type alias Archetype =
 
 
 type PortfolioMarkupElement
-    = Base { name : PortfolioName, description : String, flavour : String }
+    = Core { name : PortfolioName, description : String, flavour : String }
     | Archetypes { name : String, description : String, options : List Archetype }
     | Stats { oddity : Int, acuity : Int, audacity : Int, empathy : Int }
     | Moves (List Move)
