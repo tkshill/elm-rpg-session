@@ -23,7 +23,7 @@ type alias Stats =
 
 
 type PortfolioMarkupElement
-    = Core { name : PortfolioName, description : String, flavour : String }
+    = Core { name : PortfolioName, flavour : String }
     | Archetypes { name : String, description : String, options : List Archetype }
     | StatGroup { oddity : Int, acuity : Int, audacity : Int, empathy : Int }
     | Moves (List Move)
@@ -57,7 +57,8 @@ type alias Harm =
 
 type alias Portfolio =
     { name : PortfolioName
-    , description : String
+    , physicalDescription : String
+    , agenda : String
     , flavour : String
     , archetypes : List Archetype
     , stats : Stats
@@ -66,6 +67,8 @@ type alias Portfolio =
     , karma : Int
     , hurt : Int
     , harm : Harm
+    , magicMoves : List Move
+    , weirdMove : List Move
     }
 
 

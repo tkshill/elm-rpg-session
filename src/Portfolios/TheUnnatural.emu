@@ -2,9 +2,12 @@
 
     name = The Unnatural
 
-    description = The description
-
-    flavour = The Unnatural Flavour
+    flavour = 
+    
+        I feel a hunger, an emptiness.
+        I live in human lands but I'm not human.
+        Sometimes I have these urges, these desires, but I try not to give in.
+        I don't know if I want to be safe, or if I want to destroy.
 
 |> Archetypes
 
@@ -16,37 +19,71 @@
         
         -   |> Archetype
 
-                name = Cursed Sustenance
+                name = Aberration
 
-                description = Sustenance Description
+                description = 
+                
+                    You're half human/half monster, or maybe just a monster who's managed to keep some sense of self.
+                    Decide what type of monster you are. What unnatural sustenance do you need to survive, what are you weak to, and what emotion drives you.
+                    Your steward may put you in situations where you have the opportunity to indulge your monstrous.
+                    If you manage to resist, take a Bane on your next roll. If you indulge, add one Karma.
+
+                karma =
+
+                    Whenever you spend karma, an aspect of your monstrous nature grows stronger. 
+                    Your hunger, vulnerabilities and emotions intensify.
 
                 examples = 
 
                     |> Examples
 
-                        - first example
+                        - vampire
 
-                        - second example
+                        - werewolf
+
+                        - zombie
+
+                        - demon
 
         -   |> Archetype
 
-                name = Cursed Weakness
+                name = AI
 
-                description = Sustenance Description
+                description =
+
+                    You're a self aware, intelligence artificial intelligence. You have fantastical abilities.
+                    Exactly what so many people fear.
+                    Are you truly a threat to humanity, or are they a threat to you?
+                    Are you successfully blending in or do you refuse to hide yourself?
+
+                karma =
+
+                    Whenever you spend Karma you suffer a glitch
 
                 examples = 
 
                     |> Examples
 
-                        - first example
+                        - An android almost indistinguishable from a real human, but metal and circuitry on the inside.
 
-                        - second example
+                        - A cyborg that's a mix of human and cybernetic components.
+
+                        - Your body doesn't resemble a humanoid form at all.
         
         -   |> Archetype
 
-                name = Cursed Emotion
+                name = Alien
 
-                description = Sustenance Description
+                description = 
+
+                    You're from another world. Somehow you ended up here on Earth. You have to adapt to their ways and customs.
+                    But for how long? Who's waiting for you out here? Who's looking for you? 
+
+                karma =
+
+
+
+
 
                 examples = 
 
