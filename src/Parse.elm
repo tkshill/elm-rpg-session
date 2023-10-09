@@ -10,12 +10,12 @@ type PortfolioName
     | TheChampion -- Empathy/Audacity/Acuity/Oddity
 
 
-type alias Move =
+type alias Trait =
     { id : Int, name : String, description : String }
 
 
 type alias Archetype =
-    { id : Int, name : String, description : String, examples : List String, karma : String }
+    { id : Int, name : String, description : String, examples : List String, karma : String, signatureMove : String }
 
 
 type alias Stats =
@@ -24,9 +24,9 @@ type alias Stats =
 
 type PortfolioMarkupElement
     = Core { name : PortfolioName, flavour : String }
-    | Archetypes { name : String, description : String, options : List Archetype }
+    | Archetypes (List Archetype)
     | StatGroup { oddity : Int, acuity : Int, audacity : Int, empathy : Int }
-    | Moves (List Move)
+    | Traits (List Trait)
 
 
 type HarmDealt
@@ -55,6 +55,15 @@ type alias Harm =
     { value : Int, description : String }
 
 
+type alias PortfolioTemplate =
+    { name : String
+    , flavour : String
+    , archetypes : List Archetype
+    , stats : Stats
+    , traits : List Trait
+    }
+
+
 type alias Portfolio =
     { name : PortfolioName
     , physicalDescription : String
@@ -62,13 +71,13 @@ type alias Portfolio =
     , flavour : String
     , archetypes : List Archetype
     , stats : Stats
-    , moves : List Move
+    , traits : List Trait
     , attacks : List Attack
     , karma : Int
     , hurt : Int
     , harm : Harm
-    , magicMoves : List Move
-    , weirdMove : List Move
+    , magicTraits : List Trait
+    , weirdTrait : List Trait
     }
 
 

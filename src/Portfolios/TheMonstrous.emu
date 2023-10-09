@@ -1,0 +1,203 @@
+|> Core
+
+    name = The Unnatural
+
+    flavour = 
+    
+        I feel a hunger, an emptiness.
+        I live in human lands but I'm not human.
+        Sometimes I have these urges, these desires, but I try not to give in.
+        I don't know if I want to be safe, or if I want to destroy.
+
+|> Archetypes
+
+    options =
+        
+        -   |> Archetype
+
+                name = The Monstrous
+
+                description = 
+                
+                    You're half human/half monster, or maybe just a monster who's managed to keep some sense of self.
+                    Decide what type of monster you are. What unnatural sustenance do you need to survive, what are you weak to, and what emotion drives you.
+                    Your steward may put you in situations where you have the opportunity to indulge your monstrous side.
+
+                signatureMove = 
+                    
+                    |> Trait
+                    
+                        name = Cursed Body
+
+                        description = 
+                        
+                            Your existence is unnatural, and your life is hard to end by normal means.
+                            Choose a substance or circumstance with your keeper that is your true weakness.
+                            You have 1 Armour for any attack that isn't your weakness.
+                            If you are exposed to your weakness, take twice the amount of hurt you normally would.
+                            Take a ban when attempting to act in the presence of your weakness.
+
+                flaw =
+
+                    |> Trait 
+
+                        name = Unnatural Hunger
+
+                        description = 
+                        
+                            Your body needs something terrible to survive. 
+                            Whenever you have the oppurtunity to feed, you must spend a karma to give in to your dark urges.
+                            If you don't, take one Hurt and a Bane on your next move.
+                            If you do choose to feed, heal one hurt and take a Boon to your next roll.
+
+                karma =
+
+                    |> Trait
+
+                        name = Harder to Control
+
+                        description = 
+                        
+                            Whenever you spend karma, an aspect of your monstrous nature grows stronger. 
+                            Your hunger, vulnerabilities and emotions intensify.
+
+                examples = 
+
+                    |> Examples
+
+                        - vampire
+
+                        - werewolf
+
+                        - zombie
+
+                        - demonic being
+
+        -   |> Archetype
+
+                name = The Cybernetic
+
+                description =
+
+                    You're a self aware, intelligence artificial intelligence. You have fantastical abilities.
+                    Exactly what so many people fear.
+                    Are you truly a threat to humanity, or are they a threat to you?
+                    Are you successfully blending in or do you refuse to hide yourself?
+
+                signatureMove =
+                
+                    |> Trait
+
+                        name = Artificial intelligence
+
+                        description =
+                        
+                            Your mind was built, by design, to be fantastic.
+                            You have access to the World Weide Web whenever you have signal.
+                            Gain a Boon to any Assess, Evade, Improvise rolls when you're looking for information
+                            that could potentially be found online.
+
+                flaw = 
+
+                    |> Trait
+
+                        name = Data Corruption
+
+                        description =
+
+                            There's some part of your history that's missing. Decide what it is.
+                            Whenever you get an opportunity to find out more, if you sieze it, gain one karma and a boon on your next roll.
+                            If you choose not to, take a bane on your next roll.
+                karma =
+
+                    |> Trait
+
+                        name = Glitch in the Matrix
+                        
+                        description =
+                        
+                            Whenever you spend Karma you suffer a glitch in your system.
+                            You may experience strange personality quirks for a short duration.
+                            Your cybernetic form may cause a complication.
+
+
+                examples = 
+
+                    |> Examples
+
+                        - An android almost indistinguishable from a real human, but metal and circuitry on the inside.
+
+                        - A cyborg that's a mix of human and cybernetic components.
+
+                        - Your body doesn't resemble a humanoid form at all.
+        
+        -   |> Archetype
+
+                name = The Outsider
+
+                description = 
+
+                    You're from the Celestial or Infernal realm.
+                    Up there you have a roll, a purpose, a rank in the Great Army.
+                    But for some reason you're here on Earth. Hunting someone? Protecting someone?
+
+                signatureMove = 
+
+                    |> Move
+
+                        name = Access to Everything
+
+                        description =
+
+                            Take a Boon to any Assess, Evade, Improvise rolls that could benefit from access to the internet.
+
+                        flaw = 
+
+                            name = Uncanny vallew
+
+                            description = The intricacies of human expression 
+
+                karma =
+
+
+
+
+
+                examples = 
+
+                    |> Examples
+
+                        - first example
+
+                        - second example
+
+|> Stats
+
+    oddity = 1
+
+    acuity = -1
+
+    audacity = 2
+
+    empathy = 0
+
+|> Traits
+
+    - |> Trait
+
+        name = move 1
+
+        description = description 1
+
+    - |> Trait
+
+        name = move 1
+
+        description = description 1
+
+    - |> Trait
+
+        name = move 1
+
+        description = description 1
+    
