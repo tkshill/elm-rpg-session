@@ -1,13 +1,12 @@
 |> Core
 
-    name = The Unnatural
+    name = The Arcanr
 
     flavour = 
     
-        I feel a hunger, an emptiness.
-        I live in human lands but I'm not human.
-        As much as I seem to be, or want to be, I'm not.
-        I don't know if I want to be safe, or if I want to destroy.
+        I'm a spellcaster by nature, a magical being, caught between the world of humans and magic.
+        But the power isn't all it's cracked up to be. With great power comes great responsibility.
+        And great problems. Hopefully my magic is enough to solve them.
 
 |> Archetypes
 
@@ -15,74 +14,69 @@
         
         -   |> Archetype
 
-                name = The Monstrous
+                name = The Academic
 
                 description = 
                 
-                    You're half human/half monster, or maybe just a monster who's managed to keep some sense of self.
-                    Decide what type of monster you are. What unnatural sustenance do you need to survive, what are you weak to, and what emotion drives you.
-                    Your steward may put you in situations where you have the opportunity to indulge your monstrous side.
+                    You've learn your magic through effort and study and practice. You have your book of spells.
+                    You have your spell components. You have your gestures and incantations.
+                    You left the grand academies of wizardry for a reason.
+                    But you didn't necessarily leave on good terms.
 
                 signatureMove = 
                     
                     |> Trait
                     
-                        name = Cursed Body
+                        name = Studied it all
 
                         description = 
                         
-                            Your existence is unnatural, and your life is hard to end by normal means.
-                            Choose a substance or circumstance with your keeper that is your true weakness.
-                            You have 1 Armour for any attack that isn't your weakness.
-                            If you are exposed to your weakness, take twice the amount of hurt you normally would.
-                            Take a ban when attempting to act in the presence of your weakness.
+                            You can cast spells of any trait, not just your specialties, but you take a Bane whenever you do so.
+                            Add your spellbook and any other materials you need to your gear list.
 
                 flaw =
 
                     |> Trait 
 
-                        name = Unnatural Hunger
+                        name = Searching for Something.
 
                         description = 
                         
-                            Your body needs something terrible to survive. 
-                            Whenever you have the oppurtunity to feed, you must spend a karma to give in to your dark urges.
-                            If you don't, take one Hurt and a Bane on your next move.
-                            If you do choose to feed, heal one hurt and take a Boon to your next roll.
+                            Something in your is holding you back, and holding your magic back.
+                            Whenever you follow up a lead to recover what was taken from you, 
+                            take one Karma and a Boon to your next roll. Take a Bane to your next roll is you choose not to follow it.
 
                 karma =
 
                     |> Trait
 
-                        name = Harder to Control
+                        name = Unfinished Business
 
                         description = 
                         
-                            Whenever you spend karma, an aspect of your monstrous nature grows stronger. 
-                            Your hunger, vulnerabilities and emotions intensify.
+                            Whenever you spend karma, the Order of Mages that controls the use of arcane magic in the world
+                            becomes aware of your actions and may interfere with your goals.
 
                 examples = 
 
                     |> Examples
 
-                        - vampire
+                        - Enchantress
 
-                        - werewolf
+                        - Magician
 
-                        - zombie
+                        - Alchemist
 
-                        - a bunch of bees
+                        - Thaumaturge
 
         -   |> Archetype
 
-                name = The Cybernetic
+                name = The Sorceress
 
                 description =
 
-                    You're a self aware, artificial intelligence. You have fantastical abilities.
-                    Exactly what so many people fear.
-                    Are you truly a threat to humanity, or are they a threat to you?
-                    Are you successfully blending in or do you refuse to hide yourself?
+                    You were born with these abilities, whether by blessing or curse or heritage.
+                    Your powers are strong, but wild
 
                 signatureMove =
                 
@@ -177,18 +171,6 @@
                         
                             When you spend karma, your conduit to the celestial/infernal becomes strange.
                             Your powers may behave in strange ways and draw unwanted attention.
-
-                examples:
-
-                    - demon
-
-                    - devil
-
-                    - angel
-
-                    - principality
-
-                    - demigod
 
 |> Traits
 
