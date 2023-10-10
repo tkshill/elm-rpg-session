@@ -32,8 +32,9 @@ https://static.lamdera.com/bin/lamdera-1.2.0-windows-x86_64.zip
 ```
 npm install -g elm-format elm-test
 ```
-6. At this point, you should be able to get a local server up and running with the project. Type in terminal and you are good to go
+6. At this point, you should be able to get a local server up and running with the project. Type in terminal: 
 
 ```
 lamdera live
 ```
+and you are good to go!
