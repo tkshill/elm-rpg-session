@@ -1,0 +1,159 @@
+|> MetaMagic
+
+    - |> Trait
+    
+        name = Evoke Elements 
+    
+        description = fire, water, air, earth
+
+    - |> Trait
+    
+        name = Inspire Illusion 
+
+    - |> Trait
+    
+        name = Modify Matter 
+    
+        description = move, transform, transmute
+
+    - |> Trait
+    
+        name = Conjure Constructs 
+    
+        description = create creatures / minions to aid you
+
+    - |> Trait
+    
+        name = Heal Harm 
+    
+        description = remove harms and hurts, remove curses
+
+    - |> Trait
+    
+        name = Scry Solutions 
+    
+        description = ask the universe for answers, guidance
+
+    - |> Trait
+    
+        name = Provide Protection 
+    
+        description = magical shields and barriers, protective enchantments
+
+    - |> Trait
+    
+        name = Disturb Dead 
+    
+        description = speak to, command, and lay the dead to rest
+
+    - |> Trait
+    
+        name = Manipulate Mind
+
+    - |> Trit
+    
+        name = Curse Character
+
+|> MetaPhyscal
+
+    - |> Trait
+    
+        name = Past Lives
+
+        description =
+        
+            You're in touch with your past selves, and you can attempt to consult them for solutions.
+            But be careful, not every past life is kind, or benign
+
+    - |> Trait
+    
+        name = Sufficiently Advanced Science
+
+        description = 
+
+            You can build, manipulate, and understand extremely advanced technology.
+            When these devices fo wrong, they go fantastically wrong.
+
+    - |> Trait
+    
+        name = Trust Your Gut
+
+        description = 
+
+            Your instincts are unparalleled. You can use something inside you to make the right decision.
+            Something though, life has different plans.
+
+    - |> Trait
+    
+        name = Supernatural Charisma
+
+        description = 
+
+            You have an uncanny ability to sway others, and can usually get them to do what you want.
+            Sometimes, they become aware of that effect and things fall apart.
+
+
+    - |> Trait
+    
+        name = Plush Ultra
+
+        description = 
+        
+            You can push your body to do what most can't.
+            You can try to do something past what should be your physical limit, but the backlash might be a lot to bear.
+
+    - |> Trait
+    
+        name = Sixth Sense 
+
+        description = 
+        
+            You sometimes anticipate danger before it happens, and have a chance to react before others.
+            Sometimes you react too fast, before getting a clear picture of the situation.
+
+    - |> Trait
+
+        name = Telekenetic/Pyrokinetic
+
+        description = 
+
+            You have the ability to control over physical objects with your mind and start small fires.
+            The large the object the less you can manipulate it. But there can be a toll you using this power.
+
+    - |> Trait
+
+        name = Hyper Time
+
+        description =
+
+            In the heat of the moment, time slows down.
+            You can think and process plans as if time stands still.
+            Sometimes, your flow state puts you in peril.
+
+    - |> Trait
+
+        name = Advanced Senses
+
+        description = 
+
+            One of your senses is far far past the norm, and it can aid you when everything else fails.
+            Sometimes, your reliance on that sense leads you to more danger.
+
+    - |> Trait
+
+        name = Child of Destiny
+
+        description = 
+
+            You put your fate in the hands of the universe, and sometimes it delivers.
+            When all else fails, you can set it all free and leave it up to destiny.
+            But we don't get to predict where destiny takes us.
+
+
+
+
+
+
+
+
+

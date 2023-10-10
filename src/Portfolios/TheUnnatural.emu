@@ -6,12 +6,12 @@
     
         I feel a hunger, an emptiness.
         I live in human lands but I'm not human.
-        Sometimes I have these urges, these desires, but I try not to give in.
+        As much as I seem to be, or want to be, I'm not.
         I don't know if I want to be safe, or if I want to destroy.
 
 |> Archetypes
 
-    options =
+    archetypes =
         
         -   |> Archetype
 
@@ -71,7 +71,7 @@
 
                         - zombie
 
-                        - demonic being
+                        - a bunch of bees
 
         -   |> Archetype
 
@@ -79,7 +79,7 @@
 
                 description =
 
-                    You're a self aware, intelligence artificial intelligence. You have fantastical abilities.
+                    You're a self aware, artificial intelligence. You have fantastical abilities.
                     Exactly what so many people fear.
                     Are you truly a threat to humanity, or are they a threat to you?
                     Are you successfully blending in or do you refuse to hide yourself?
@@ -117,7 +117,7 @@
                         description =
                         
                             Whenever you spend Karma you suffer a glitch in your system.
-                            You may experience strange personality quirks for a short duration.
+                            You may experience strange personality or physical quirks for a short duration.
                             Your cybernetic form may cause a complication.
 
 
@@ -138,66 +138,114 @@
                 description = 
 
                     You're from the Celestial or Infernal realm.
-                    Up there you have a roll, a purpose, a rank in the Great Army.
+                    Up there you have a roll, a purpose, a rank in the Great Army, the Final Call.
+                    Everything you do is in the context that there will be a Reckoning.
                     But for some reason you're here on Earth. Hunting someone? Protecting someone?
 
                 signatureMove = 
 
-                    |> Move
+                    |> Trait
 
-                        name = Access to Everything
+                        name = Smite
 
                         description =
 
-                            Take a Boon to any Assess, Evade, Improvise rolls that could benefit from access to the internet.
+                            The Enemy shall be vanquished, utterly.
+                            You can spend Karma to increase the harm you deal to enemies.
+                    
+                
+                flaw = 
 
-                        flaw = 
+                    |> Trait
 
-                            name = Uncanny vallew
+                        name = Eternal Duty
 
-                            description = The intricacies of human expression 
+                        description = 
 
-                karma =
+                            You have someone or something you need to protect or destroy.
+                            Whenever you have the opportunity to do so, if you do, gain Karma and take a boon 
+                            to your next roll.
+                            If you don't, take a bane to your next roll.
 
+                karma = 
 
+                    |> Trait
 
+                        name = Power outtage
+                        
+                        description = 
+                        
+                            When you spend karma, your conduit to the celestial/infernal becomes strange.
+                            Your powers may behave in strange ways and draw unwanted attention.
 
+                examples:
 
-                examples = 
+                    - demon
 
-                    |> Examples
+                    - devil
 
-                        - first example
+                    - angel
 
-                        - second example
+                    - principality
 
-|> Stats
-
-    oddity = 1
-
-    acuity = -1
-
-    audacity = 2
-
-    empathy = 0
+                    - demigod
 
 |> Traits
 
     - |> Trait
 
-        name = move 1
+        name = Savagery
 
-        description = description 1
-
-    - |> Trait
-
-        name = move 1
-
-        description = description 1
+        description = Deal one more harm with all your attacks
 
     - |> Trait
 
-        name = move 1
+        name = Sensing the Supernatural
 
-        description = description 1
-    
+        description = Gain a boost when trying to sense the presence of other supernatural entities
+
+    - |> Trait
+
+        name = Advanced Athletics
+
+        description = Gain a Boost when you use your unnatural physiology to evade or chase someone.
+
+    - |> Trait
+
+        name = Dark Negotiator
+
+        description = You can sway other unnatural beings, provided they have the capacity to understand.
+
+    - |> Trait
+
+        name = Regeneration
+
+        description = 
+
+            After every scene you heal two hurts instead of one.
+
+    - |> Trait
+
+        name = Guardian
+
+        description = 
+
+            Pick another hunter to protect.
+            Get a Boost whenever a move you take would directly save them from harm.
+
+    - |> Trait
+
+        name = Ethereal Mind
+
+        description =
+
+            Your half human mind is hard to read.
+            You take reduced hurt from mental attacks, and a Boon to moves to resist mental effects.
+
+    - |> Trait
+
+        name = Advanced Mutation
+
+        description =
+
+            Boost an aspect of two of your attacks.

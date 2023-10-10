@@ -1,0 +1,233 @@
+|> Core
+
+    name = The Arcanr
+
+    flavour = 
+    
+        I'm a spellcaster by nature, a magical being, caught between the world of humans and magic.
+        But the power isn't all it's cracked up to be. With great power comes great responsibility.
+        And great problems. Hopefully my magic is enough to solve them.
+
+|> Archetypes
+
+    archetypes =
+        
+        -   |> Archetype
+
+                name = The Academic
+
+                description = 
+                
+                    You've learn your magic through effort and study and practice. You have your book of spells.
+                    You have your spell components. You have your gestures and incantations.
+                    You left the grand academies of wizardry for a reason.
+                    But you didn't necessarily leave on good terms.
+
+                signatureMove = 
+                    
+                    |> Trait
+                    
+                        name = Studied it all
+
+                        description = 
+                        
+                            You can cast spells of any trait, not just your specialties, but you take a Bane whenever you do so.
+                            Add your spellbook and any other materials you need to your gear list.
+
+                flaw =
+
+                    |> Trait 
+
+                        name = Searching for Something.
+
+                        description = 
+                        
+                            Something in your is holding you back, and holding your magic back.
+                            Whenever you follow up a lead to recover what was taken from you, 
+                            take one Karma and a Boon to your next roll. Take a Bane to your next roll is you choose not to follow it.
+
+                karma =
+
+                    |> Trait
+
+                        name = Unfinished Business
+
+                        description = 
+                        
+                            Whenever you spend karma, the Order of Mages that controls the use of arcane magic in the world
+                            becomes aware of your actions and may interfere with your goals.
+
+                examples = 
+
+                    |> Examples
+
+                        - Enchantress
+
+                        - Magician
+
+                        - Alchemist
+
+                        - Thaumaturge
+
+        -   |> Archetype
+
+                name = The Sorceress
+
+                description =
+
+                    You were born with these abilities, whether by blessing or curse or heritage.
+                    Your powers are strong, but wild
+
+                signatureMove =
+                
+                    |> Trait
+
+                        name = Artificial intelligence
+
+                        description =
+                        
+                            Your mind was built, by design, to be fantastic.
+                            You have access to the World Weide Web whenever you have signal.
+                            Gain a Boon to any Assess, Evade, Improvise rolls when you're looking for information
+                            that could potentially be found online.
+
+                flaw = 
+
+                    |> Trait
+
+                        name = Data Corruption
+
+                        description =
+
+                            There's some part of your history that's missing. Decide what it is.
+                            Whenever you get an opportunity to find out more, if you sieze it, gain one karma and a boon on your next roll.
+                            If you choose not to, take a bane on your next roll.
+                karma =
+
+                    |> Trait
+
+                        name = Glitch in the Matrix
+                        
+                        description =
+                        
+                            Whenever you spend Karma you suffer a glitch in your system.
+                            You may experience strange personality or physical quirks for a short duration.
+                            Your cybernetic form may cause a complication.
+
+
+                examples = 
+
+                    |> Examples
+
+                        - An android almost indistinguishable from a real human, but metal and circuitry on the inside.
+
+                        - A cyborg that's a mix of human and cybernetic components.
+
+                        - Your body doesn't resemble a humanoid form at all.
+        
+        -   |> Archetype
+
+                name = The Outsider
+
+                description = 
+
+                    You're from the Celestial or Infernal realm.
+                    Up there you have a roll, a purpose, a rank in the Great Army, the Final Call.
+                    Everything you do is in the context that there will be a Reckoning.
+                    But for some reason you're here on Earth. Hunting someone? Protecting someone?
+
+                signatureMove = 
+
+                    |> Trait
+
+                        name = Smite
+
+                        description =
+
+                            The Enemy shall be vanquished, utterly.
+                            You can spend Karma to increase the harm you deal to enemies.
+                    
+                
+                flaw = 
+
+                    |> Trait
+
+                        name = Eternal Duty
+
+                        description = 
+
+                            You have someone or something you need to protect or destroy.
+                            Whenever you have the opportunity to do so, if you do, gain Karma and take a boon 
+                            to your next roll.
+                            If you don't, take a bane to your next roll.
+
+                karma = 
+
+                    |> Trait
+
+                        name = Power outtage
+                        
+                        description = 
+                        
+                            When you spend karma, your conduit to the celestial/infernal becomes strange.
+                            Your powers may behave in strange ways and draw unwanted attention.
+
+|> Traits
+
+    - |> Trait
+
+        name = Savagery
+
+        description = Deal one more harm with all your attacks
+
+    - |> Trait
+
+        name = Sensing the Supernatural
+
+        description = Gain a boost when trying to sense the presence of other supernatural entities
+
+    - |> Trait
+
+        name = Advanced Athletics
+
+        description = Gain a Boost when you use your unnatural physiology to evade or chase someone.
+
+    - |> Trait
+
+        name = Dark Negotiator
+
+        description = You can sway other unnatural beings, provided they have the capacity to understand.
+
+    - |> Trait
+
+        name = Regeneration
+
+        description = 
+
+            After every scene you heal two hurts instead of one.
+
+    - |> Trait
+
+        name = Guardian
+
+        description = 
+
+            Pick another hunter to protect.
+            Get a Boost whenever a move you take would directly save them from harm.
+
+    - |> Trait
+
+        name = Ethereal Mind
+
+        description =
+
+            Your half human mind is hard to read.
+            You take reduced hurt from mental attacks, and a Boon to moves to resist mental effects.
+
+    - |> Trait
+
+        name = Advanced Mutation
+
+        description =
+
+            Boost an aspect of two of your attacks.
