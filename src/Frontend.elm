@@ -14,11 +14,11 @@ import Url
 
 
 type alias Model =
-    FrontEndModel
+    FrontendModel
 
 
 type alias Msg =
-    FrontEndMsg
+    FrontendMsg
 
 
 initViewport : Cmd Msg

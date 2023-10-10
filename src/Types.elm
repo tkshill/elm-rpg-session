@@ -45,7 +45,7 @@ type alias Deets =
     { key : Key, url : String }
 
 
-type alias FrontEndModel =
+type alias FrontendModel =
     { deets : Deets
     , state : FrontEndState
     , viewport : Maybe Viewport
@@ -63,7 +63,7 @@ type ActiveSession
     | Playing Player
 
 
-type FrontEndMsg
+type FrontendMsg
     = UrlClicked UrlRequest
     | UrlChanged Url
     | NoOpFrontendMsg
