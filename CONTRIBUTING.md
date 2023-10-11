@@ -20,13 +20,14 @@ For Windows, download and unpack to the directory of your choice.
 https://static.lamdera.com/bin/lamdera-1.2.0-windows-x86_64.zip
 ```
 
-3. Go to your VS CODE settings and find the Elm extension. In the section `Elm LS: Elm Path`, insert the path to your lamdera install directory.  
-<img src="imgs/elm-path.png" width="600" />
-  
-4. If you're using Visual Studio Code, install the Elmlang extension.  
-**Note**: There are two language extensions in the VSCode ecosystem but older (seemingly more popular one) has been deprecated. Pick one marked with arrow on image.
+3. If you're using Visual Studio Code, install the Elmlang extension.  
+**Note**: There are two language extensions in the VSCode ecosystem but the older (seemingly more popular one) has been deprecated. Pick one marked with arrow on image.
 
 <img src="imgs/elmlang-extension.png" width="500" />
+
+4. Go to your VS CODE settings and find the Elm extension. In the section `Elm LS: Elm Path`, insert the path to your lamdera install directory. 
+
+<img src="imgs/elm-path.png" width="600" />
 
 5. Install **elm-format** and **elm-test**.  In your terminal or some other shell environment, type
 ```
