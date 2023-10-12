@@ -1,6 +1,6 @@
 |> Core
 
-    name = The Arcanr
+    name = The Arcane
 
     flavour = 
     
@@ -23,7 +23,7 @@
                     You left the grand academies of wizardry for a reason.
                     But you didn't necessarily leave on good terms.
 
-                signatureMove = 
+                crown = 
                     
                     |> Trait
                     
@@ -34,7 +34,7 @@
                             You can cast spells of any trait, not just your specialties, but you take a Bane whenever you do so.
                             Add your spellbook and any other materials you need to your gear list.
 
-                flaw =
+                crux =
 
                     |> Trait 
 
@@ -71,163 +71,172 @@
 
         -   |> Archetype
 
-                name = The Sorceress
+                name = The Sorcerer
 
                 description =
 
                     You were born with these abilities, whether by blessing or curse or heritage.
                     Your powers are strong, but wild
 
-                signatureMove =
+                crown =
                 
                     |> Trait
 
-                        name = Artificial intelligence
+                        name = Wild Child
 
                         description =
                         
-                            Your mind was built, by design, to be fantastic.
-                            You have access to the World Weide Web whenever you have signal.
-                            Gain a Boon to any Assess, Evade, Improvise rolls when you're looking for information
-                            that could potentially be found online.
+                            Your magic is powerful, fundamental, overwhelming.
+                            Controlling it is hard and you don't do anything by half.
+                            You get a full success on an 9 or higher, and a complete failure otherwise.
 
-                flaw = 
+                            3 4 5 6 7 8 9 | 10 11 12 13 14
+
+                crux = 
 
                     |> Trait
 
-                        name = Data Corruption
+                        name = Font of Power
 
                         description =
 
-                            There's some part of your history that's missing. Decide what it is.
-                            Whenever you get an opportunity to find out more, if you sieze it, gain one karma and a boon on your next roll.
-                            If you choose not to, take a bane on your next roll.
+                            You're not quite certain as to the source of your power, or it's details.
+                            Decide with your Steward what information you're looking for.
+                            Whenever you get a lead and investigate, gain one Karma and a boon on your next roll.
+                            If you choose not to pursue the lead, take one bane.
+
                 karma =
 
                     |> Trait
 
-                        name = Glitch in the Matrix
+                        name = Manifesting
                         
                         description =
                         
-                            Whenever you spend Karma you suffer a glitch in your system.
-                            You may experience strange personality or physical quirks for a short duration.
-                            Your cybernetic form may cause a complication.
+                            Whenever you spend Karma you powers grow slightly more unstable.
+                            Your magic will manifest without your direct input.
 
 
                 examples = 
 
                     |> Examples
 
-                        - An android almost indistinguishable from a real human, but metal and circuitry on the inside.
+                        - A human who was raised in the fae wilds
 
-                        - A cyborg that's a mix of human and cybernetic components.
+                        - A half human, half elf or some other mythic being
 
-                        - Your body doesn't resemble a humanoid form at all.
+                        - You were experimented on as a child by a mysterious group.
         
         -   |> Archetype
 
-                name = The Outsider
+                name = The Maleficent
 
                 description = 
 
-                    You're from the Celestial or Infernal realm.
-                    Up there you have a roll, a purpose, a rank in the Great Army, the Final Call.
-                    Everything you do is in the context that there will be a Reckoning.
-                    But for some reason you're here on Earth. Hunting someone? Protecting someone?
+                    If magic is a blessing for others, for you, it's a curse, in the most literal way.
+                    You magic is granted through a dark entity, and the price for it's power is hefty.
+                    Sometimes you feel feelings that aren't your own. Or you hear a voice.
+                    The things it says, the things it wants. They're never good.
 
-                signatureMove = 
+                crown = 
 
                     |> Trait
 
-                        name = Smite
+                        name = Blood Magic
 
                         description =
 
-                            The Enemy shall be vanquished, utterly.
-                            You can spend Karma to increase the harm you deal to enemies.
+                            You cannot use Karma to reduce harm.
+                            You can take a point of hurt to increase the damage you do to enemies.
+                            Whenever you successfully deal harm to an enemy, you can reduce a hurt.
+                            On a fastastic success, you can heal a harm.
                     
                 
-                flaw = 
+                crux = 
 
                     |> Trait
 
-                        name = Eternal Duty
+                        name = Curse Breaker
 
                         description = 
 
-                            You have someone or something you need to protect or destroy.
-                            Whenever you have the opportunity to do so, if you do, gain Karma and take a boon 
-                            to your next roll.
-                            If you don't, take a bane to your next roll.
+                            You need a way to break the hold this dark entity has on you.
+                            Whenever your Steward indicates a lead that could prove beneficial and you follow it,
+                            add one Karma and get a boon on your next roll. If you don't follow the lead, take a bane
+                            on your next roll.
 
                 karma = 
 
                     |> Trait
 
-                        name = Power outtage
+                        name = Dark Influence
                         
                         description = 
                         
-                            When you spend karma, your conduit to the celestial/infernal becomes strange.
-                            Your powers may behave in strange ways and draw unwanted attention.
+                            When you spend karma, the nefarious broker of your power makes contact,
+                            Reaching out to you directly, or wreaking havoc with your powers.
 
 |> Traits
 
     - |> Trait
 
-        name = Savagery
+        name = Influential in my circle
 
-        description = Deal one more harm with all your attacks
-
-    - |> Trait
-
-        name = Sensing the Supernatural
-
-        description = Gain a boost when trying to sense the presence of other supernatural entities
+        description = Gain a boon to Sway when dealing with another magical being who could potentially know you.
 
     - |> Trait
 
-        name = Advanced Athletics
+        name = Attunement to the Ether
 
-        description = Gain a Boost when you use your unnatural physiology to evade or chase someone.
-
-    - |> Trait
-
-        name = Dark Negotiator
-
-        description = You can sway other unnatural beings, provided they have the capacity to understand.
+        description = Gain a boost when using Assess to sense an magic in the area and its type or intent.
 
     - |> Trait
 
-        name = Regeneration
+        name = All out.
+
+        description =
+        
+            Take two hurt to add a boon to your next Get Weird or magical attack attempt.
+            If successful, treat it as a fantastic success.
+            If it's an attack, you may give it any properties from attacks you already possess.
+            Take a bane to the next roll after this one.
+
+    - |> Trait
+
+        name = Combat Caster
+
+        description = Gain a boon to Do the Damn when using a magical attack against an enemy.
+
+    - |> Trait
+
+        name = Cleric
 
         description = 
 
-            After every scene you heal two hurts instead of one.
+            Your attacks deal one less harm.
+            You can spend one Karma on a successful Get Weird to heal, and remove one harm from someone.
 
     - |> Trait
 
-        name = Guardian
+        name = Familiar
 
         description = 
 
-            Pick another hunter to protect.
-            Get a Boost whenever a move you take would directly save them from harm.
+            You get a small creature to be your magical familar. Decide on it's type and name.
+            Its attacks do zero harm but it will generally try to execute commands you give it to the best of its ability.
 
     - |> Trait
 
-        name = Ethereal Mind
+        name = Generalist
 
         description =
 
-            Your half human mind is hard to read.
-            You take reduced hurt from mental attacks, and a Boon to moves to resist mental effects.
+            Take one more magical trait
 
     - |> Trait
 
-        name = Advanced Mutation
+        name = Specialist
 
         description =
 
-            Boost an aspect of two of your attacks.
+            Remove a magic trait. Gain two karma instead of one when you fail Get Weird moves using your remaining magic traits.
