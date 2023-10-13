@@ -112,7 +112,7 @@
                         description =
                         
                             Whenever you spend Karma you powers grow slightly more unstable.
-                            Your magic will manifest without your direct input.
+                            Your magic will manifest without your direct input, in potentially hazardous ways.
 
 
                 examples = 
@@ -127,7 +127,7 @@
         
         -   |> Archetype
 
-                name = The Maleficent
+                name = The Maleficar
 
                 description = 
 
@@ -196,8 +196,8 @@
         
             Take two hurt to add a boon to your next Get Weird or magical attack attempt.
             If successful, treat it as a fantastic success.
-            If it's an attack, you may give it any properties from attacks you already possess.
-            Take a bane to the next roll after this one.
+            If it's an attack, you may boost its harm.
+            Take a bane to the next roll afterwards.
 
     - |> Trait
 
@@ -212,7 +212,7 @@
         description = 
 
             Your attacks deal one less harm.
-            You can spend one Karma on a successful Get Weird to heal, and remove one harm from someone.
+            On a successful Get Weird to heal, and remove one harm from someone.
 
     - |> Trait
 
@@ -229,7 +229,7 @@
 
         description =
 
-            Take one more magical trait
+            Take one more magical trait.
 
     - |> Trait
 

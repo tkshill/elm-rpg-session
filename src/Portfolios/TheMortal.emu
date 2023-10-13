@@ -1,0 +1,236 @@
+|> Core
+
+    name = The Mortal
+
+    flavour = 
+    
+        I wasn't always wrapped up in this world 
+
+|> Archetypes
+
+    archetypes =
+        
+        -   |> Archetype
+
+                name = The Academic
+
+                description = 
+                
+                    You've learn your magic through effort and study and practice. You have your book of spells.
+                    You have your spell components. You have your gestures and incantations.
+                    You left the grand academies of wizardry for a reason.
+                    But you didn't necessarily leave on good terms.
+
+                crown = 
+                    
+                    |> Trait
+                    
+                        name = Studied it all
+
+                        description = 
+                        
+                            You can cast spells of any magical trait.
+                            But If you attempt to Get Weird with magic that isn't one of your chosen traits, roll with a bane.
+
+                crux =
+
+                    |> Trait 
+
+                        name = Searching for Something.
+
+                        description = 
+                        
+                            Something in your is holding you back, and holding your magic back.
+                            Whenever you follow up a lead to recover what was taken from you, 
+                            take one Karma and a Boon to your next roll. Take a Bane to your next roll is you choose not to follow it.
+
+                karma =
+
+                    |> Trait
+
+                        name = Unfinished Business
+
+                        description = 
+                        
+                            Whenever you spend karma, the Order of Mages that controls the use of arcane magic in the world
+                            becomes aware of your actions and may interfere with your goals.
+
+                examples = 
+
+                    |> Examples
+
+                        - Enchantress
+
+                        - Magician
+
+                        - Alchemist
+
+                        - Thaumaturge
+
+        -   |> Archetype
+
+                name = The Sorcerer
+
+                description =
+
+                    You were born with these abilities, whether by blessing or curse or heritage.
+                    Your powers are strong, but wild
+
+                crown =
+                
+                    |> Trait
+
+                        name = Wild Child
+
+                        description =
+                        
+                            Your magic is powerful, fundamental, overwhelming.
+                            Controlling it is hard and you don't do anything by half.
+                            You get a full success on an 9 or higher, and a complete failure otherwise.
+
+                crux = 
+
+                    |> Trait
+
+                        name = Font of Power
+
+                        description =
+
+                            You're not quite certain as to the source of your power, or it's details.
+                            Decide with your Steward what information you're looking for.
+                            Whenever you get a lead and investigate, gain one Karma and a boon on your next roll.
+                            If you choose not to pursue the lead, take one bane.
+
+                karma =
+
+                    |> Trait
+
+                        name = Manifesting
+                        
+                        description =
+                        
+                            Whenever you spend Karma you powers grow slightly more unstable.
+                            Your magic will manifest without your direct input, in potentially hazardous ways.
+
+
+                examples = 
+
+                    |> Examples
+
+                        - A human who was raised in the fae wilds
+
+                        - A half human, half elf or some other mythic being
+
+                        - You were experimented on as a child by a mysterious group.
+        
+        -   |> Archetype
+
+                name = The Maleficar
+
+                description = 
+
+                    If magic is a blessing for others, for you, it's a curse, in the most literal way.
+                    You magic is granted through a dark entity, and the price for it's power is hefty.
+                    Sometimes you feel feelings that aren't your own. Or you hear a voice.
+                    The things it says, the things it wants. They're never good.
+
+                crown = 
+
+                    |> Trait
+
+                        name = Blood Magic
+
+                        description =
+
+                            You cannot use Karma to reduce harm.
+                            You can take a point of hurt to increase the damage you do to enemies.
+                            Whenever you successfully deal harm to an enemy, you can reduce a hurt.
+                            On a fastastic success, you can heal a harm.
+                    
+                
+                crux = 
+
+                    |> Trait
+
+                        name = Curse Breaker
+
+                        description = 
+
+                            You need a way to break the hold this dark entity has on you.
+                            Whenever your Steward indicates a lead that could prove beneficial and you follow it,
+                            add one Karma and get a boon on your next roll. If you don't follow the lead, take a bane
+                            on your next roll.
+
+                karma = 
+
+                    |> Trait
+
+                        name = Dark Influence
+                        
+                        description = 
+                        
+                            When you spend karma, the nefarious broker of your power makes contact,
+                            Reaching out to you directly, or wreaking havoc with your powers.
+
+|> Traits
+
+    - |> Trait
+
+        name = I've Got A Contact
+
+        description =
+        
+            Gain a Boon to Sway roles to request a resource from a trusted source.
+
+    - |> Trait
+
+        name = I know kung fu
+
+        description = Gain a Boon to rolls that involve directly attacking, blocking, or dodging enemy attacks.
+
+    - |> Trait
+
+        name = Silver tongue.
+
+        description =
+        
+            Take a Boon to sway roles whenever you can tell a story.
+
+    - |> Trait
+
+        name = Combat Caster
+
+        description = Gain a boon to Do the Damn when using a magical attack against an enemy.
+
+    - |> Trait
+
+        name = Been around the Block
+
+        description = 
+
+            You can always tell when someone's lying. 
+
+    - |> Trait
+
+        name = Medical Expert
+
+        description = 
+
+            You get a boon to treating injuries provided you have supplies nearby.
+
+    - |> Trait
+
+        name = You have a ride.
+
+        description =
+
+            You have a sick ride.
+
+    - |> Trait
+
+        name = Safe House
+
+        description =
+
+            You have a nearby location you can use when things get tough.
+            All investigators heal one hurt when you make it to the safe house.
