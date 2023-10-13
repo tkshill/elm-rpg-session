@@ -31,13 +31,11 @@ Every player starts with a -1, 0, +1, and +2 allocated to the stats of their cho
 
 ## Portfolios
 
-There are five **Portfolios** players can choose from.
+There are _three_ **Portfolios** players can choose from.
 
-- The **Unnatural** - A monstrous creature fighting other creatures of darkness. (e.g. vampires, werewolves, zombie, banshee, etc)
+- The **Monstrous** - A monstrous creature fighting other creatures of darkness. (e.g. vampires, werewolves, zombie, banshee, etc)
 - The **Magical** - A human who can weild powerful magics (e.g. wizards, witches, shamans, warlocks)
 - The **Mortal** - A normal person who has found themselves deep in the world of the supernatural (e.g. the chosen one, an investigator, someone searching for the truth, someone harmed by the unnatural)
-- The **Outsider** - A being from beyong this realm with a mission to complete. (eg. angels, demons, aliens, time travellers)
-- The **Champion** - A trained hunter of evil (eg. MIB agents, secret martial arts sect, mercenary for international Monster Hunter group, freelance Badass)
 
 ## Karma
 

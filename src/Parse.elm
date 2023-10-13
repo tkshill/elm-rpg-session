@@ -1,7 +1,5 @@
 module Parse exposing (..)
 
-import Mark
-
 
 type PortfolioName
     = TheUnnatural -- Audacity/Oddity/Empathy/Acuity

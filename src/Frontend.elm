@@ -11,6 +11,7 @@ import Task
 import Types exposing (..)
 import Unnatural exposing (UnnaturalName(..), makerModel)
 import Url
+import Utility exposing (withCmd, withModel, withNoCmd)
 
 
 type alias Model =
@@ -19,6 +20,14 @@ type alias Model =
 
 type alias Msg =
     FrontendMsg
+
+
+type alias Effect =
+    Cmd Msg
+
+
+type alias UiElement =
+    Element Msg
 
 
 initViewport : Cmd Msg
@@ -47,7 +56,7 @@ app =
         }
 
 
-init : Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+init : Url.Url -> Nav.Key -> ( Model, Effect )
 init url key =
     ( { deets = { key = key, url = url.path }
       , state = BeforeSession Nothing
@@ -57,7 +66,7 @@ init url key =
     )
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
+update : Msg -> Model -> ( Model, Effect )
 update msg model =
     case ( msg, model.state ) of
         ( UrlClicked urlRequest, _ ) ->
@@ -73,38 +82,39 @@ update msg model =
                     )
 
         ( UpdateName s, BeforeSession _ ) ->
-            ( { model | state = BeforeSession (Just s) }, Cmd.none )
+            { model | state = BeforeSession (Just s) } |> withNoCmd
 
         ( SubmitButtonClicked, BeforeSession (Just s) ) ->
-            ( model, sendToBackend (CreateSession s) )
+            sendToBackend (CreateSession s)
+                |> withModel model
 
         ( PortfolioClicked playbookName, ActiveSession (AddingPlayer _) ) ->
-            ( { model | state = ActiveSession (AddingPlayer (Just playbookName)) }, Cmd.none )
+            { model | state = ActiveSession (AddingPlayer (Just playbookName)) } |> withNoCmd
 
         ( Resize w h, _ ) ->
-            ( { model | viewport = Just { width = w, height = h } }, Cmd.none )
+            { model | viewport = Just { width = w, height = h } } |> withNoCmd
 
         _ ->
-            ( model, Cmd.none )
+            model |> withNoCmd
 
 
-updateFromBackend : ToFrontend -> Model -> ( Model, Cmd Msg )
+updateFromBackend : ToFrontend -> Model -> ( Model, Effect )
 updateFromBackend msg model =
     case msg of
         NoOpToFrontend ->
-            ( model, Cmd.none )
+            model |> withNoCmd
 
         PotentialSteward ->
-            ( { model | state = BeforeSession Nothing }, Cmd.none )
+            { model | state = BeforeSession Nothing } |> withNoCmd
 
         SessionCreated steward ->
-            ( { model | state = ActiveSession (Playing (StewardPlayer steward)) }, Cmd.none )
+            { model | state = ActiveSession (Playing (StewardPlayer steward)) } |> withNoCmd
 
         PotentialProtagonist ->
-            ( { model | state = ActiveSession (AddingPlayer Nothing) }, Cmd.none )
+            { model | state = ActiveSession (AddingPlayer Nothing) } |> withNoCmd
 
 
-viewStartSessionForm : Maybe String -> Element Msg
+viewStartSessionForm : Maybe String -> UiElement
 viewStartSessionForm maybeName =
     let
         name =
@@ -116,7 +126,7 @@ viewStartSessionForm maybeName =
         ]
 
 
-viewPlaybooks : List PortfolioName -> Element Msg
+viewPlaybooks : List PortfolioName -> UiElement
 viewPlaybooks playbooks =
     column []
         [ text "Select a Playbook"
@@ -124,7 +134,7 @@ viewPlaybooks playbooks =
         ]
 
 
-viewPlaybook : PortfolioName -> Element Msg
+viewPlaybook : PortfolioName -> UiElement
 viewPlaybook playbookName =
     button [] { onPress = Just (PortfolioClicked playbookName), label = text (playbookNameToString playbookName) }
 
@@ -144,7 +154,7 @@ viewActiveSession session =
             el [] <| text "You're playing"
 
 
-viewState : FrontEndState -> Element Msg
+viewState : FrontEndState -> UiElement
 viewState state =
     case state of
         EntryWay ->

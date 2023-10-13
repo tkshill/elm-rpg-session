@@ -6,7 +6,7 @@ import Task
 import Time
 import Types exposing (..)
 import UUID exposing (UUID)
-import Utility exposing (fst)
+import Utility exposing (fst, withNoCmd)
 
 
 type alias Model =
@@ -63,15 +63,15 @@ update msg model =
                 ( model, Cmd.none )
 
 
-uuidMaker : (ClientId -> PlayerName -> UUID -> BackendMsg) -> ClientId -> PlayerName -> Cmd BackendMsg
-uuidMaker f cid name =
+uuidMaker : (UUID -> BackendMsg) -> Cmd BackendMsg
+uuidMaker msgFunc =
     Time.now
         |> Task.perform
             (Time.posixToMillis
                 >> Random.initialSeed
                 >> Random.step UUID.generator
                 >> fst
-                >> f cid name
+                >> msgFunc
             )
 
 
@@ -79,10 +79,10 @@ updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Cmd
 updateFromFrontend _ cid msg model =
     case msg of
         NoOpToBackend ->
-            ( model, Cmd.none )
+            model |> withNoCmd
 
         CreateSession name ->
-            ( model, uuidMaker IdCreated cid name )
+            ( model, uuidMaker (IdCreated cid name) )
 
 
 subscriptions : Model -> Sub BackendMsg

@@ -4,6 +4,7 @@ import Expect exposing (..)
 import Mark exposing (Outcome(..))
 import Mark.Error
 import Test exposing (..)
+import Utility exposing (thunk)
 
 
 type PortfolioTestMarkupElement
@@ -154,20 +155,20 @@ testMarkup =
 
 simpleMarkupParse : () -> Expectation
 simpleMarkupParse =
-    \_ ->
-        let
-            document =
-                Mark.document (\txt -> { text = txt }) (Mark.block "Text" identity Mark.string)
+    let
+        document =
+            Mark.document (\txt -> { text = txt }) (Mark.block "Text" identity Mark.string)
 
-            expected =
-                case Mark.compile document sampleMarkup of
-                    Success doc ->
-                        doc
+        expected =
+            case Mark.compile document sampleMarkup of
+                Success doc ->
+                    doc
 
-                    _ ->
-                        { text = "" }
-        in
-        Expect.equal { text = "Sample\nParagraph\nParagraph" } expected
+                _ ->
+                    { text = "" }
+    in
+    Expect.equal { text = "Sample\nParagraph\nParagraph" } expected
+        |> thunk
 
 
 parsePortfolioMarkupElements : List PortfolioTestMarkupElement -> Maybe ParsedElement
