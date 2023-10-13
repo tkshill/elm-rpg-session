@@ -31,8 +31,8 @@
 
                         description = 
                         
-                            You can cast spells of any trait, not just your specialties, but you take a Bane whenever you do so.
-                            Add your spellbook and any other materials you need to your gear list.
+                            You can cast spells of any magical trait.
+                            But If you attempt to Get Weird with magic that isn't one of your chosen traits, roll with a bane.
 
                 crux =
 
@@ -89,8 +89,6 @@
                             Your magic is powerful, fundamental, overwhelming.
                             Controlling it is hard and you don't do anything by half.
                             You get a full success on an 9 or higher, and a complete failure otherwise.
-
-                            3 4 5 6 7 8 9 | 10 11 12 13 14
 
                 crux = 
 
