@@ -6,7 +6,7 @@ import Task
 import Time
 import Types exposing (..)
 import UUID exposing (UUID)
-import Utility exposing (flip, withModel, withNoCmd)
+import Utility exposing (flip, withCmd, withNoCmd)
 
 
 type alias Model =
@@ -51,12 +51,12 @@ update msg model =
         ClientConnected _ cid ->
             case model.state of
                 Nothing ->
-                    sendToFrontend cid PotentialSteward
-                        |> withModel model
+                    model
+                        |> withCmd (sendToFrontend cid PotentialSteward)
 
                 _ ->
-                    sendToFrontend cid PotentialProtagonist
-                        |> withModel model
+                    model
+                        |> withCmd (sendToFrontend cid PotentialProtagonist)
 
         ClientDisconnected _ _ ->
             model |> withNoCmd
@@ -70,8 +70,8 @@ update msg model =
                     newState =
                         Just { steward = steward, protagonists = [] }
                 in
-                sendToFrontend cid (SessionCreated steward)
-                    |> withModel { model | state = newState }
+                { model | state = newState }
+                    |> withCmd (sendToFrontend cid <| SessionCreated steward)
 
             else
                 model |> withNoCmd
@@ -84,8 +84,8 @@ updateFromFrontend _ cid msg model =
             model |> withNoCmd
 
         CreateSession name ->
-            uuidMaker (IdCreated cid name)
-                |> withModel model
+            model
+                |> withCmd (uuidMaker <| IdCreated cid name)
 
 
 

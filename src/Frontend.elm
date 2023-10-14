@@ -11,7 +11,7 @@ import Task
 import Types exposing (..)
 import Unnatural exposing (UnnaturalName(..), makerModel)
 import Url
-import Utility exposing (withCmd, withModel, withNoCmd)
+import Utility exposing (withCmd, withNoCmd)
 
 
 type alias Model =
@@ -85,8 +85,7 @@ update msg model =
             { model | state = BeforeSession (Just s) } |> withNoCmd
 
         ( SubmitButtonClicked, BeforeSession (Just s) ) ->
-            sendToBackend (CreateSession s)
-                |> withModel model
+            model |> withCmd (sendToBackend <| CreateSession s)
 
         ( PortfolioClicked playbookName, ActiveSession (AddingPlayer _) ) ->
             { model | state = ActiveSession (AddingPlayer (Just playbookName)) } |> withNoCmd
