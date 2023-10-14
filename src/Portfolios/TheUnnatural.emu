@@ -179,17 +179,19 @@
                             When you spend karma, your conduit to the celestial/infernal becomes strange.
                             Your powers may behave in strange ways and draw unwanted attention from your home plane.
 
-                examples:
+                examples =
 
-                    - demon
+                    |> Examples
 
-                    - devil
+                        - demon
 
-                    - angel
+                        - devil
 
-                    - principality
+                        - angel
 
-                    - demigod
+                        - principality
+
+                        - demigod
 
 |> Traits
 

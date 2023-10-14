@@ -17,8 +17,9 @@ import Core
         )
 import Element exposing (..)
 import Element.Region exposing (description)
+import List exposing (sort)
 import List.Extra as Liste
-import Utility exposing (fst, snd, sortByDescending)
+import Utility exposing (sortByDescending)
 
 
 type UnnaturalName
@@ -415,11 +416,10 @@ update msg model =
                     , ( Au Audacity, model.ratings.audacity )
                     , ( O Oddity, model.ratings.oddity )
                     ]
-                        |> List.sortBy snd
-                        |> List.reverse
+                        |> sortByDescending Tuple.second
 
                 idx =
-                    Maybe.withDefault 0 (Liste.findIndex (fst >> (==) rating) ratingsMap)
+                    Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) rating) ratingsMap)
 
                 newMap =
                     if shift == Up then
@@ -430,10 +430,10 @@ update msg model =
             in
             { model
                 | ratings =
-                    { empathy = Maybe.withDefault 0 (Liste.findIndex (fst >> (==) (E Empathy)) newMap)
-                    , acuity = Maybe.withDefault 0 (Liste.findIndex (fst >> (==) (Ac Acuity)) newMap)
-                    , audacity = Maybe.withDefault 0 (Liste.findIndex (fst >> (==) (Au Audacity)) newMap)
-                    , oddity = Maybe.withDefault 0 (Liste.findIndex (fst >> (==) (O Oddity)) newMap)
+                    { empathy = Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) (E Empathy)) newMap)
+                    , acuity = Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) (Ac Acuity)) newMap)
+                    , audacity = Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) (Au Audacity)) newMap)
+                    , oddity = Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) (O Oddity)) newMap)
                     }
             }
 
@@ -503,14 +503,14 @@ viewRatings ratings =
             , ( Au Audacity, ratings.audacity )
             , ( O Oddity, ratings.oddity )
             ]
-                |> sortByDescending snd
+                |> sortByDescending Tuple.second
     in
     column []
         (List.map
             (\r ->
                 row []
-                    [ text (ratingToString (fst r))
-                    , text (String.fromInt (snd r))
+                    [ text (ratingToString (Tuple.first r))
+                    , text (String.fromInt (Tuple.second r))
                     ]
             )
             ratingsMap

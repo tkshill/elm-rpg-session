@@ -6,11 +6,23 @@ import Task
 import Time
 import Types exposing (..)
 import UUID exposing (UUID)
-import Utility exposing (fst, withNoCmd)
+import Utility exposing (flip, withModel, withNoCmd)
 
 
 type alias Model =
     BackendModel
+
+
+type alias Msg =
+    BackendMsg
+
+
+type alias Effect =
+    Cmd BackendMsg
+
+
+type alias Listener =
+    Sub BackendMsg
 
 
 app =
@@ -22,16 +34,15 @@ app =
         }
 
 
-init : ( Model, Cmd BackendMsg )
+init : ( Model, Effect )
 init =
-    ( { message = "Hello!"
-      , state = Nothing
-      }
-    , Cmd.none
-    )
+    { message = "Hello!"
+    , state = Nothing
+    }
+        |> withNoCmd
 
 
-update : BackendMsg -> Model -> ( Model, Cmd BackendMsg )
+update : BackendMsg -> Model -> ( Model, Effect )
 update msg model =
     case msg of
         NoOpBackendMsg ->
@@ -40,13 +51,15 @@ update msg model =
         ClientConnected _ cid ->
             case model.state of
                 Nothing ->
-                    ( model, sendToFrontend cid PotentialSteward )
+                    sendToFrontend cid PotentialSteward
+                        |> withModel model
 
                 _ ->
-                    ( model, sendToFrontend cid PotentialProtagonist )
+                    sendToFrontend cid PotentialProtagonist
+                        |> withModel model
 
         ClientDisconnected _ _ ->
-            ( model, Cmd.none )
+            model |> withNoCmd
 
         IdCreated cid name uuid ->
             if model.state == Nothing then
@@ -57,35 +70,35 @@ update msg model =
                     newState =
                         Just { steward = steward, protagonists = [] }
                 in
-                ( { model | state = newState }, sendToFrontend cid (SessionCreated steward) )
+                sendToFrontend cid (SessionCreated steward)
+                    |> withModel { model | state = newState }
 
             else
-                ( model, Cmd.none )
+                model |> withNoCmd
 
 
-uuidMaker : (UUID -> BackendMsg) -> Cmd BackendMsg
+uuidMaker : (UUID -> Msg) -> Effect
 uuidMaker msgFunc =
-    Time.now
-        |> Task.perform
-            (Time.posixToMillis
-                >> Random.initialSeed
-                >> Random.step UUID.generator
-                >> fst
-                >> msgFunc
-            )
+    Time.posixToMillis
+        >> Random.initialSeed
+        >> Random.step UUID.generator
+        >> Tuple.first
+        >> msgFunc
+        |> flip Task.perform Time.now
 
 
-updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Cmd BackendMsg )
+updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Effect )
 updateFromFrontend _ cid msg model =
     case msg of
         NoOpToBackend ->
             model |> withNoCmd
 
         CreateSession name ->
-            ( model, uuidMaker (IdCreated cid name) )
+            uuidMaker (IdCreated cid name)
+                |> withModel model
 
 
-subscriptions : Model -> Sub BackendMsg
+subscriptions : Model -> Listener
 subscriptions _ =
     Sub.batch
         [ Lamdera.onConnect ClientConnected

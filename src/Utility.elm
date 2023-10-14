@@ -1,7 +1,5 @@
 module Utility exposing
-    ( State
-    , fst
-    , snd
+    ( flip
     , sortByDescending
     , thunk
     , withCmd
@@ -10,23 +8,15 @@ module Utility exposing
     )
 
 
-type alias State a b =
-    ( a, Cmd b )
-
-
-snd : ( a, b ) -> b
-snd ( x, y ) =
-    y
-
-
-fst : ( a, b ) -> a
-fst ( x, y ) =
-    x
-
-
 sortByDescending : (a -> comparable) -> List a -> List a
 sortByDescending f =
     List.sortBy f >> List.reverse
+
+
+
+{-
+   Returns a tuple with the empty Cmd as the second value.
+-}
 
 
 withNoCmd : a -> ( a, Cmd msg )
@@ -53,3 +43,14 @@ withCmd cmd value =
 thunk : a -> () -> a
 thunk value =
     \_ -> value
+
+
+
+{-
+   Inverts the order of arguments of a two parameter function.
+-}
+
+
+flip : (a -> b -> c) -> b -> a -> c
+flip f a b =
+    f b a
