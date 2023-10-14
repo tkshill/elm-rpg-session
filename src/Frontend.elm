@@ -30,8 +30,8 @@ type alias UiElement =
     Element Msg
 
 
-initViewport : Cmd Msg
-initViewport =
+getInitialViewport : Effect
+getInitialViewport =
     let
         handleResult v =
             case v of
@@ -57,12 +57,12 @@ app =
 
 
 init : Url.Url -> Nav.Key -> ( Model, Effect )
-init url key =
-    ( { deets = { key = key, url = url.path }
+init { path } key =
+    ( { deets = Deets key path
       , state = BeforeSession Nothing
       , viewport = Nothing
       }
-    , initViewport
+    , getInitialViewport
     )
 
 

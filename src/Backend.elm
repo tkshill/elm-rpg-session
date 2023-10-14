@@ -46,7 +46,7 @@ update : BackendMsg -> Model -> ( Model, Effect )
 update msg model =
     case msg of
         NoOpBackendMsg ->
-            ( model, Cmd.none )
+            model |> withNoCmd
 
         ClientConnected _ cid ->
             case model.state of
@@ -77,6 +77,21 @@ update msg model =
                 model |> withNoCmd
 
 
+updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Effect )
+updateFromFrontend _ cid msg model =
+    case msg of
+        NoOpToBackend ->
+            model |> withNoCmd
+
+        CreateSession name ->
+            uuidMaker (IdCreated cid name)
+                |> withModel model
+
+
+
+-- EFFECTS --
+
+
 uuidMaker : (UUID -> Msg) -> Effect
 uuidMaker msgFunc =
     Time.posixToMillis
@@ -87,15 +102,14 @@ uuidMaker msgFunc =
         |> flip Task.perform Time.now
 
 
-updateFromFrontend : SessionId -> ClientId -> ToBackend -> Model -> ( Model, Effect )
-updateFromFrontend _ cid msg model =
-    case msg of
-        NoOpToBackend ->
-            model |> withNoCmd
 
-        CreateSession name ->
-            uuidMaker (IdCreated cid name)
-                |> withModel model
+-- fetchPortfolios =
+--     Http.task {
+--         method = "GET"
+--         , headers = []
+--         , url = ""
+--     }
+-- SUBSCRIPTIONS --
 
 
 subscriptions : Model -> Listener

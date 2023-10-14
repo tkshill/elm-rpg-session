@@ -1,4 +1,4 @@
-module Parse exposing (PortfolioElement, parsepPortfolioDocument)
+module Parse exposing (AllElements, PortfolioElement, parseGetWeirdDocument, parsepPortfolioDocument)
 
 import Mark
     exposing
@@ -8,12 +8,15 @@ import Mark
         , Item(..)
         , document
         , field
+        , manyOf
+        , onError
         , record
         , string
         , toBlock
         , tree
         , verify
         )
+import Mark.Error as Error
 
 
 
@@ -92,6 +95,12 @@ type alias PortfolioElement =
     }
 
 
+type alias MetaElements =
+    { metaPhysical : List TraitElement
+    , metaMagic : List TraitElement
+    }
+
+
 type alias CoreElement =
     { name : String
     , flavour : String
@@ -102,6 +111,14 @@ type PortfolioElements
     = Core CoreElement
     | Archetypes (List ArchetypeElement)
     | Traits (List TraitElement)
+    | MetaMagic (List TraitElement)
+    | MetaPhysical (List TraitElement)
+
+
+type alias AllElements =
+    { metaElements : MetaElements
+    , portflios : List PortfolioElement
+    }
 
 
 parseCore : Block CoreElement
@@ -130,6 +147,7 @@ parseExamples =
             List.concatMap example list.items
     in
     tree "Examples" transform string
+        |> onError []
 
 
 parseArchetype : Block ArchetypeElement
@@ -156,22 +174,49 @@ parseTree name parseElement =
     tree name transform parseElement
 
 
+topLevelError : Result Error.Custom value
+topLevelError =
+    Err { title = "Wrong Order", message = [ "Portfolio Elements in the wrong order." ] }
+
+
 parsepPortfolioDocument : Document PortfolioElement
 parsepPortfolioDocument =
     let
         validate elements =
             case elements of
                 [ Core core, Archetypes archetypes, Traits traits ] ->
-                    Ok (PortfolioElement core archetypes traits)
+                    Ok <| PortfolioElement core archetypes traits
 
                 _ ->
-                    Err { title = "Wrong Order", message = [ "Portfolio Elements in the wrong order." ] }
+                    topLevelError
 
         topLevel =
-            Mark.manyOf
+            manyOf
                 [ Mark.map Core parseCore
                 , Mark.map Archetypes <| parseTree "Archetypes" parseArchetype
                 , Mark.map Traits <| parseTree "Traits" parseTrait
+                ]
+    in
+    topLevel
+        |> verify validate
+        |> document identity
+
+
+parseGetWeirdDocument : Document MetaElements
+parseGetWeirdDocument =
+    let
+        validate elements =
+            case elements of
+                [ MetaMagic metaMagic, MetaPhysical metaPhysical ] ->
+                    Ok <| MetaElements metaMagic metaPhysical
+
+                _ ->
+                    topLevelError
+
+        topLevel =
+            manyOf
+                [ Mark.map MetaMagic <| parseTree "MetaMagic" parseTrait
+                , Mark.map MetaPhysical <| parseTree "MetaPhysical" parseTrait
                 ]
     in
     topLevel
