@@ -1,11 +1,17 @@
 module Backend exposing (..)
 
+import Http exposing (Error(..), Response(..), task)
 import Lamdera exposing (ClientId, SessionId, sendToFrontend)
+import Lamdera.Debug exposing (Response)
+import Mark exposing (Document, Outcome(..))
+import Mark.Error
+import Parse exposing (PortfolioElement, parsepPortfolioDocument)
 import Random
-import Task
+import Task exposing (Task)
 import Time
 import Types exposing (..)
 import UUID exposing (UUID)
+import Url exposing (Protocol(..))
 import Utility exposing (flip, withModel, withNoCmd)
 
 
@@ -102,13 +108,55 @@ uuidMaker msgFunc =
         |> flip Task.perform Time.now
 
 
+resolveDocument : Document a -> Response String -> Result Http.Error a
+resolveDocument document response =
+    case response of
+        BadUrl_ url ->
+            Err <| BadUrl url
+
+        Timeout_ ->
+            Err Timeout
+
+        BadStatus_ { statusCode } _ ->
+            Err <| BadStatus statusCode
+
+        NetworkError_ ->
+            Err NetworkError
+
+        GoodStatus_ _ body ->
+            let
+                errorToErr =
+                    List.map Mark.Error.toString
+                        >> String.join "/n"
+                        >> Http.BadBody
+                        >> Err
+            in
+            case Mark.compile document body of
+                Success success ->
+                    Ok success
+
+                Almost almost ->
+                    errorToErr almost.errors
+
+                Failure failure ->
+                    errorToErr failure
+
+
+fetchElement : (Response String -> Result Http.Error a) -> String -> Task Error a
+fetchElement resolver name =
+    task
+        { method = "GET"
+        , headers = []
+        , url = "/" ++ name ++ ".emu"
+        , body = Http.emptyBody
+        , resolver = Http.stringResolver resolver
+        , timeout = Nothing
+        }
+
+
 
 -- fetchPortfolios =
---     Http.task {
---         method = "GET"
---         , headers = []
---         , url = ""
---     }
+--     Task.sequence <| List.map fetchPortfolio [ "TheArcance", "TheMortal", "TheUnnatural" ]
 -- SUBSCRIPTIONS --
 
 

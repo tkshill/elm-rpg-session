@@ -2,8 +2,8 @@ module Types exposing (..)
 
 import Browser.Navigation exposing (Key)
 import Lamdera exposing (ClientId, SessionId, Url, UrlRequest)
+import Portfolio exposing (UnnaturalName)
 import UUID exposing (UUID)
-import Unnatural exposing (UnnaturalName)
 
 
 type alias PlayerName =
@@ -72,7 +72,7 @@ type FrontendMsg
     | PortfolioClicked PortfolioName
     | Resize Float Float
     | ReceivedViewport Viewport
-    | MonstrousMakerMessage Unnatural.Msg
+    | MonstrousMakerMessage GameElements.Msg
 
 
 type ToBackend
