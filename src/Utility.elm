@@ -40,7 +40,7 @@ withCmd cmd value =
 -}
 
 
-thunk : a -> () -> a
+thunk : a -> b -> a
 thunk value =
     \_ -> value
 

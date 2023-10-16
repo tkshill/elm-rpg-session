@@ -3,16 +3,14 @@ module Portfolio exposing (Msg(..))
 import Components exposing (LabelValue(..), viewBlockInput, viewCheckBox, viewSimpleInput)
 import Core
     exposing
-        ( Acuity(..)
-        , Audacity(..)
-        , BasicMoveName(..)
-        , Empathy(..)
-        , Oddity(..)
-        , Rating(..)
-        , Ratings
+        ( BasicMoveName(..)
         , ratingToString
         )
 import Element exposing (..)
+import List.Extra as Liste
+import Parse exposing (PortfolioElement)
+import Tuple exposing (first, mapSecond, second)
+import Utility exposing (thunk)
 
 
 type alias Attack =
@@ -20,6 +18,14 @@ type alias Attack =
     , harm : AttackHarm
     , range : AttackRange
     , speed : AttackSpeed
+    }
+
+
+type alias Ratings =
+    { charm : RatingValue
+    , odd : RatingValue
+    , wits : RatingValue
+    , grit : RatingValue
     }
 
 
@@ -33,13 +39,42 @@ type alias Portfolio =
     , physicalDescription : String
     , portfolioDescription : String
     , archetypeDescription : String
+    , why : String
     , ratings : Ratings
     , attacks : List { id : Int, attack : Attack }
     , karma : Int
     , harm : Int
     , notes : String
     , traits : List { id : Int, trait : Trait, selected : Bool }
+    , gear : List String
+    , relationships : String
+    , porfolios : List PortfolioElement
+    , portfolioName : String
+    , archetypeName : String
     }
+
+
+type Wits
+    = Wits
+
+
+type Grit
+    = Grit
+
+
+type Odd
+    = Odd
+
+
+type Charm
+    = Charm
+
+
+type Rating
+    = W Wits
+    | G Grit
+    | O Odd
+    | C Charm
 
 
 type AttackHarm
@@ -78,19 +113,34 @@ type UnitChange
     | Lower
 
 
+type RatingChange
+    = WitsChanged RatingValue
+    | GritChanged RatingValue
+    | CharmChanged RatingValue
+    | OddChanged RatingValue
+
+
 type Msg
     = NameUpdated String
     | PhysicalDescriptionUpdated String
     | PronounsUpdated String
-    | RatingChanged Rating RatingValue
+    | RatingChanged RatingChange
     | TraitSelected Int
-    | TraitNotesUpdated Int String
     | AttackUpdated Int AttackUpdate
     | KarmaChanged UnitChange
     | HarmChanged UnitChange
     | PortfolioChanged String
     | ArchetypeChanged String
     | NotesUpdated String
+    | ReasonWhyUpdated String
+    | RelationshipsUpdated String
+    | GearChanged GearUpdate
+
+
+type GearUpdate
+    = NewGear String
+    | DeleteGear Int
+    | EditGear Int String
 
 
 update : Msg -> Portfolio -> Portfolio
@@ -105,99 +155,117 @@ update msg model =
         PronounsUpdated str ->
             { model | pronouns = str }
 
-        QuirkUpdated str ->
-            { model | quirk = str }
-
         ReasonWhyUpdated str ->
             { model | why = str }
 
-        ShiftRating rating shift ->
+        KarmaChanged change ->
+            case change of
+                Raise ->
+                    { model | karma = model.karma + 1 }
+
+                Lower ->
+                    { model | karma = model.karma - 1 }
+
+        HarmChanged change ->
+            case change of
+                Raise ->
+                    { model | harm = model.harm + 1 }
+
+                Lower ->
+                    { model | harm = model.harm - 1 }
+
+        RatingChanged change ->
             let
-                ratingsMap =
-                    [ ( E Empathy, model.ratings.empathy )
-                    , ( Ac Acuity, model.ratings.acuity )
-                    , ( Au Audacity, model.ratings.audacity )
-                    , ( O Oddity, model.ratings.oddity )
-                    ]
-                        |> sortByDescending Tuple.second
+                ratings =
+                    model.ratings
 
-                idx =
-                    Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) rating) ratingsMap)
+                changer =
+                    case change of
+                        WitsChanged v ->
+                            { ratings | wits = v }
 
-                newMap =
-                    if shift == Up then
-                        Liste.swapAt (idx - 1) idx ratingsMap
+                        OddChanged v ->
+                            { ratings | odd = v }
 
-                    else
-                        Liste.swapAt idx (idx + 1) ratingsMap
+                        GritChanged v ->
+                            { ratings | grit = v }
+
+                        CharmChanged v ->
+                            { ratings | charm = v }
             in
-            { model
-                | ratings =
-                    { empathy = Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) (E Empathy)) newMap)
-                    , acuity = Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) (Ac Acuity)) newMap)
-                    , audacity = Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) (Au Audacity)) newMap)
-                    , oddity = Maybe.withDefault 0 (Liste.findIndex (Tuple.first >> (==) (O Oddity)) newMap)
-                    }
-            }
+            { model | ratings = changer }
 
-        SelectMove i ->
-            { model
-                | moves =
-                    { description = model.moves.description
-                    , moveList = Liste.updateIf (\m -> m.id == i) (\m -> { m | selected = not m.selected }) model.moves.moveList
-                    }
-            }
+        GearChanged change ->
+            case change of
+                NewGear s ->
+                    { model | gear = s :: model.gear }
 
-        SelectCurse i ->
-            { model
-                | curses =
-                    { description = model.curses.description
-                    , curseList = Liste.updateIf (\m -> m.id == i) (\m -> { m | selected = not m.selected }) model.curses.curseList
-                    }
-            }
+                DeleteGear i ->
+                    { model | gear = Liste.removeAt i model.gear }
 
-        SelectAttack i ->
-            { model
-                | attacks =
-                    { description = model.attacks.description
-                    , attackList = Liste.updateIf (\m -> m.id == i) (\m -> { m | selected = not m.selected }) model.attacks.attackList
-                    }
-            }
+                EditGear i s ->
+                    { model | gear = Liste.updateAt i (thunk s) model.gear }
 
-        SelectGear i ->
-            { model
-                | gear =
-                    { description = model.gear.description
-                    , gearList = Liste.updateIf (\m -> m.id == i) (\m -> { m | selected = not m.selected }) model.gear.gearList
-                    }
-            }
-
-        CurseSelected i bool ->
+        TraitSelected i ->
             let
-                curses =
-                    model.curses
+                traits =
+                    model.traits
 
-                newCurseList =
-                    curses.curseList
-                        |> Liste.updateIf (.id >> (==) i) (\v -> { v | selected = not bool })
-                        |> Liste.updateIf (.id >> (/=) i) (\v -> { v | selected = False })
+                newTraitsList =
+                    traits
+                        |> Liste.updateAt i (\t -> { t | selected = not t.selected })
             in
-            { model | curses = { curses | curseList = newCurseList } }
+            { model | traits = newTraitsList }
 
-        AttackSelected i bool ->
+        AttackUpdated i change ->
             let
                 attacks =
                     model.attacks
 
-                newAttackList =
-                    attacks.attackList
-                        |> Liste.updateIf (.id >> (==) i) (\v -> { v | selected = not bool })
-                        |> Liste.updateIf (.id >> (/=) i) (\v -> { v | selected = False })
+                changer =
+                    case change of
+                        AttackName s ->
+                            \a -> { a | name = s }
+
+                        AttackHarm h ->
+                            \a -> { a | harm = h }
+
+                        AttackRange r ->
+                            \a -> { a | range = r }
+
+                        AttackSpeed s ->
+                            \a -> { a | speed = s }
+
+                newAttacks =
+                    Liste.updateAt i (\v -> { v | attack = changer v.attack }) attacks
             in
-            { model | attacks = { attacks | attackList = newAttackList } }
+            { model | attacks = newAttacks }
+
+        NotesUpdated s ->
+            { model | notes = s }
+
+        RelationshipsUpdated s ->
+            { model | relationships = s }
+
+        PortfolioChanged s ->
+            if s == model.portfolioName then model 
+            else
+                
 
 
 
+
+
+
+-- let
+--     attacks =
+--         model.attacks
+--     newAttackList =
+--         attacks.attackList
+--             |> Liste.updateIf (.id >> (==) i) (\v -> { v | selected = not bool })
+--             |> Liste.updateIf (.id >> (/=) i) (\v -> { v | selected = False })
+-- in
+-- { model | attacks = { attacks | attackList = newAttackList } }
 -- viewRatings : Ratings -> Element msg
 -- viewRatings ratings =
 --     let
