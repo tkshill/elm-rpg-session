@@ -1,4 +1,10 @@
-module Parse exposing (AllElements, PortfolioElement, parseGetWeirdDocument, parsepPortfolioDocument)
+module Parse exposing
+    ( AllElements
+    , ArchetypeElement
+    , PortfolioElement
+    , parseGetWeirdDocument
+    , parsepPortfolioDocument
+    )
 
 import Mark
     exposing
@@ -165,11 +171,11 @@ parseArchetype =
 parseTree : String -> Block item -> Block (List item)
 parseTree name parseElement =
     let
-        transform_ (Item item) =
+        content (Item item) =
             item.content
 
         transform (Enumerated list) =
-            List.concatMap transform_ list.items
+            List.concatMap content list.items
     in
     tree name transform parseElement
 

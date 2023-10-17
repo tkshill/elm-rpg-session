@@ -7,8 +7,9 @@ import Core
         , ratingToString
         )
 import Element exposing (..)
+import Element.Region exposing (description)
 import List.Extra as Liste
-import Parse exposing (PortfolioElement)
+import Parse exposing (ArchetypeElement, PortfolioElement)
 import Tuple exposing (first, mapSecond, second)
 import Utility exposing (thunk)
 
@@ -49,8 +50,8 @@ type alias Portfolio =
     , gear : List String
     , relationships : String
     , porfolios : List PortfolioElement
-    , portfolioName : String
-    , archetypeName : String
+    , portfolioBase : PortfolioElement
+    , archetype : ArchetypeElement
     }
 
 
@@ -248,12 +249,35 @@ update msg model =
             { model | relationships = s }
 
         PortfolioChanged s ->
-            if s == model.portfolioName then model 
+            if s == model.portfolioName then
+                model
+
             else
-                
+                let
+                    portfolio =
+                        model.porfolios
+                            |> Liste.find (\p -> p.name == s)
+                            |> Maybe.withDefault { name = "", description = "", archetypes = [] }
 
+                    archetype =
+                        portfolio.archetypes
+                            |> List.head
+                            |> Maybe.withDefault { name = "", description = "" }
+                in
+                { model | portfolioBase = portfolio, archetype = archetype }
 
+        ArchetypeChanged s ->
+            if s == model.archetypeName then
+                model
 
+            else
+                let
+                    archetype =
+                        model.portfolio.archetypes
+                            |> Liste.find (\p -> p.name == s)
+                            |> Maybe.withDefault { name = "", description = "" }
+                in
+                { model | archetype = archetype }
 
 
 
