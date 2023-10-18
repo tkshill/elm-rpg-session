@@ -8,9 +8,9 @@ Episodes contain several **scenes**.
 
 The game is run by a **Steward** and contains a handful of **Protagonists**.
 
-This is a [PbtA](https://en.wikipedia.org/wiki/Powered_by_the_Apocalypse) game and is thus based on a 2d6 dice roll system for rolls.
+This is at its core a  [PbtA](https://en.wikipedia.org/wiki/Powered_by_the_Apocalypse) game and is thus based on a 2d6 dice roll system for rolls.
 
-Whenever a protagnist attempts to do something that has a chance of failure, they must roll a _move_, which means rolling two d6 die and adding any bonuses or modifiers appropriate.
+Whenever a protagnist attempts to do something that has a chance of failure, they must roll of their four base **stats**, which means rolling two d6 die and adding any bonuses or modifiers appropriate.
 
 If the total of the roll is:
 **6 or less**: The move has _Failed_. Something very bad happens and the player gets one point of **Karma**
@@ -22,47 +22,67 @@ If the total of the roll is:
 
 There are four stats that can modify a roll. Every move that requires a roll makes use of one of the stats.
 
-- **Acuity** - Represents Discernment, Creativity, Alertness. Used to find clues, improvise, hide and evade
-- **Audacity** - Represents Bravery, Coolheadedness, and Discipline. Used to act under pressure, engage the enemy, be brave
-- **Empathy** - Represents empathy, charm, and guile. Used to say the right thing in the moment, sway others, convince people
-- **Oddity** - Represents anything abnormal. Used to engage with the weird, magical, or supernatural
+- **Wits** - Represents Discernment, Creativity, Alertness. Used to find clues, improvise, hide and evade
+- **Grit** - Represents Bravery, Coolheadedness, and Discipline. Used to act under pressure, engage the enemy, be brave
+- **Empathy** - Represents empathy, charm, and guile. Used to say the right thing in the moment, sway others, convince people, discern the intent of others.
+- **Odd** - Represents anything abnormal. Used to engage with the weird, magical, or supernatural
 
 Every player starts with a -1, 0, +1, and +2 allocated to the stats of their choosing.
+
+## Stress and Harm
+- Whenever a player receipts some sort of harm (physical or mental), they reduce one of their highest stat by one. If there's a tie, pick one. If any of your stats would drop below -1, your character will meet their untimely end.
 
 ## Portfolios
 
 There are _three_ **Portfolios** players can choose from.
 
-- The **Monstrous** - A monstrous creature fighting other creatures of darkness. (e.g. vampires, werewolves, zombie, banshee, etc)
-- The **Magical** - A human who can weild powerful magics (e.g. wizards, witches, shamans, warlocks)
-- The **Mortal** - A normal person who has found themselves deep in the world of the supernatural (e.g. the chosen one, an investigator, someone searching for the truth, someone harmed by the unnatural)
+### The **Mythical** 
+
+- An supernatural being fighting other creatures of darkness. (e.g. vampires, werewolves, robot, demon, etc)
+
+#### Archetypes
+
+- The **Monstrous**
+- The **Cybernetic**
+- The **Outsider**
+
+### The **Magical** 
+
+- A being who can weild powerful magics (e.g. wizards, witches, shamans, warlocks)
+
+#### Archetypes
+
+- The **Spellbinder**
+- The **Sorceror**
+- The **Maleficar**
+
+### The **Mortal** 
+
+- A normal person who has found themselves deep in the world of the supernatural (e.g. the chosen one, an investigator, someone searching for the truth, someone harmed by the unnatural)
+
+#### Archetypes
+
+- The **Agent**
+- The **Scoundrel**
+- The **Investigator**
 
 ## Karma
 
 Karma is the universe's attempt at balance. _Protagonists_ have the ability to use karma to tug at the hands of fate, but every time they do, the universe acts in retribution.
 
 Each Player starts with 1 Karma. You can spend Karma to:
-
-- Reduce hurts and harms
-- Updrade a failed dice roll to a Choice or a Success
+- Change a dice roll from a failure to a success. Note, if you spend Karma on a roll, you can't spend it on the following roll.
+- Change another players dice roll to a success (only if there's a way to explain so in narrative)
 
 ## Boons and Banes
 
-Certian moves and conditions can give a roll a **Boon** or a **Bane**, providing +1 or -1 to the roll result respectively.
+Certian traits and conditions can give a roll a **Boon** or a **Bane**, providing +1 or -1 to the roll result respectively.
 
-## Basic Moves
+If a boon and a bane both apply in a single scenario, they cancel each other out. Boons and banes do not stack on themselves (If two boons apply, you get a +1, not a plus 2).
 
-There's some basic moves available to every character.
+### Odd Traits
 
-- **Sway Someone** (Empathy) - Whenever you need to convince someone else
-- **Assess, Evade, Improvise** (Acuity) - Whenever you need to investigate a situation, evade harm or detection, or try and do the unfamiliar
-- **Do The Damn Thing** (Audacity) - Whenever you need to engage the enemy or act under pressure
-- **Get Weird** (Oddity) - Whenever you need to do something _most magical_
-- **Help Out** (Karma) - Whenever you want to support someone else.
-
-### Getting Weird
-
-There are two categories of Weird Moves: _Most Magical_ and _Super Human_. Different portfolios get access to different types of weird moves.
+There are two categories of Odd Traits: _Meta Physical_ and _Meta Magic_. Different portfolios get access to different types of odd traits.
 
 #### Most Magical Weird Moves
 
@@ -85,7 +105,6 @@ There are two categories of Weird Moves: _Most Magical_ and _Super Human_. Diffe
 - **Phenomenal Physicality** - Push your body beyond the normal limits
 - **Psychic Potential** - Tap into oyur latent psychic power
 - **Hypervigilance / Hyperfocus** - Complete your objective with perfect precision.
-- **Resplendent Recall** - Access information with perfect clarity.
 - **Force of Fate** - Manifest your destiny.
 
 ## Hurt and Harm
@@ -97,23 +116,15 @@ Every protagonist has a certain number of attacks that they can use to combat th
 All attacks have the following properties:
 
 - **Harm** - How much damage it does. _Light_, _Heavy_, or _Horrendous_
-- **Range** - How far it can hit. _Touch_, _Close_, or _Long_. Generally, _Close_ is for attacks with melee weapons like swords, bats, golf clubs
-- **Speed** - How quick it takes to happen, affects whether an enemy can respond or interrupt. _Slow_ attacks always trade harm with an enemy.
-- **Special Properties** - Magical, Ignores Armour, Holy, Loud, etc.
+- **Range** - How far it can hit. _Touch_, _Near_, or _Far_. Generally, _Close_ is for attacks with melee weapons like swords, bats, golf clubs
+- **Special Properties** - Magical, Ignores Armour, Holy, Loud, Messy, Reload, bloody etc.
 
-### Basic Attacks
+### Gear
 
-When a Portfolio is chosen, players will be given the option to choose two of the following default attacks.
+All gear has traits as well. Basic gear available to all protagonists. 
 
-**Long Range** - Light, Long, Slow
-**Close Contact** - Heavy, Touch, Fast
-**Slow and Strong** - Heavy, Close, Slow
-**Light and Fast** - Light, Close, Fast
 
-### Casting Costs
 
-- Consumable
-- Foci
-- Gestures
-- Incantations
-- Hurt
+
+
+## Attack Properties

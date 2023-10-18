@@ -4,7 +4,7 @@
     
         name = Evoke Elements 
     
-        description = fire, water, air, earth
+        description = You can channel one or multiple elements.
 
     - |> Trait
     
@@ -14,7 +14,7 @@
     
         name = Modify Matter 
     
-        description = move, transform, transmute
+        description = Move, transform, or transmute objects and materials
 
     - |> Trait
     
@@ -26,13 +26,13 @@
     
         name = Heal Harm 
     
-        description = remove harms and hurts, remove curses
+        description = remove the effects of harms and hurts
 
     - |> Trait
     
         name = Seek Secrets 
     
-        description = ask the universe for answers, guidance
+        description = ask the universe for answers, guidance through scrying
 
     - |> Trait
     
@@ -50,19 +50,23 @@
     
         name = Manipulate Mind
 
+        description = Read thoughts, confuse and befuddle, influence
+
     - |> Trait
     
         name = Curse Character
+
+        description = hex, curse, haunt and hurt others
 
 |> MetaPhyscal
 
     - |> Trait
     
-        name = Past Lives
+        name = Mighty Medium
 
         description =
         
-            You're in touch with your past selves, and you can attempt to consult them for solutions.
+            You're in touch with the spirit realm, and you can attempt to consult them for solutions.
             But be careful, not every past life is kind, or benign
 
     - |> Trait
@@ -76,7 +80,7 @@
 
     - |> Trait
     
-        name = Trust Your Gut
+        name = Inspiring Instincts
 
         description = 
 
@@ -85,7 +89,7 @@
 
     - |> Trait
     
-        name = Supernatural Charisma
+        name = Auspicious Allure
 
         description = 
 
@@ -95,7 +99,7 @@
 
     - |> Trait
     
-        name = Plush Ultra
+        name = Phenomenal Physicality
 
         description = 
         
@@ -104,7 +108,7 @@
 
     - |> Trait
     
-        name = Sixth Sense 
+        name = Inspiring Instincts
 
         description = 
         
@@ -113,7 +117,7 @@
 
     - |> Trait
 
-        name = Telekenetic/Pyrokinetic
+        name = Telekenetic/Pyrokinetic Terror
 
         description = 
 
@@ -122,7 +126,7 @@
 
     - |> Trait
 
-        name = Hyper Time
+        name = Time Taker
 
         description =
 
@@ -132,7 +136,7 @@
 
     - |> Trait
 
-        name = Advanced Senses
+        name = Superior Senses
 
         description = 
 
@@ -141,13 +145,89 @@
 
     - |> Trait
 
-        name = Child of Destiny
+        name = Force of Fate
 
         description = 
 
             You put your fate in the hands of the universe, and sometimes it delivers.
             When all else fails, you can set it all free and leave it up to destiny.
             But we don't get to predict where destiny takes us.
+
+|> Traits
+
+    - |> Trait
+
+        name = Natural Skeptic
+
+        description = 
+
+            Gain a boon whenever trying to determine whether someone is lying or 
+            a situation is amiss.
+
+    - |> Trait
+
+        name = Stubborn
+
+        description = 
+
+            Gain a boon whenever you repeat the same action on a roll.
+
+    - |> Trait
+        
+        name = Spiteful 
+
+        description = 
+
+            Gain a boon on a roll whenever acting against someone who's wronged or hurt you.
+
+    - |> Trait
+
+        name = Here to Help
+
+        description = 
+
+            Whenever you give karma to someone else, they get a boon on their next role.
+
+    - |> Trait
+
+        name = Natural Leader
+        
+        description = 
+        
+            Whenever you guide someone on an action and they take it,
+            they get a boon on their next role.
+
+    - |> Trait
+
+        name = Powerlifter
+
+        description =
+
+            Gain a boon whenever you need to use physical strength
+
+    - |> Trait
+
+        name = Athletic
+
+        description = 
+
+            Gain a boon whenever you can use a feat of agility to solve a problem.
+
+    - |> Trait
+
+        name = Firearm Training
+
+        description = 
+        
+            Gain a boon whenever you handle a firearm.
+
+    - |> Trait
+
+        name = Mean Mug
+
+        description =
+
+            Get a boon to intimidating another sentient being.
 
 
 

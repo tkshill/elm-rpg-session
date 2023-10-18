@@ -4,7 +4,6 @@ import Components exposing (LabelValue(..), viewBlockInput, viewCheckBox, viewSi
 import Core
     exposing
         ( BasicMoveName(..)
-        , ratingToString
         )
 import Element exposing (..)
 import Element.Region exposing (description)
@@ -14,16 +13,8 @@ import Tuple exposing (first, mapSecond, second)
 import Utility exposing (thunk)
 
 
-type alias Attack =
-    { name : String
-    , harm : AttackHarm
-    , range : AttackRange
-    , speed : AttackSpeed
-    }
-
-
 type alias Ratings =
-    { charm : RatingValue
+    { empathy : RatingValue
     , odd : RatingValue
     , wits : RatingValue
     , grit : RatingValue
@@ -42,7 +33,6 @@ type alias Portfolio =
     , archetypeDescription : String
     , why : String
     , ratings : Ratings
-    , attacks : List { id : Int, attack : Attack }
     , karma : Int
     , harm : Int
     , stress : Int
@@ -68,39 +58,15 @@ type Odd
     = Odd
 
 
-type Charm
-    = Charm
+type Empathy
+    = Empathy
 
 
 type Rating
     = W Wits
     | G Grit
     | O Odd
-    | C Charm
-
-
-type AttackHarm
-    = Light
-    | Heavy
-    | Huge
-
-
-type AttackRange
-    = Touch
-    | Close
-    | Far
-
-
-type AttackSpeed
-    = Quick
-    | Slow
-
-
-type AttackUpdate
-    = AttackName String
-    | AttackHarm AttackHarm
-    | AttackRange AttackRange
-    | AttackSpeed AttackSpeed
+    | E Empathy
 
 
 type RatingValue
@@ -118,7 +84,7 @@ type UnitChange
 type RatingChange
     = WitsChanged RatingValue
     | GritChanged RatingValue
-    | CharmChanged RatingValue
+    | EmpathyChanged RatingValue
     | OddChanged RatingValue
 
 
@@ -128,9 +94,7 @@ type Msg
     | PronounsUpdated String
     | RatingChanged RatingChange
     | TraitSelected Int
-    | AttackUpdated Int AttackUpdate
     | KarmaChanged UnitChange
-    | HarmChanged UnitChange
     | StressChanged UnitChange
     | PortfolioChanged String
     | ArchetypeChanged String
@@ -185,14 +149,6 @@ update msg model =
                 Lower ->
                     { model | karma = model.karma - 1 }
 
-        HarmChanged change ->
-            case change of
-                Raise ->
-                    { model | harm = model.harm + 1 }
-
-                Lower ->
-                    { model | harm = model.harm - 1 }
-
         StressChanged change ->
             case change of
                 Raise ->
@@ -217,8 +173,8 @@ update msg model =
                         GritChanged v ->
                             { ratings | grit = v }
 
-                        CharmChanged v ->
-                            { ratings | charm = v }
+                        EmpathyChanged v ->
+                            { ratings | empathy = v }
             in
             { model | ratings = changer }
 
@@ -243,30 +199,6 @@ update msg model =
                         |> Liste.updateAt i (\t -> { t | selected = not t.selected })
             in
             { model | traits = newTraitsList }
-
-        AttackUpdated i change ->
-            let
-                attacks =
-                    model.attacks
-
-                changer =
-                    case change of
-                        AttackName s ->
-                            \a -> { a | name = s }
-
-                        AttackHarm h ->
-                            \a -> { a | harm = h }
-
-                        AttackRange r ->
-                            \a -> { a | range = r }
-
-                        AttackSpeed s ->
-                            \a -> { a | speed = s }
-
-                newAttacks =
-                    Liste.updateAt i (\v -> { v | attack = changer v.attack }) attacks
-            in
-            { model | attacks = newAttacks }
 
         NotesUpdated s ->
             { model | notes = s }

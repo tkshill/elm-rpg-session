@@ -2,7 +2,7 @@
 
     name = The Mortal
 
-    flavour = 
+    description = 
     
         I wasn't always wrapped up in this world 
 
@@ -186,7 +186,10 @@
 
         name = I know kung fu
 
-        description = Gain a Boon to rolls that involve directly attacking, blocking, or dodging enemy attacks.
+        description = 
+        
+            Gain a Boon to rolls that involve directly attacking, blocking, or dodging enemy attacks
+            when not wearing heavy armour or wielding firearms.
 
     - |> Trait
 
@@ -194,7 +197,7 @@
 
         description =
         
-            Take a Boon to sway roles whenever you can tell a story.
+            Take a Boon to sway roles whenever you can tell a story while swaying someone.
 
     - |> Trait
 
