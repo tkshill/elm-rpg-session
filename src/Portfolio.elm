@@ -10,39 +10,44 @@ import Element.Region exposing (description)
 import List.Extra as Liste
 import Parse exposing (ArchetypeElement, PortfolioElement)
 import Tuple exposing (first, mapSecond, second)
-import Utility exposing (thunk)
+import Utility exposing (flip, thunk)
 
 
-type alias Ratings =
-    { empathy : RatingValue
-    , odd : RatingValue
-    , wits : RatingValue
-    , grit : RatingValue
+type alias Stats =
+    { empathy : Rating
+    , odd : Rating
+    , wits : Rating
+    , grit : Rating
     }
 
 
-type alias Trait =
+type alias Item =
     { name : String, description : String }
+
+
+type alias Selectable =
+    { id : Int, name : String, description : String, selected : Bool }
 
 
 type alias Portfolio =
     { name : String
     , pronouns : String
     , physicalDescription : String
+    , portfolioName : String
     , portfolioDescription : String
+    , archetypeName : String
     , archetypeDescription : String
-    , why : String
-    , ratings : Ratings
+    , agenda : String
+    , ratings : Stats
     , karma : Int
-    , harm : Int
-    , stress : Int
     , notes : String
-    , traits : List { id : Int, trait : Trait, selected : Bool }
-    , gear : List String
+    , coreTrait : Item
+    , personalityTraits : List Selectable
+    , physicalityTraits : List Selectable
+    , socialTraits : List Selectable
+    , metaTraits : List Selectable
+    , gear : List Item
     , relationships : String
-    , porfolios : List PortfolioElement
-    , portfolioBase : PortfolioElement
-    , archetype : ArchetypeElement
     }
 
 
@@ -62,14 +67,36 @@ type Empathy
     = Empathy
 
 
-type Rating
+type Stat
     = W Wits
     | G Grit
     | O Odd
     | E Empathy
 
 
-type RatingValue
+ratings : List Rating
+ratings =
+    [ MinusOne, Zero, PlusOne, PlusTwo ]
+
+
+updateRating : Rating -> UnitChange -> Rating
+updateRating rating change =
+    let
+        finder changer =
+            Liste.findIndex ((==) rating)
+                >> Maybe.map ((+) changer)
+                >> Maybe.andThen (flip Liste.getAt ratings)
+                >> Maybe.withDefault rating
+    in
+    case change of
+        Raise ->
+            finder 1 ratings
+
+        Lower ->
+            finder -1 ratings
+
+
+type Rating
     = MinusOne
     | Zero
     | PlusOne
@@ -82,10 +109,10 @@ type UnitChange
 
 
 type RatingChange
-    = WitsChanged RatingValue
-    | GritChanged RatingValue
-    | EmpathyChanged RatingValue
-    | OddChanged RatingValue
+    = WitsChanged Rating
+    | GritChanged Rating
+    | EmpathyChanged Rating
+    | OddChanged Rating
 
 
 type Msg
@@ -93,21 +120,26 @@ type Msg
     | PhysicalDescriptionUpdated String
     | PronounsUpdated String
     | RatingChanged RatingChange
-    | TraitSelected Int
+    | PersonalityTraitSelected Int
+    | PhysicalityTraitSelected Int
+    | SocialTraitSelected Int
+    | MetaTraitSelected Int
     | KarmaChanged UnitChange
     | StressChanged UnitChange
     | PortfolioChanged String
     | ArchetypeChanged String
     | NotesUpdated String
-    | ReasonWhyUpdated String
+    | AgendaUpdated String
     | RelationshipsUpdated String
     | GearChanged GearUpdate
+    | RelationshipChanged String
 
 
 type GearUpdate
     = NewGear String
     | DeleteGear Int
-    | EditGear Int String
+    | EditGearName Int String
+    | EditGearDescription Int String
 
 
 dummyPortfolio : PortfolioElement
@@ -138,7 +170,7 @@ update msg model =
         PronounsUpdated str ->
             { model | pronouns = str }
 
-        ReasonWhyUpdated str ->
+        AgendaUpdated str ->
             { model | why = str }
 
         KarmaChanged change ->
