@@ -45,6 +45,7 @@ type alias Portfolio =
     , attacks : List { id : Int, attack : Attack }
     , karma : Int
     , harm : Int
+    , stress : Int
     , notes : String
     , traits : List { id : Int, trait : Trait, selected : Bool }
     , gear : List String
@@ -130,6 +131,7 @@ type Msg
     | AttackUpdated Int AttackUpdate
     | KarmaChanged UnitChange
     | HarmChanged UnitChange
+    | StressChanged UnitChange
     | PortfolioChanged String
     | ArchetypeChanged String
     | NotesUpdated String
@@ -142,6 +144,22 @@ type GearUpdate
     = NewGear String
     | DeleteGear Int
     | EditGear Int String
+
+
+dummyPortfolio : PortfolioElement
+dummyPortfolio =
+    { core = { name = "Dummy", description = "Dummy" }, traits = [], archetypes = [] }
+
+
+dummyArchetype : ArchetypeElement
+dummyArchetype =
+    { name = "Dummy"
+    , description = "Dummy"
+    , crown = { name = "Dummy", description = "Dummy" }
+    , crux = { name = "Dummy", description = "Dummy" }
+    , karma = { name = "Dummy", description = "Dummy" }
+    , examples = []
+    }
 
 
 update : Msg -> Portfolio -> Portfolio
@@ -174,6 +192,14 @@ update msg model =
 
                 Lower ->
                     { model | harm = model.harm - 1 }
+
+        StressChanged change ->
+            case change of
+                Raise ->
+                    { model | stress = model.stress + 1 }
+
+                Lower ->
+                    { model | stress = model.stress - 1 }
 
         RatingChanged change ->
             let
@@ -249,33 +275,33 @@ update msg model =
             { model | relationships = s }
 
         PortfolioChanged s ->
-            if s == model.portfolioName then
+            if s == model.portfolioBase.core.name then
                 model
 
             else
                 let
                     portfolio =
                         model.porfolios
-                            |> Liste.find (\p -> p.name == s)
-                            |> Maybe.withDefault { name = "", description = "", archetypes = [] }
+                            |> Liste.find (\p -> p.core.name == s)
+                            |> Maybe.withDefault dummyPortfolio
 
                     archetype =
                         portfolio.archetypes
                             |> List.head
-                            |> Maybe.withDefault { name = "", description = "" }
+                            |> Maybe.withDefault dummyArchetype
                 in
                 { model | portfolioBase = portfolio, archetype = archetype }
 
         ArchetypeChanged s ->
-            if s == model.archetypeName then
+            if s == model.archetype.name then
                 model
 
             else
                 let
                     archetype =
-                        model.portfolio.archetypes
+                        model.portfolioBase.archetypes
                             |> Liste.find (\p -> p.name == s)
-                            |> Maybe.withDefault { name = "", description = "" }
+                            |> Maybe.withDefault dummyArchetype
                 in
                 { model | archetype = archetype }
 

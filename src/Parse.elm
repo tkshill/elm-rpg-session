@@ -6,6 +6,7 @@ module Parse exposing
     , parsepPortfolioDocument
     )
 
+import Element.Region exposing (description)
 import Mark
     exposing
         ( Block
@@ -109,7 +110,7 @@ type alias MetaElements =
 
 type alias CoreElement =
     { name : String
-    , flavour : String
+    , description : String
     }
 
 
@@ -131,7 +132,7 @@ parseCore : Block CoreElement
 parseCore =
     record "Core" CoreElement
         |> field "name" string
-        |> field "flavour" string
+        |> field "description" string
         |> toBlock
 
 
