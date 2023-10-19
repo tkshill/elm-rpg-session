@@ -1,0 +1,16 @@
+on:
+  push:
+    branches: [main]
+name: Update branch based on push to main
+jobs:
+  updateBranch:
+    name: Update branch
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: Embraser01/update-git-branch-action@v1.0.0
+      if: github.ref == 'refs/heads/main'
+      with:
+        branch: dev-test
+        force: 1 # To push-force to the branch
+        githubToken: ${{ secrets.PAT_TOKEN }} # Github Token
