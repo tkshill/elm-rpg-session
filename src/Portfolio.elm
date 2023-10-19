@@ -7,6 +7,7 @@ import Core
         )
 import Element exposing (..)
 import Element.Region exposing (description)
+import Html.Attributes exposing (type_)
 import List.Extra as Liste
 import Parse exposing (ArchetypeElement, PortfolioElement)
 import Tuple exposing (first, mapSecond, second)
@@ -26,6 +27,10 @@ type alias Item =
 
 
 type alias Selectable =
+    { id : Int, name : String, description : String }
+
+
+type alias Checkable =
     { id : Int, name : String, description : String, selected : Bool }
 
 
@@ -41,13 +46,12 @@ type alias Portfolio =
     , ratings : Stats
     , karma : Int
     , notes : String
-    , coreTrait : Item
-    , personalityTraits : List Selectable
-    , physicalityTraits : List Selectable
-    , socialTraits : List Selectable
-    , metaTraits : List Selectable
-    , gear : List Item
+    , coreTraits : List Item
+    , traits : List Checkable
+    , metaTraits : List Checkable
+    , gear : List Selectable
     , relationships : String
+    , portfolios : List PortfolioElement
     }
 
 
@@ -74,8 +78,8 @@ type Stat
     | E Empathy
 
 
-ratings : List Rating
-ratings =
+orderedRatings : List Rating
+orderedRatings =
     [ MinusOne, Zero, PlusOne, PlusTwo ]
 
 
@@ -85,15 +89,15 @@ updateRating rating change =
         finder changer =
             Liste.findIndex ((==) rating)
                 >> Maybe.map ((+) changer)
-                >> Maybe.andThen (flip Liste.getAt ratings)
+                >> Maybe.andThen (flip Liste.getAt orderedRatings)
                 >> Maybe.withDefault rating
     in
     case change of
         Raise ->
-            finder 1 ratings
+            finder 1 orderedRatings
 
         Lower ->
-            finder -1 ratings
+            finder -1 orderedRatings
 
 
 type Rating
@@ -120,13 +124,10 @@ type Msg
     | PhysicalDescriptionUpdated String
     | PronounsUpdated String
     | RatingChanged RatingChange
-    | PersonalityTraitSelected Int
-    | PhysicalityTraitSelected Int
-    | SocialTraitSelected Int
+    | TraitSelected Int
     | MetaTraitSelected Int
     | KarmaChanged UnitChange
-    | StressChanged UnitChange
-    | PortfolioChanged String
+    | PortfolioChanged String PortfolioElement
     | ArchetypeChanged String
     | NotesUpdated String
     | AgendaUpdated String
@@ -136,7 +137,7 @@ type Msg
 
 
 type GearUpdate
-    = NewGear String
+    = NewGear
     | DeleteGear Int
     | EditGearName Int String
     | EditGearDescription Int String
@@ -171,7 +172,7 @@ update msg model =
             { model | pronouns = str }
 
         AgendaUpdated str ->
-            { model | why = str }
+            { model | agenda = str }
 
         KarmaChanged change ->
             case change of
@@ -181,13 +182,31 @@ update msg model =
                 Lower ->
                     { model | karma = model.karma - 1 }
 
-        StressChanged change ->
-            case change of
-                Raise ->
-                    { model | stress = model.stress + 1 }
+        GearChanged type_ ->
+            case type_ of
+                NewGear ->
+                    let
+                        newGear =
+                            { id = List.length model.gear, name = "", description = "" }
+                    in
+                    { model | gear = model.gear ++ [ newGear ] }
 
-                Lower ->
-                    { model | stress = model.stress - 1 }
+                DeleteGear i ->
+                    { model | gear = Liste.removeAt i model.gear }
+
+                EditGearName i s ->
+                    let
+                        updater v =
+                            { v | name = s }
+                    in
+                    { model | gear = Liste.updateAt i updater model.gear }
+
+                EditGearDescription i s ->
+                    let
+                        updater v =
+                            { v | description = s }
+                    in
+                    { model | gear = Liste.updateAt i updater model.gear }
 
         RatingChanged change ->
             let
@@ -210,17 +229,6 @@ update msg model =
             in
             { model | ratings = changer }
 
-        GearChanged change ->
-            case change of
-                NewGear s ->
-                    { model | gear = s :: model.gear }
-
-                DeleteGear i ->
-                    { model | gear = Liste.removeAt i model.gear }
-
-                EditGear i s ->
-                    { model | gear = Liste.updateAt i (thunk s) model.gear }
-
         TraitSelected i ->
             let
                 traits =
@@ -239,7 +247,7 @@ update msg model =
             { model | relationships = s }
 
         PortfolioChanged s ->
-            if s == model.portfolioBase.core.name then
+            if s == p.core.name then
                 model
 
             else
@@ -254,7 +262,7 @@ update msg model =
                             |> List.head
                             |> Maybe.withDefault dummyArchetype
                 in
-                { model | portfolioBase = portfolio, archetype = archetype }
+                { model | portfolioName = portfolio.core.name, portfolioDescription = portfolio.core.description, archetype = archetype }
 
         ArchetypeChanged s ->
             if s == model.archetype.name then
@@ -268,6 +276,20 @@ update msg model =
                             |> Maybe.withDefault dummyArchetype
                 in
                 { model | archetype = archetype }
+
+        RelationshipChanged s ->
+            { model | relationships = s }
+
+        MetaTraitSelected i ->
+            let
+                traits =
+                    model.metaTraits
+
+                newTraitsList =
+                    traits
+                        |> Liste.updateAt i (\t -> { t | selected = not t.selected })
+            in
+            { model | metaTraits = newTraitsList }
 
 
 
